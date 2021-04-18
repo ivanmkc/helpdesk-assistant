@@ -1,0 +1,40 @@
+version: "2.0"
+nlu:
+- intent: student_id_card
+  examples: |
+    - I want my student id card
+    - Hi. I need to get my ID card.
+    - Can I have my ID card?
+    - Can you help me with my ID
+
+rules:
+  - rule: start student id card form
+    steps:
+    - intent: student_id_card
+    - action: student_id_card_form
+    - active_loop: student_id_card_form
+    - active_loop: null
+    - action: utter_provide_student_id_card
+
+stories:
+  - story: student id card form interrupted
+    steps:
+    - intent: student_id_card
+    - action: student_id_card_form
+    - active_loop: student_id_card_form
+    - intent: out_of_scope
+    - action: utter_out_of_scope
+    - action: student_id_card_form
+    - active_loop: null
+    - action: utter_provide_student_id_card
+
+  - story: student id card form interrupted
+    steps:
+    - intent: student_id_card
+    - action: student_id_card_form
+    - active_loop: student_id_card_form
+    - intent: help
+    - action: utter_help
+    - action: student_id_card_form
+    - active_loop: null
+    - action: utter_provide_student_id_card    

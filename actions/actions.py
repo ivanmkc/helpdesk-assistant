@@ -28,9 +28,53 @@ class ActionAskEmail(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         if tracker.get_slot("previous_email"):
-            dispatcher.utter_message(template=f"utter_ask_use_previous_email",)
+            dispatcher.utter_message(
+                template=f"utter_ask_use_previous_email",
+            )
         else:
             dispatcher.utter_message(template=f"utter_ask_email")
+        return []
+
+
+class ActionAskName(Action):
+    def name(self) -> Text:
+        return "action_ask_name"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        dispatcher.utter_message(template=f"utter_ask_name")
+        return []
+
+
+class ActionAskHometown(Action):
+    def name(self) -> Text:
+        return "action_ask_hometown"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        dispatcher.utter_message(template=f"utter_ask_hometown")
+        return []
+
+
+class ActionAskBirthday(Action):
+    def name(self) -> Text:
+        return "action_ask_birthday"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict]:
+        dispatcher.utter_message(template=f"utter_ask_birthday")
         return []
 
 
@@ -177,7 +221,7 @@ class ActionCheckIncidentStatus(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict]:
         """Look up all incidents associated with email address
-           and return status of each"""
+        and return status of each"""
 
         email = tracker.get_slot("email")
 

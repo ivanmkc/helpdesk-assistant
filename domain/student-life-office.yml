@@ -1,0 +1,115 @@
+version: '2.0'
+
+intents:
+- student_id_card:
+    use_entities: []
+# - answer_family_name:
+#     use_entities: true
+# - answer_birthday:
+#     use_entities: true    
+# - answer_given_name:
+#     use_entities: true
+# - answer_hometown:
+#     use_entities: true
+# - answer_study_subject:
+#     use_entities: true
+
+entities:
+  - PERSON
+  - DATE
+  - LOC
+  - GPE
+  - time
+#   - DATE
+#   - study_subject
+slots:
+  name:
+    type: text
+    influence_conversation: false
+  hometown:
+    type: text
+    influence_conversation: false
+  birthday:
+    type: any
+    influence_conversation: false
+
+# slots:
+#   name:
+#     type: text
+#     auto_fill: true
+#     influence_conversation: false
+#   family_name:
+#     type: text
+#     auto_fill: true
+#     influence_conversation: false
+#   birthday:
+#     type: any
+#     auto_fill: true
+#     influence_conversation: false
+#   hometown:
+#     type: text
+#     auto_fill: true
+#     influence_conversation: false
+#   study_subject:
+#     type: text
+#     auto_fill: true
+#     influence_conversation: false
+    
+responses:
+#   utter_greet_student_life:
+#   - text: Welcome to the Student Life Office. How can I help you?
+  utter_ask_name:
+  - text: What's your name?
+  utter_ask_hometown:
+  - text: What's your hometown?
+  utter_ask_birthday:
+  - text: What's your birthday?
+#   utter_ask_family_name:
+#   - text: What's your family name?
+#   utter_ask_birthday:
+#   - text: What's your birthday?
+#   utter_ask_hometown:
+#   - text: What's your hometown?
+#   utter_ask_study_subject:
+#   - text: What's subject do you study?
+  utter_provide_student_id_card:
+  - text: Here's your id card!
+#   utter_washroom:
+#   - text: There is a washroom in the foyer.
+
+forms:
+  student_id_card_form:
+    name:
+      - type: from_entity
+        entity: PERSON
+    hometown:
+      - type: from_entity
+        entity: LOC
+      - type: from_entity
+        entity: GPE        
+    birthday:
+      # - type: from_entity
+      #   entity: DATE
+      - type: from_entity
+        entity: time
+#   student_id_card_form:
+#     birthday:
+#       - entity: DATE
+#         type: from_entity
+#     family_name:
+#       - entity: PERSON
+#         type: from_entity
+#     name:
+#       - entity: PERSON
+#         type: from_entity
+#     hometown:
+#       - entity: city
+#         type: from_entity
+#     study_subject:
+#       - entity: study_subject
+#         type: from_entity
+
+actions:
+- action_ask_name
+- action_ask_hometown
+- action_ask_birthday
