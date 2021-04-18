@@ -32,6 +32,12 @@ slots:
   birthday:
     type: any
     influence_conversation: false
+  age:
+    type: float
+    influence_conversation: false
+  study_subject:
+    type: text
+    influence_conversation: false
 
 # slots:
 #   name:
@@ -63,17 +69,29 @@ responses:
   utter_ask_hometown:
   - text: What's your hometown?
   utter_ask_birthday:
-  - text: What's your birthday?
+  - text: Can you also tell me your birthday?
+  utter_ask_age:
+  - text: Great. How old are you?
+  utter_ask_study_subject:
+  - text: What's subject do you study?  
 #   utter_ask_family_name:
 #   - text: What's your family name?
 #   utter_ask_birthday:
 #   - text: What's your birthday?
 #   utter_ask_hometown:
 #   - text: What's your hometown?
-#   utter_ask_study_subject:
-#   - text: What's subject do you study?
+  utter_i_can_help:
+  - text: I can absolutely help you with that!
   utter_provide_student_id_card:
   - text: Here's your id card!
+  utter_confirm_name_slot_filled:
+  - text: Nice to meet you {name}!
+  utter_confirm_hometown_filled:
+  - text: Cool {name}. I'd love to go visit {hometown} someday.
+  utter_confirm_birthday_filled:
+  - text: That's a nice birthday.
+  utter_confirm_age_filled:
+  - text: Got it. {age} years old.
 #   utter_washroom:
 #   - text: There is a washroom in the foyer.
 
@@ -82,16 +100,29 @@ forms:
     name:
       - type: from_entity
         entity: PERSON
+        slot_filled_action: "utter_confirm_name_slot_filled"
     hometown:
       - type: from_entity
         entity: LOC
       - type: from_entity
-        entity: GPE        
+        entity: GPE
+        slot_filled_action: "utter_confirm_hometown_filled"
     birthday:
       # - type: from_entity
       #   entity: DATE
       - type: from_entity
         entity: time
+        slot_filled_action: "utter_confirm_birthday_filled"
+    age:
+      # - type: from_entity
+      #   entity: DATE
+      - type: from_entity
+        entity: number
+        slot_filled_action: "utter_confirm_age_filled"
+    # study_subject:
+    #   - type: from_entity
+    #     entity: text
+      # - type: from_intent
 #   student_id_card_form:
 #     birthday:
 #       - entity: DATE

@@ -12,7 +12,7 @@ pipeline:
   - name: SpacyTokenizer
   - name: SpacyFeaturizer
   - name: SpacyEntityExtractor
-    dimensions: ["PERSON", "DATE", "LOC", "GPE"]
+    dimensions: ["PERSON", "LOC", "GPE"]
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
@@ -30,6 +30,7 @@ pipeline:
     dimensions:
     - email
     - time
+    - number
   - name: EntitySynonymMapper
 policies:
   - name: AugmentedMemoizationPolicy

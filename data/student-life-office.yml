@@ -11,6 +11,7 @@ rules:
   - rule: start student id card form
     steps:
     - intent: student_id_card
+    - action: utter_i_can_help
     - action: student_id_card_form
     - active_loop: student_id_card_form
     - active_loop: null
@@ -20,6 +21,7 @@ stories:
   - story: student id card form interrupted
     steps:
     - intent: student_id_card
+    - action: utter_i_can_help
     - action: student_id_card_form
     - active_loop: student_id_card_form
     - intent: out_of_scope
@@ -31,6 +33,7 @@ stories:
   - story: student id card form interrupted
     steps:
     - intent: student_id_card
+    - action: utter_i_can_help
     - action: student_id_card_form
     - active_loop: student_id_card_form
     - intent: help
