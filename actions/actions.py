@@ -36,48 +36,6 @@ class ActionAskEmail(Action):
         return []
 
 
-class ActionAskName(Action):
-    def name(self) -> Text:
-        return "action_ask_name"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        dispatcher.utter_message(template=f"utter_ask_name")
-        return []
-
-
-class ActionAskHometown(Action):
-    def name(self) -> Text:
-        return "action_ask_hometown"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        dispatcher.utter_message(template=f"utter_ask_hometown")
-        return []
-
-
-class ActionAskBirthday(Action):
-    def name(self) -> Text:
-        return "action_ask_birthday"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        dispatcher.utter_message(template=f"utter_ask_birthday")
-        return []
-
-
 def _validate_email(
     value: Text,
     dispatcher: CollectingDispatcher,
