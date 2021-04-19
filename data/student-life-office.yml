@@ -13,6 +13,7 @@ rules:
     - intent: student_id_card
     - action: utter_i_can_help
     - action: student_id_card_form
+    - active_loop: student_id_card_form
     wait_for_user_input: false
     
   - rule: submit student id card form
@@ -24,17 +25,41 @@ rules:
     - action: action_validate_id_information
     wait_for_user_input: false
     
-  # - rule: Start form again
-  #   condition:
-  #     - slot_was_set:
-  #       - is_id_card_given: false
-  #   steps:
-  #   - action: utter_no_id_found
-  #   - action: utter_try_again
-  #   - action: student_id_card_form
-  #   - active_loop: student_id_card_form
+  - rule: student id card form interrupted by out_of_scope
+    steps:
+    - active_loop: student_id_card_form
+    - intent: out_of_scope
+    - action: utter_out_of_scope
+    - action: student_id_card_form
+    - active_loop: null
+    wait_for_user_input: false
 
+  - rule: student id card form interrupted by help
+    steps:
+    - active_loop: student_id_card_form
+    - intent: help
+    - action: utter_help
+    - action: student_id_card_form
+    - active_loop: null
+    wait_for_user_input: false
     
+  - rule: Start form again
+    steps:
+    - action: action_validate_id_information
+    - slot_was_set:
+      - is_id_card_given: false
+    - action: utter_no_id_found
+    - action: student_id_card_form
+    - active_loop: student_id_card_form
+    wait_for_user_input: false
+    
+  - rule: Finish form
+    steps:
+    - action: action_validate_id_information
+    - slot_was_set:
+      - is_id_card_given: true
+    - action: utter_provide_student_id_card
+
 stories:
   # - story: finish student id card
   #   steps:
@@ -42,20 +67,20 @@ stories:
   #   - active_loop: null
   #   - action: action_validate_id_information
 
-  - story: student id card form interrupted
-    steps:
-    - active_loop: student_id_card_form
-    - intent: out_of_scope
-    - action: utter_out_of_scope
-    - action: student_id_card_form
-    - active_loop: null
-    - action: action_validate_id_information
+  # - story: student id card form interrupted by out_of_scope
+  #   steps:
+  #   - active_loop: student_id_card_form
+  #   - intent: out_of_scope
+  #   - action: utter_out_of_scope
+  #   - action: student_id_card_form
+  #   - active_loop: null
+    # - action: action_validate_id_information
     
-  - story: student id card form interrupted
-    steps:
-    - active_loop: student_id_card_form
-    - intent: help
-    - action: utter_help
-    - action: student_id_card_form
-    - active_loop: null
-    - action: action_validate_id_information
+  # - story: student id card form interrupted by help
+  #   steps:
+  #   - active_loop: student_id_card_form
+  #   - intent: help
+  #   - action: utter_help
+  #   - action: student_id_card_form
+  #   - active_loop: null
+    # - action: action_validate_id_information

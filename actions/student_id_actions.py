@@ -89,11 +89,10 @@ class ValidateIDInformation(Action):
         if isinstance(hometown, list):
             age = age[0]
 
+        is_validated = False
         if all([name, hometown, age]):
             if "alice" in name.lower() and "austin" in hometown.lower() and age == 20:
-                dispatcher.utter_message(response=f"utter_provide_student_id_card")
-                return [SlotSet("is_id_card_given", True)]
-
-        dispatcher.utter_message(response=f"utter_no_id_found")
+                # dispatcher.utter_message(response=f"utter_provide_student_id_card")
+                is_validated = True
         
-        return [AllSlotsReset()]
+        return [SlotSet("name", None), SlotSet("hometown", None), SlotSet("age", None), SlotSet("is_id_card_given", is_validated)]

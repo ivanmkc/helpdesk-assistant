@@ -41,7 +41,7 @@ slots:
     influence_conversation: false
   is_id_card_given:
     type: bool
-    influence_conversation: false
+    influence_conversation: true
 
 # slots:
 #   name:
@@ -115,12 +115,12 @@ forms:
       - type: from_entity
         entity: GPE
         slot_filled_action: "utter_confirm_hometown_filled"
-    birthday:
-      # - type: from_entity
-      #   entity: DATE
-      - type: from_entity
-        entity: time
-        slot_filled_action: "utter_confirm_birthday_filled"
+    # birthday:
+    #   # - type: from_entity
+    #   #   entity: DATE
+    #   - type: from_entity
+    #     entity: time
+    #     slot_filled_action: "utter_confirm_birthday_filled"
     age:
       # - type: from_entity
       #   entity: DATE
