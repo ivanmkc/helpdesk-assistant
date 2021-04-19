@@ -13,8 +13,6 @@ rules:
     - intent: student_id_card
     - action: utter_i_can_help
     - action: student_id_card_form
-    - active_loop: student_id_card_form
-    - active_loop: null
     wait_for_user_input: false
     
   - rule: submit student id card form
@@ -38,11 +36,14 @@ rules:
 
     
 stories:
+  # - story: finish student id card
+  #   steps:
+  #   - active_loop: student_id_card_form
+  #   - active_loop: null
+  #   - action: action_validate_id_information
+
   - story: student id card form interrupted
     steps:
-    - intent: student_id_card
-    - action: utter_i_can_help
-    - action: student_id_card_form
     - active_loop: student_id_card_form
     - intent: out_of_scope
     - action: utter_out_of_scope
@@ -52,9 +53,6 @@ stories:
     
   - story: student id card form interrupted
     steps:
-    - intent: student_id_card
-    - action: utter_i_can_help
-    - action: student_id_card_form
     - active_loop: student_id_card_form
     - intent: help
     - action: utter_help
