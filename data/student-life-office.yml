@@ -15,8 +15,28 @@ rules:
     - action: student_id_card_form
     - active_loop: student_id_card_form
     - active_loop: null
-    - action: utter_provide_student_id_card
+    wait_for_user_input: false
+    
+  - rule: submit student id card form
+    condition:
+      - active_loop: student_id_card_form
+    steps:
+    - action: student_id_card_form
+    - active_loop: null
+    - action: action_validate_id_information
+    wait_for_user_input: false
+    
+  # - rule: Start form again
+  #   condition:
+  #     - slot_was_set:
+  #       - is_id_card_given: false
+  #   steps:
+  #   - action: utter_no_id_found
+  #   - action: utter_try_again
+  #   - action: student_id_card_form
+  #   - active_loop: student_id_card_form
 
+    
 stories:
   - story: student id card form interrupted
     steps:
@@ -28,8 +48,8 @@ stories:
     - action: utter_out_of_scope
     - action: student_id_card_form
     - active_loop: null
-    - action: utter_provide_student_id_card
-
+    - action: action_validate_id_information
+    
   - story: student id card form interrupted
     steps:
     - intent: student_id_card
@@ -40,4 +60,4 @@ stories:
     - action: utter_help
     - action: student_id_card_form
     - active_loop: null
-    - action: utter_provide_student_id_card    
+    - action: action_validate_id_information

@@ -35,64 +35,6 @@ class ActionAskEmail(Action):
             dispatcher.utter_message(template=f"utter_ask_email")
         return []
 
-
-class ActionAskName(Action):
-    def name(self) -> Text:
-        return "action_ask_name"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        dispatcher.utter_message(response=f"utter_ask_name")
-        return []
-
-
-class ActionAskHometown(Action):
-    def name(self) -> Text:
-        return "action_ask_hometown"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        dispatcher.utter_message(response=f"utter_ask_hometown")
-        return []
-
-
-class ActionAskBirthday(Action):
-    def name(self) -> Text:
-        return "action_ask_birthday"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        dispatcher.utter_message(response=f"utter_ask_birthday")
-        return []
-
-
-class ActionConfirmName(Action):
-    def name(self) -> Text:
-        return "action_confirm_name_slot_filled"
-
-    def run(
-        self,
-        dispatcher: CollectingDispatcher,
-        tracker: Tracker,
-        domain: Dict[Text, Any],
-    ) -> List[Dict]:
-        logger.debug("action_confirm_name_slot_filled: here")
-        dispatcher.utter_message(response=f"utter_confirm_name_slot_filled")
-        return []
-
-
 def _validate_email(
     value: Text,
     dispatcher: CollectingDispatcher,

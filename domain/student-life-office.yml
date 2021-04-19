@@ -20,6 +20,7 @@ entities:
   - LOC
   - GPE
   - time
+  - number
 #   - DATE
 #   - study_subject
 slots:
@@ -37,6 +38,9 @@ slots:
     influence_conversation: false
   study_subject:
     type: text
+    influence_conversation: false
+  is_id_card_given:
+    type: bool
     influence_conversation: false
 
 # slots:
@@ -92,6 +96,10 @@ responses:
   - text: That's a nice birthday.
   utter_confirm_age_filled:
   - text: Got it. {age} years old.
+  utter_no_id_found:
+  - text: Sorry, I couldn't find a card with that information. Let's try again.
+  utter_try_again:
+  - text: Let's try to again.
 #   utter_washroom:
 #   - text: There is a washroom in the foyer.
 
@@ -144,3 +152,4 @@ actions:
 - action_ask_name
 - action_ask_hometown
 - action_ask_birthday
+- action_validate_id_information
