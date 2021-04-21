@@ -6,6 +6,17 @@ nlu:
     - Hi. I need to get my ID card.
     - Can I have my ID card?
     - Can you help me with my ID
+- intent: where_is_washroom
+  examples: |
+    - Where is the restroom?
+    - What is the location of the washroom?
+    - I need to find the toilet
+- intent: age
+  examples: |
+    - I am [20](age) this year
+    - I'm [10](age) years old
+    - My age is [33](age)
+    - I'm [55](age)
 
 rules:
   - rule: start student id card form
@@ -23,13 +34,33 @@ rules:
     - action: student_id_card_form
     - active_loop: null
     - action: action_validate_id_information
+    wait_for_user_input: false      
+    
+  - rule: Start form again on failed validation
+    steps:
+    - action: action_validate_id_information
+    - slot_was_set:
+      - is_id_card_given: false
+    - action: utter_no_id_found
+    - action: utter_try_again
+    - action: student_id_card_form
+    - active_loop: student_id_card_form
     wait_for_user_input: false
     
+  - rule: Finish the form
+    steps:
+    - action: action_validate_id_information
+    - slot_was_set:
+      - is_id_card_given: true
+    - action: utter_provide_student_id_card
+
+  # Interruptions
   - rule: student id card form interrupted by out_of_scope
     steps:
     - active_loop: student_id_card_form
     - intent: out_of_scope
     - action: utter_out_of_scope
+    - action: utter_still_need_more_information
     - action: student_id_card_form
     - active_loop: null
     wait_for_user_input: false
@@ -39,27 +70,26 @@ rules:
     - active_loop: student_id_card_form
     - intent: help
     - action: utter_help
+    - action: utter_still_need_more_information
     - action: student_id_card_form
     - active_loop: null
     wait_for_user_input: false
-    
-  - rule: Start form again
-    steps:
-    - action: action_validate_id_information
-    - slot_was_set:
-      - is_id_card_given: false
-    - action: utter_no_id_found
-    - action: student_id_card_form
-    - active_loop: student_id_card_form
-    wait_for_user_input: false
-    
-  - rule: Finish form
-    steps:
-    - action: action_validate_id_information
-    - slot_was_set:
-      - is_id_card_given: true
-    - action: utter_provide_student_id_card
 
+  - rule: Washroom
+    steps:
+    - intent: where_is_washroom
+    - action: utter_washroom_location
+
+  - rule: student id card form interrupted
+    steps:
+    - active_loop: student_id_card_form
+    - intent: where_is_washroom
+    - action: utter_washroom_location
+    - action: utter_still_need_more_information
+    - action: student_id_card_form
+    - active_loop: null
+    wait_for_user_input: false
+        
 stories:
   # - story: finish student id card
   #   steps:

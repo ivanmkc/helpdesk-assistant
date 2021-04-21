@@ -3,6 +3,10 @@ version: '2.0'
 intents:
 - student_id_card:
     use_entities: []
+- age:
+    use_entities: []
+- where_is_washroom
+
 # - answer_family_name:
 #     use_entities: true
 # - answer_birthday:
@@ -19,10 +23,8 @@ entities:
   - DATE
   - LOC
   - GPE
-  - time
+  # - time
   - number
-#   - DATE
-#   - study_subject
 slots:
   name:
     type: text
@@ -70,14 +72,18 @@ responses:
 #   - text: Welcome to the Student Life Office. How can I help you?
   utter_ask_name:
   - text: What's your name?
+  - text: Can I get your name please?
   utter_ask_hometown:
   - text: What's your hometown?
+  - text: And can you tell me your hometown?
   utter_ask_birthday:
   - text: Can you also tell me your birthday?
   utter_ask_age:
   - text: Great. How old are you?
+  - text: How old are you now?
   utter_ask_study_subject:
-  - text: What's subject do you study?  
+  - text: What subject do you study?
+  - text: What's your major?
 #   utter_ask_family_name:
 #   - text: What's your family name?
 #   utter_ask_birthday:
@@ -86,6 +92,7 @@ responses:
 #   - text: What's your hometown?
   utter_i_can_help:
   - text: I can absolutely help you with that!
+  - text: Sure, I just need some information from you.
   utter_provide_student_id_card:
   - text: Here's your id card!
   utter_confirm_name_slot_filled:
@@ -97,9 +104,13 @@ responses:
   utter_confirm_age_filled:
   - text: Got it. {age} years old.
   utter_no_id_found:
-  - text: Sorry, I couldn't find a card with that information. Let's try again.
+  - text: Sorry, I couldn't find a card with that information.
   utter_try_again:
-  - text: Let's try to again.
+  - text: Let's try again.
+  utter_washroom_location:
+  - text: The washroom is located in the cafeteria.
+  utter_still_need_more_information:
+  - text: Sorry, but I still need a bit more information from you.
 #   utter_washroom:
 #   - text: There is a washroom in the foyer.
 
