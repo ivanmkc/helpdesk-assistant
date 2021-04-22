@@ -6,14 +6,14 @@ intents:
 - greet
 - goodbye
 - bot_challenge
-- password_reset
+# - password_reset
 - inform
 - thank
 - help
-- problem_email
-- open_incident:
-    use_entities: []
-- incident_status
+# - problem_email
+# - open_incident:
+#     use_entities: []
+# - incident_status
 - out_of_scope
 - restart
 - affirm
@@ -119,65 +119,65 @@ responses:
   utter_no_handoff:
   - text: Since you haven't configured a host to hand off to, I can't send you anywhere!
 
-forms:
-  open_incident_form:
-    email:
-      - type: from_entity
-        entity: email
-      - type: from_intent
-        intent: affirm
-        value: true
-      - type: from_intent
-        intent: deny
-        value: false
-    priority:
-      - type: from_entity
-        entity: priority
-    problem_description:
-      - type: from_text
-        not_intent:
-          - incident_status
-          - bot_challenge
-          - help
-          - affirm
-          - deny
-    incident_title:
-      - type: from_trigger_intent
-        intent: password_reset
-        value: "Problem resetting password"
-      - type: from_trigger_intent
-        intent: problem_email
-        value: "Problem with email"
-      - type: from_text
-        not_intent:
-          - incident_status
-          - bot_challenge
-          - help
-          - affirm
-          - deny
-    confirm:
-      - type: from_intent
-        intent: affirm
-        value: true
-      - type: from_intent
-        intent: deny
-        value: false
-  incident_status_form:
-    email:
-      - type: from_entity
-        entity: email
-      - type: from_intent
-        intent: affirm
-        value: true
-      - type: from_intent
-        intent: deny
-        value: false
+# forms:
+#   open_incident_form:
+#     email:
+#       - type: from_entity
+#         entity: email
+#       - type: from_intent
+#         intent: affirm
+#         value: true
+#       - type: from_intent
+#         intent: deny
+#         value: false
+#     priority:
+#       - type: from_entity
+#         entity: priority
+#     problem_description:
+#       - type: from_text
+#         not_intent:
+#           - incident_status
+#           - bot_challenge
+#           - help
+#           - affirm
+#           - deny
+#     incident_title:
+#       - type: from_trigger_intent
+#         intent: password_reset
+#         value: "Problem resetting password"
+#       - type: from_trigger_intent
+#         intent: problem_email
+#         value: "Problem with email"
+#       - type: from_text
+#         not_intent:
+#           - incident_status
+#           - bot_challenge
+#           - help
+#           - affirm
+#           - deny
+#     confirm:
+#       - type: from_intent
+#         intent: affirm
+#         value: true
+#       - type: from_intent
+#         intent: deny
+#         value: false
+#   incident_status_form:
+#     email:
+#       - type: from_entity
+#         entity: email
+#       - type: from_intent
+#         intent: affirm
+#         value: true
+#       - type: from_intent
+#         intent: deny
+#         value: false
 
-actions:
-- action_ask_email
-- action_check_incident_status
-- action_handoff
-- action_handoff_options
-- action_open_incident
-- validate_open_incident_form
-- validate_incident_status_form
+# actions:
+# - action_ask_email
+# - action_check_incident_status
+# - action_handoff
+# - action_handoff_options
+# - action_open_incident
+# - validate_open_incident_form
+# - validate_incident_status_form
