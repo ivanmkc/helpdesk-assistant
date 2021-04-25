@@ -40,6 +40,7 @@ howAreYouDoingIntent = Intent(
 
 slotName = Slot(
     name="name",
+    entities=["PERSON"],
     promptActions=[
         Utterance(
             text="Can I get your name?",
@@ -50,7 +51,6 @@ slotName = Slot(
             name="what_about_your_name",
         ),
     ],
-    entities=["PERSON"],
 )
 
 slotHometown = Slot(
@@ -94,7 +94,7 @@ generalResponses: List[Response] = [
 student_life_state_machine = StateMachineState(
     name="student_form",
     slots=[slotName, slotHometown],
-    slotFillUtterances=[
+    slot_fill_utterances=[
         Utterance(
             text="Nice to meet you {name}", name="utter_greeting_response"
         ),
@@ -107,13 +107,13 @@ student_life_state_machine = StateMachineState(
         Transition(
             name="exit_form",
             condition=IntentCondition(wantToLeaveIntent),
-            transitionUtterances=[
+            transition_utterances=[
                 Utterance(
                     "utter_leave_response",
                     "Sure, let's go back to what we were talking about.",
                 )
             ],
-            destinationState=None,
+            destination_state=None,
         )
     ],
     responses=[

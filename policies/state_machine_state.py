@@ -1,8 +1,3 @@
-# Bring your packages onto the path
-import sys, os
-
-sys.path.append(os.path.abspath(os.path.join("..", "policies")))
-
 from typing import List, Optional
 from state_machine_models import Action, Slot, Utterance
 from conditions import Condition
@@ -27,30 +22,30 @@ class Response:
 class Transition:
     name: str
     condition: Condition
-    transitionUtterances: List[str]
-    destinationState: Optional[str]
+    transition_utterances: List[str]
+    destination_state: Optional[str]
 
     def __init__(
         self,
         name: str,
         condition: Condition,
-        transitionUtterances: List[Utterance],
-        destinationState: Optional["StateMachineState"],
+        transition_utterances: List[Utterance],
+        destination_state: Optional["StateMachineState"],
     ):
         self.name = name
         self.condition = condition
-        self.transitionUtterances = [
-            utterance.name for utterance in transitionUtterances
+        self.transition_utterances = [
+            utterance.name for utterance in transition_utterances
         ]
-        self.destinationState = (
-            destinationState.name if destinationState else None
+        self.destination_state = (
+            destination_state.name if destination_state else None
         )
 
 
 class StateMachineState:
     name: str
-    slots: List[str]
-    slotFillUtterances: List[str]
+    slots: List[Slot]
+    slot_fill_utterances: List[str]
     transitions: List[Transition]
     responses: List[Response]
 
@@ -58,14 +53,14 @@ class StateMachineState:
         self,
         name: str,
         slots: List[Slot],
-        slotFillUtterances: List[Utterance],
+        slot_fill_utterances: List[Utterance],
         transitions: List[Transition],
         responses: List[Response],
     ):
         self.name = name
-        self.slots = [slot.name for slot in slots]
-        self.slotFillUtterances = [
-            utterance.name for utterance in slotFillUtterances
+        self.slots = slots  # [slot.name for slot in slots]
+        self.slot_fill_utterances = [
+            utterance.name for utterance in slot_fill_utterances
         ]
         self.transitions = transitions
         self.responses = responses
