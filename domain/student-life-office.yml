@@ -164,3 +164,4 @@ actions:
 - action_ask_hometown
 - action_ask_birthday
 - action_validate_id_information
+- action_state_machine_action
