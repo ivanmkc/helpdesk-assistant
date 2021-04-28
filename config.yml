@@ -21,7 +21,7 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 50
+    epochs: 100
     random_seed: 1
   - name: FallbackClassifier
     threshold: 0.7
@@ -33,7 +33,7 @@ pipeline:
     - number
   - name: EntitySynonymMapper
 policies:
-  - name: policies.state_machine_policy.StateMachinePolicy
+  - name: StateMachinePolicy
     core_fallback_threshold: 0.4
     core_fallback_action_name: "action_default_fallback"
     enable_fallback_prediction: True

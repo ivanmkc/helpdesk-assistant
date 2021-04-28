@@ -5,7 +5,6 @@ intents:
     use_entities: []
 - age:
     use_entities: []
-- where_is_washroom
 
 # - answer_family_name:
 #     use_entities: true

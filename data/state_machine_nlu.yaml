@@ -1,0 +1,16 @@
+version: '2.0'
+nlu:
+- intent: what_are_hours
+  examples: "- What are your hours?\n- When do you close?\n- What time do you open until?\n- What time do you close?\n- Are you still open?"
+- intent: wheres_the_washroom
+  examples: "- Where's the washroom?\n- Where is the restroom?\n- What is the location of the washroom?\n- I need to find the toilet"
+- intent: how_are_you_doing
+  examples: '- How are you doing?'
+- intent: want_to_leave
+  examples: '- I want to leave'
+- intent: where_are_you_from
+  examples: '- Where are you from?'
+- intent: what_school_mascot
+  examples: "- What's the school mascot?"
+- intent: are_you_busy
+  examples: "- Are you busy?\n- How busy are you?\n- Do you have a lot of work?"

@@ -1,0 +1,82 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- what_are_hours:
+    use_entities: true
+- wheres_the_washroom:
+    use_entities: true
+- how_are_you_doing:
+    use_entities: true
+- want_to_leave:
+    use_entities: true
+- where_are_you_from:
+    use_entities: true
+- what_school_mascot:
+    use_entities: true
+- are_you_busy:
+    use_entities: true
+entities:
+- LOC
+- GPE
+- PERSON
+slots:
+  name:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  hometown:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+responses:
+  utter_hometown_slot_filled_response:
+  - text: I'd love to visit {hometown} someday
+  utter_can_i_get_your_name:
+  - text: Can I get your name?
+  utter_washroom_response:
+  - text: It's in the cafeteria
+  utter_why_the_stag_of_course:
+  - text: Why, the stag of course
+  utter_what_is_your_hometown:
+  - text: What is your hometown?
+  utter_the_school_mascot_you_must_mean_the_stag:
+  - text: The school mascot? You must mean the stag
+  utter_leave_response:
+  - text: Sure, let's go back to what we were talking about.
+  utter_its_not_too_busy_around_here_as_you_can_see:
+  - text: It's not too busy around here as you can see.
+  utter_greeting_response:
+  - text: Nice to meet you {name}
+  utter_hours:
+  - text: We're open from 9 to 5, Mondays to Fridays.
+  utter_how_are_you_response:
+  - text: I'm doing great
+  utter_where_from_response:
+  - text: I'm from Canada
+  utter_what_about_your_name:
+  - text: What about your name?
+  utter_need_more_info:
+  - text: I'll need some more info from you
+actions:
+- utter_hometown_slot_filled_response
+- utter_can_i_get_your_name
+- utter_washroom_response
+- utter_why_the_stag_of_course
+- utter_what_is_your_hometown
+- utter_the_school_mascot_you_must_mean_the_stag
+- utter_leave_response
+- utter_its_not_too_busy_around_here_as_you_can_see
+- utter_greeting_response
+- utter_hours
+- utter_how_are_you_response
+- utter_where_from_response
+- utter_what_about_your_name
+- utter_need_more_info
+forms: {}
+e2e_actions: []
