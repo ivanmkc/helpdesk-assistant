@@ -28,21 +28,19 @@ pipeline:
   - name: DucklingEntityExtractor
     url: http://localhost:8000
     dimensions:
-    - email
+    # - email
     - time
     - number
   - name: EntitySynonymMapper
 policies:
   - name: StateMachinePolicy
-    core_fallback_threshold: 0.4
-    core_fallback_action_name: "action_default_fallback"
-    enable_fallback_prediction: True
+    enable_fallback_prediction: False
     priority: 7
   # - name: AugmentedMemoizationPolicy
   #   max_history: 4
-  # - name: TEDPolicy
-  #   max_history: 4
-  #   epochs: 100
+  - name: TEDPolicy
+    max_history: 4
+    epochs: 100
   - name: RulePolicy
     core_fallback_threshold: 0.4
     core_fallback_action_name: "action_default_fallback"

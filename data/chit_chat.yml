@@ -1,0 +1,40 @@
+version: "2.0"
+nlu:
+- intent: do_you_like_dogs
+  examples: |
+    - do you like dogs?
+    - Are you a dog person?
+    - Do you have a dog?
+- intent: i_am_a_dog_lover
+  examples: |
+    - I love dogs.
+    - Dogs are my favorite.
+    - Everyone loves dogs right? 
+- intent: i_am_a_cat_lover
+  examples: |
+    - I love cats.
+    - I'm a cat person
+    - I prefer cats to dogs
+
+stories:
+- story: dogs
+  steps:
+  - intent: do_you_like_dogs
+  - action: utter_have_dog
+  - action: utter_ask_dog_lover
+
+- story: I like dogs
+  steps:
+  - action: utter_ask_dog_lover
+  - or:
+    - intent: i_am_a_dog_lover
+    - intent: affirm
+  - action: utter_can_be_friends
+
+- story: I don't like dogs
+  steps:
+  - action: utter_ask_dog_lover
+  - or:
+    - intent: i_am_a_cat_lover
+    - intent: deny  
+  - action: utter_cannot_be_friends  

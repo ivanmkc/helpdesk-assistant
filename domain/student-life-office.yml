@@ -113,30 +113,30 @@ responses:
 #   utter_washroom:
 #   - text: There is a washroom in the foyer.
 
-forms:
-  student_id_card_form:
-    name:
-      - type: from_entity
-        entity: PERSON
-        slot_filled_action: "utter_confirm_name_slot_filled"
-    hometown:
-      - type: from_entity
-        entity: LOC
-      - type: from_entity
-        entity: GPE
-        slot_filled_action: "utter_confirm_hometown_filled"
+# forms:
+  # student_id_card_form:
+  #   name:
+  #     - type: from_entity
+  #       entity: PERSON
+  #       slot_filled_action: "utter_confirm_name_slot_filled"
+  #   hometown:
+  #     - type: from_entity
+  #       entity: LOC
+  #     - type: from_entity
+  #       entity: GPE
+  #       slot_filled_action: "utter_confirm_hometown_filled"
     # birthday:
     #   # - type: from_entity
     #   #   entity: DATE
     #   - type: from_entity
     #     entity: time
     #     slot_filled_action: "utter_confirm_birthday_filled"
-    age:
-      # - type: from_entity
-      #   entity: DATE
-      - type: from_entity
-        entity: number
-        slot_filled_action: "utter_confirm_age_filled"
+    # age:
+    #   # - type: from_entity
+    #   #   entity: DATE
+    #   - type: from_entity
+    #     entity: number
+    #     slot_filled_action: "utter_confirm_age_filled"
     # study_subject:
     #   - type: from_entity
     #     entity: text
