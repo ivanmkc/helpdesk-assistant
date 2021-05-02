@@ -1,4 +1,4 @@
-from typing import Set
+from typing import List, Set
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Action,
     Intent,
@@ -20,6 +20,11 @@ import rasa.shared.utils.validation
 import rasa.shared.constants
 import yaml
 
+from data_generation.story_generation import Story, Or, Fork
+
+# def get_stories(state: StateMachineState) -> List[Story]:
+#     for response in state.responses
+
 
 def get_domain_nlu(state: StateMachineState, states_filename: str):
     all_entity_names = state.all_entities()
@@ -31,6 +36,7 @@ def get_domain_nlu(state: StateMachineState, states_filename: str):
     ]
     all_actions: Set[Action] = state.all_actions()
     all_slots: Set[Slot] = state.all_slots()
+    # all_stories: List[Story] = get_stories(state)
 
     # Write domain
     domain = Domain(
