@@ -7,8 +7,6 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 )
 
 from rasa.shared.core.domain import Domain
-from rasa.shared.core.slots import CategoricalSlot, TextSlot, AnySlot
-from rasa.shared.core.slots import Slot as RasaSlot
 from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 from rasa.shared.nlu.state_machine.state_machine_state import (
     StateMachineState,
@@ -27,22 +25,38 @@ from data_generation.story_generation import Story, Or, Fork
 
 
 def get_domain_nlu(state: StateMachineState, states_filename: str):
-    all_entity_names = state.all_entities()
-    all_intents: Set[Intent] = state.all_intents()
-    all_utterances: Set[Utterance] = [
+    all_entity_names = {
+        entity
+        for state in state.all_states()
+        for entity in state.all_entities()
+    }
+
+    all_intents: Set[Intent] = {
+        intent
+        for state in state.all_states()
+        for intent in state.all_intents()
+    }
+
+    all_actions: Set[Action] = {
         action
+        for state in state.all_states()
         for action in state.all_actions()
-        if isinstance(action, Utterance)
-    ]
-    all_actions: Set[Action] = state.all_actions()
-    all_slots: Set[Slot] = state.all_slots()
+    }
+
+    all_utterances: Set[Utterance] = {
+        action for action in all_actions if isinstance(action, Utterance)
+    }
+
+    all_slots: Set[Slot] = {
+        slot for state in state.all_states() for slot in state.all_slots()
+    }
     # all_stories: List[Story] = get_stories(state)
 
     # Write domain
     domain = Domain(
         intents=[intent.name for intent in all_intents],
         entities=all_entity_names,  # List of entity names
-        slots=[TextSlot(name=slot.name) for slot in all_slots],
+        slots=[slot.as_rasa_slot() for slot in all_slots],
         responses={
             utterance.name: [{"text": utterance.text}]
             for utterance in all_utterances

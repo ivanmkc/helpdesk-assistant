@@ -17,81 +17,102 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
     actions:
     - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
-      _name: utter_okay_just_to_confirm_for_your_appetizer_youll_have_the_appetizer_and_for_your_entree_youll_have_the_entree_is_that_correct
-      text: Okay, just to confirm. For your appetizer, you'll have the {appetizer}
-        and for your entree, you'll have the {entree}. Is that correct?
-    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotsFilledCondition
-      slots:
-      - &id002 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Slot
-        condition: null
-        entities: &id001 []
+      _name: utter_no_okay_we_can_try_again
+      text: No? Okay, we can try again.
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotEqualsCondition
+      slot: &id002 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.BooleanSlot
+        condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotsFilledCondition
+          slots:
+          - &id003 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.TextSlot
+            condition: null
+            entities: &id001 []
+            intents:
+              ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+                examples:
+                - I'll have the salad
+                - The salad
+                - The greens
+                name: select_salad
+              : salad
+              ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+                examples:
+                - I'll have the cauliflower
+                - The soup
+                - The cauliflower soup please
+                name: select_soup
+              : soup
+              ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+                examples:
+                - I'll have the tuna tatare
+                - Tatare
+                - Tuna
+                - The tuna tatare
+                name: select_tatare
+              : tatare
+            name: appetizer
+            prompt_actions:
+            - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+              _name: utter_what_would_you_like_for_your_appetizer
+              text: What would you like for your appetizer?
+          - &id004 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.TextSlot
+            condition: null
+            entities: *id001
+            intents:
+              ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+                examples:
+                - I'll have the fish please
+                - I'd like the sea bass
+                - Sea bass
+                - Can I get the fish?
+                - The fish
+                name: select_fish
+              : fish
+              ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+                examples:
+                - I'll have the beef
+                - Can I get the steak?
+                - Steak please
+                - I'll take the beef
+                - Can I get the steak?
+                - I'll just have the steak
+                - Steak is what I want
+                - Steak
+                name: select_steak
+              : steak
+              ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+                examples:
+                - I'll have the vegetarian lasagna
+                - The lasagna please
+                - I'll have the vegetarian option
+                - The lasagna for me.Lasagna
+                - I'll get the lasagna
+                name: select_vegetables
+              : lasagna
+            name: entree
+            prompt_actions:
+            - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+              _name: utter_what_would_you_like_for_your_entree
+              text: What would you like for your entree?
+        entities: []
         intents:
-          ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
-            examples:
-            - I'll have the salad
-            - The salad
-            - The greens
-            name: select_salad
-          : salad
-          ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
-            examples:
-            - I'll have the cauliflower
-            - The soup
-            - The cauliflower soup please
-            name: select_soup
-          : soup
-          ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
-            examples:
-            - I'll have the tuna tatare
-            - Tatare
-            - Tuna
-            - The tuna tatare
-            name: select_tatare
-          : tatare
-        name: appetizer
+          affirm: true
+          deny: false
+        name: order_confirmed
         prompt_actions:
         - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
-          _name: utter_what_would_you_like_for_your_appetizer
-          text: What would you like for your appetizer?
-      - &id003 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Slot
-        condition: null
-        entities: *id001
-        intents:
-          ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
-            examples:
-            - I'll have the fish please
-            - I'd like the sea bass
-            - Sea bass
-            - Can I get the fish?
-            - The fish
-            name: select_fish
-          : fish
-          ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
-            examples:
-            - I'll have the beef
-            - Can I get the steak?
-            - Steak please
-            - I'll take the beef
-            - Can I get the steak?
-            - I'll just have the steak
-            - Steak is what I want
-            - Steak
-            name: select_steak
-          : steak
-          ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
-            examples:
-            - I'll have the vegetarian lasagna
-            - The lasagna please
-            - I'll have the vegetarian option
-            - The lasagna for me.Lasagna
-            - I'll get the lasagna
-            name: select_vegetables
-          : lasagna
-        name: entree
-        prompt_actions:
-        - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
-          _name: utter_what_would_you_like_for_your_entree
-          text: What would you like for your entree?
+          _name: utter_okay_just_to_confirm_for_your_appetizer_youll_have_the_appetizer_and_for_your_entree_youll_have_the_entree_is_that_correct
+          text: Okay, just to confirm. For your appetizer, you'll have the {appetizer}
+            and for your entree, you'll have the {entree}. Is that correct?
+      value: false
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_okay_great_please_enjoy_yourself_while_the_food_is_readied
+      text: Okay great, please enjoy yourself while the food is readied.
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotEqualsCondition
+      slot: *id002
+      value: true
     repeatable: true
   slot_fill_utterances:
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
@@ -104,11 +125,11 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
     _name: utter_great_choices_the_appetizer_goes_great_with_the_entree
     text: Great choices. The {appetizer} goes great with the {entree}
   slots:
-  - *id002
   - *id003
-  - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Slot
+  - *id004
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.TextSlot
     condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotEqualsCondition
-      slot: *id003
+      slot: *id004
       value: steak
     entities: *id001
     intents:
@@ -142,6 +163,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
     - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
       _name: utter_how_would_you_like_your_steak
       text: How would you like your steak?
+  - *id002
   transitions:
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Transition
     condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition

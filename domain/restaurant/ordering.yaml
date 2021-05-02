@@ -1,0 +1,97 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- select_steak:
+    use_entities: true
+- select_salad:
+    use_entities: true
+- rare:
+    use_entities: true
+- select_vegetables:
+    use_entities: true
+- select_tatare:
+    use_entities: true
+- mediumrare:
+    use_entities: true
+- want_to_leave:
+    use_entities: true
+- medium:
+    use_entities: true
+- select_soup:
+    use_entities: true
+- welldone:
+    use_entities: true
+- select_fish:
+    use_entities: true
+entities: []
+slots:
+  steak_doneness:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  appetizer:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  entree:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  order_confirmed:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+responses:
+  utter_what_would_you_like_for_your_entree:
+  - text: What would you like for your entree?
+  utter_the_appetizer_is_a_great_starter:
+  - text: The {appetizer} is a great starter.
+  utter_how_would_you_like_your_steak:
+  - text: How would you like your steak?
+  utter_no_okay_we_can_try_again:
+  - text: No? Okay, we can try again.
+  utter_i_really_like_how_they_make_the_entree_here:
+  - text: I really like how they make the {entree} here.
+  utter_welcome_to_michi_cafe:
+  - text: Welcome to Michi Cafe
+  utter_what_would_you_like_for_your_appetizer:
+  - text: What would you like for your appetizer?
+  utter_here_is_your_menu_ill_be_back_in_5_minutes_for_your_order:
+  - text: Here is your menu. I'll be back in 5 minutes for your order.
+  utter_great_choices_the_appetizer_goes_great_with_the_entree:
+  - text: Great choices. The {appetizer} goes great with the {entree}
+  ? utter_okay_just_to_confirm_for_your_appetizer_youll_have_the_appetizer_and_for_your_entree_youll_have_the_entree_is_that_correct
+  : - text: Okay, just to confirm. For your appetizer, you'll have the {appetizer} and for your entree, you'll have the {entree}. Is that correct?
+  utter_okay_hope_youve_looked_at_the_menu:
+  - text: Okay, hope you've looked at the menu.
+  utter_leave_response:
+  - text: I guess you can leave if you need to, since we haven't made the food yet.
+  utter_okay_great_please_enjoy_yourself_while_the_food_is_readied:
+  - text: Okay great, please enjoy yourself while the food is readied.
+actions:
+- utter_what_would_you_like_for_your_entree
+- utter_the_appetizer_is_a_great_starter
+- utter_how_would_you_like_your_steak
+- utter_no_okay_we_can_try_again
+- utter_i_really_like_how_they_make_the_entree_here
+- utter_welcome_to_michi_cafe
+- utter_what_would_you_like_for_your_appetizer
+- utter_here_is_your_menu_ill_be_back_in_5_minutes_for_your_order
+- utter_great_choices_the_appetizer_goes_great_with_the_entree
+- utter_okay_just_to_confirm_for_your_appetizer_youll_have_the_appetizer_and_for_your_entree_youll_have_the_entree_is_that_correct
+- utter_okay_hope_youve_looked_at_the_menu
+- utter_leave_response
+- utter_okay_great_please_enjoy_yourself_while_the_food_is_readied
+forms: {}
+state_machine:
+  initial_state_name: restaurant_ordering
+  states_file: state_machines/restaurant/ordering.yaml
+e2e_actions: []

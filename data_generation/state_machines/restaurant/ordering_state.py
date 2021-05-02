@@ -4,6 +4,8 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
     Slot,
+    TextSlot,
+    BooleanSlot,
 )
 
 from rasa.shared.nlu.state_machine.state_machine_state import (
@@ -147,7 +149,7 @@ select_vegetables = Intent(
 # Ask for recommendations
 # What's an entree
 
-slot_appetizer = Slot(
+slot_appetizer = TextSlot(
     name="appetizer",
     intents={
         select_salad: "salad",
@@ -159,7 +161,7 @@ slot_appetizer = Slot(
     ],
 )
 
-slot_entree = Slot(
+slot_entree = TextSlot(
     name="entree",
     intents={
         select_fish: "fish",
@@ -183,7 +185,7 @@ steak_doneness_medium = Intent(examples=["Medium"])
 
 steak_doneness_welldone = Intent(examples=["Well-done", "I want it well-done"])
 
-slot_steak_doneness = Slot(
+slot_steak_doneness = TextSlot(
     name="steak_doneness",
     condition=SlotEqualsCondition(slot=slot_entree, value="steak"),
     intents={
@@ -197,8 +199,9 @@ slot_steak_doneness = Slot(
     ],
 )
 
-slot_order_confirmed = Slot(
-    name="steak_doneness",
+slot_order_confirmed = BooleanSlot(
+    name="order_confirmed",
+    condition=SlotsFilledCondition([slot_appetizer, slot_entree]),
     intents={
         "affirm": True,
         "deny": False,
@@ -297,7 +300,12 @@ slot_order_confirmed = Slot(
 
 student_life_state_machine = StateMachineState(
     name="restaurant_ordering",
-    slots=[slot_appetizer, slot_entree, slot_steak_doneness],
+    slots=[
+        slot_appetizer,
+        slot_entree,
+        slot_steak_doneness,
+        slot_order_confirmed,
+    ],
     slot_fill_utterances=[
         Utterance("The {appetizer} is a great starter."),
         Utterance("I really like how they make the {entree} here."),
@@ -330,11 +338,27 @@ student_life_state_machine = StateMachineState(
             ],
         ),
         Response(
-            condition=SlotsFilledCondition([slot_appetizer, slot_entree]),
+            condition=SlotEqualsCondition(
+                slot=slot_order_confirmed, value=False
+            ),
+            actions=[
+                Utterance("No? Okay, we can try again."),
+                # ResetSlotsAction(
+                #     [slot_appetizer, slot_entree, slot_order_confirmed]
+                # ),
+            ],
+        ),
+        Response(
+            condition=SlotEqualsCondition(
+                slot=slot_order_confirmed, value=True
+            ),
             actions=[
                 Utterance(
-                    "Okay, just to confirm. For your appetizer, you'll have the {appetizer} and for your entree, you'll have the {entree}. Is that correct?"
+                    "Okay great, please enjoy yourself while the food is readied."
                 ),
+                # SetSlotsAction(
+                #     [slot_appetizer, slot_entree, slot_order_confirmed]
+                # ),
             ],
         ),
     ],
