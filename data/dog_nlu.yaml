@@ -1,28 +1,29 @@
 version: '2.0'
 nlu:
-- intent: i_just_dont_like_them
-  examples: "- I just don't like them\n- I've been bitten by a dog"
-- intent: do_you_have_a_dog
-  examples: '- Do you have a dog?'
+- intent: i_love_cats
+  examples: "- I love cats\n- I prefer cats"
 - intent: im_actually_allergic
   examples: "- I'm actually allergic\n- I'm allergic to dogs"
+- intent: do_you_have_a_dog
+  examples: "- Do you have a dog?\n- Are you a dog lover?\n- Do you like dogs?\n- What do you think about dogs?\n- Do you like puppies?"
+- intent: i_just_dont_like_them
+  examples: "- I just don't like them\n- I've been bitten by a dog"
 stories:
 - story: dog_story
   steps:
-  - intent: do_you_have_a_dog
-  - action: utter_yes_i_have_a_cockerspaniel_are_you_a_dog_lover_too
+  - or:
+    - intent: do_you_have_a_dog
+  - action: utter_dogs_are_great_i_have_a_cockerspaniel_are_you_a_dog_lover_too
 - story: dog_story_fork_0
   steps:
-  - action: utter_yes_i_have_a_cockerspaniel_are_you_a_dog_lover_too
+  - action: utter_dogs_are_great_i_have_a_cockerspaniel_are_you_a_dog_lover_too
   - or:
-    - intent: i_love_dogs
     - intent: affirm
   - action: utter_great_we_can_be_friends_then
 - story: dog_story_fork_1
   steps:
-  - action: utter_yes_i_have_a_cockerspaniel_are_you_a_dog_lover_too
+  - action: utter_dogs_are_great_i_have_a_cockerspaniel_are_you_a_dog_lover_too
   - or:
-    - intent: i_hate_dogs
     - intent: i_love_cats
     - intent: deny
   - action: utter_why_dogs_are_mans_best_friend

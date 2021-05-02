@@ -94,15 +94,14 @@ class Story:
 
                 # Add to current story
                 story_nlu_steps.append({"intent": element.name})
-
+            elif isinstance(element, str):
+                # Add to current storry
+                story_nlu_steps.append({"intent": element})
             elif isinstance(element, Utterance):
                 all_utterances.add(element)
 
                 # Add to current story
                 story_nlu_steps.append({"action": element.name})
-            elif isinstance(element, str):
-                # Add to current storry
-                story_nlu_steps.append({"intent": element})
             elif isinstance(element, Or):
                 intents_nlu: List[Dict[str, str]] = []
                 # Write NLU for each intent
@@ -110,6 +109,7 @@ class Story:
                     if isinstance(intent, str):
                         intents_nlu.append({"intent": intent})
                     elif isinstance(intent, Intent):
+                        all_intents.add(intent)
                         intents_nlu.append({"intent": intent.name})
 
                 # Write NLU

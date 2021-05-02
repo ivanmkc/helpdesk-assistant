@@ -9,6 +9,8 @@ intents:
     use_entities: true
 - im_actually_allergic:
     use_entities: true
+- i_love_cats:
+    use_entities: true
 - do_you_have_a_dog:
     use_entities: true
 entities: []
@@ -20,10 +22,11 @@ responses:
   - text: Why? Dogs are man's best friend.
   utter_theres_medicine_for_that:
   - text: There's medicine for that
-  utter_yes_i_have_a_cockerspaniel_are_you_a_dog_lover_too:
-  - text: Yes, I have a cockerspaniel. Are you a dog lover too?
+  utter_dogs_are_great_i_have_a_cockerspaniel_are_you_a_dog_lover_too:
+  - text: Dogs are great. I have a cockerspaniel. Are you a dog lover too?
   utter_great_we_can_be_friends_then:
   - text: Great, we can be friends then.
 actions: []
 forms: {}
+state_machine: {}
 e2e_actions: []

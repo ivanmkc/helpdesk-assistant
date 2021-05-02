@@ -5,22 +5,51 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 
 from data_generation.story_generation import Story, Fork, Or
 
+i_like_dogs = (
+    Intent(
+        examples=[
+            "I hate dogs",
+            "I love dogs",
+            "Dogs are the best, don't you think?",
+        ]
+    ),
+)
+
 dog_story = Story(
     name="dog_story",
     elements=[
-        Intent(examples="Do you have a dog?"),
+        Or(
+            i_like_dogs,
+            Intent(
+                examples=[
+                    "Do you have a dog?",
+                    "Are you a dog lover?",
+                    "Do you like dogs?",
+                    "What do you think about dogs?",
+                    "Do you like puppies?",
+                ]
+            ),
+        ),
         Utterance(
-            text="Yes, I have a cockerspaniel. Are you a dog lover too?"
+            text="Dogs are great. I have a cockerspaniel. Are you a dog lover too?"
         ),
         Fork(
             [
-                Or(Intent(examples="I love dogs"), "affirm"),
+                Or(
+                    i_like_dogs,
+                    "affirm",
+                ),
                 Utterance(text="Great, we can be friends then."),
             ],
             [
                 Or(
-                    Intent(examples="I hate dogs"),
-                    Intent(examples=["I love cats", "I prefer cats"]),
+                    Intent(
+                        examples=[
+                            "I love cats",
+                            "I prefer cats",
+                            "I'm more of a cat person",
+                        ]
+                    ),
                     "deny",
                 ),
                 Utterance(

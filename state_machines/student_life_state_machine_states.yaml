@@ -1,0 +1,129 @@
+student_form: !!python/object:rasa.shared.nlu.state_machine.state_machine_state.StateMachineState
+  name: student_form
+  responses:
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_need_more_info
+      text: I'll need some more info from you
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.OnEntryCondition {}
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_where_from_response
+      text: I'm from Canada
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - Where are you from?
+        name: where_are_you_from
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_washroom_response
+      text: It's in the cafeteria
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - Where's the washroom?
+        - Where is the restroom?
+        - What is the location of the washroom?
+        - I need to find the toilet
+        name: wheres_the_washroom
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_how_are_you_response
+      text: I'm doing great
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - How are you doing?
+        name: how_are_you_doing
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_hours
+      text: We're open from 9 to 5, Mondays to Fridays.
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - What are your hours?
+        - When do you close?
+        - What time do you open until?
+        - What time do you close?
+        - Are you still open?
+        name: what_are_hours
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_its_not_too_busy_around_here_as_you_can_see
+      text: It's not too busy around here as you can see.
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - Are you busy?
+        - How busy are you?
+        - Do you have a lot of work?
+        name: are_you_busy
+    repeatable: true
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
+    actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_why_the_stag_of_course
+      text: Why, the stag of course
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_the_school_mascot_you_must_mean_the_stag
+      text: The school mascot? You must mean the stag
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - What's the school mascot?
+        name: what_school_mascot
+    repeatable: true
+  slot_fill_utterances:
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+    _name: utter_greeting_response
+    text: Nice to meet you {name}
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+    _name: utter_hometown_slot_filled_response
+    text: I'd love to visit {hometown} someday
+  slots:
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Slot
+    entities:
+    - PERSON
+    name: name
+    prompt_actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_can_i_get_your_name
+      text: Can I get your name?
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_what_about_your_name
+      text: What about your name?
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Slot
+    entities:
+    - GPE
+    - LOC
+    name: hometown
+    prompt_actions:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_what_is_your_hometown
+      text: What is your hometown?
+  transitions:
+  - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Transition
+    condition: !!python/object:rasa.shared.nlu.state_machine.conditions.IntentCondition
+      intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
+        examples:
+        - I want to leave
+        name: want_to_leave
+    destination_state: null
+    name: exit_form
+    transition_utterances:
+    - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
+      _name: utter_leave_response
+      text: Sure, let's go back to what we were talking about.
