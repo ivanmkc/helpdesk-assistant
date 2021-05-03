@@ -201,7 +201,6 @@ slot_steak_doneness = TextSlot(
 
 slot_order_confirmed = BooleanSlot(
     name="order_confirmed",
-    condition=SlotsFilledCondition([slot_appetizer, slot_entree]),
     intents={
         "affirm": True,
         "deny": False,
@@ -211,92 +210,74 @@ slot_order_confirmed = BooleanSlot(
             "Okay, just to confirm. For your appetizer, you'll have the {appetizer} and for your entree, you'll have the {entree}. Is that correct?"
         ),
     ],
+    only_fill_when_prompted=True,
 )
 
 
-# generalResponses: List[Response] = [
-#     Response(
-#         condition=IntentCondition(whereAreYouFromIntent),
-#         actions=[
-#             Utterance(text="I'm from Canada", name="utter_where_from_response")
-#         ],
-#     ),
-#     Response(
-#         condition=IntentCondition(wheresTheWashroomIntent),
-#         actions=[
-#             Utterance(
-#                 text="It's in the cafeteria",
-#                 name="utter_washroom_response",
-#             )
-#         ],
-#     ),
-#     Response(
-#         condition=IntentCondition(howAreYouDoingIntent),
-#         actions=[
-#             Utterance(
-#                 text="I'm doing great",
-#                 name="utter_how_are_you_response",
-#             )
-#         ],
-#     ),
-#     Response(
-#         condition=IntentCondition(
-#             Intent(
-#                 name="what_are_hours",
-#                 examples=[
-#                     "What are your hours?",
-#                     "When do you close?",
-#                     "What time do you open until?",
-#                     "What time do you close?",
-#                     "Are you still open?",
-#                 ],
-#             )
-#         ),
-#         actions=[
-#             Utterance(
-#                 text="We're open from 9 to 5, Mondays to Fridays.",
-#                 name="utter_hours",
-#             )
-#         ],
-#     ),
-#     Response(
-#         condition=IntentCondition(
-#             Intent(
-#                 examples=[
-#                     "Are you busy?",
-#                     "How busy are you?",
-#                     "Do you have a lot of work?",
-#                 ],
-#             )
-#         ),
-#         actions=[
-#             Utterance(
-#                 text="It's not too busy around here as you can see.",
-#             )
-#         ],
-#     ),
-#     Response(
-#         condition=IntentCondition(
-#             Intent(
-#                 name="what_school_mascot",
-#                 examples=[
-#                     "What's the school mascot?",
-#                 ],
-#             )
-#         ),
-#         actions=[
-#             Utterance(
-#                 text="Why, the stag of course",
-#             ),
-#             Utterance(
-#                 text="The school mascot? You must mean the stag",
-#             ),
-#         ],
-#     ),
-# ]
+generalResponses: List[Response] = [
+    Response(
+        condition=IntentCondition(whereAreYouFromIntent),
+        actions=[
+            Utterance(text="I'm from Canada", name="utter_where_from_response")
+        ],
+    ),
+    Response(
+        condition=IntentCondition(howAreYouDoingIntent),
+        actions=[
+            Utterance(
+                text="I'm doing great",
+                name="utter_how_are_you_response",
+            )
+        ],
+    ),
+    Response(
+        condition=IntentCondition(
+            Intent(
+                name="what_are_hours",
+                examples=[
+                    "What are your hours?",
+                    "When do you close?",
+                    "What time do you open until?",
+                    "What time do you close?",
+                    "Are you still open?",
+                ],
+            )
+        ),
+        actions=[
+            Utterance(
+                text="We're open from 11am to 9pm, every day except Sunday.",
+                name="utter_hours",
+            )
+        ],
+    ),
+    Response(
+        condition=IntentCondition(
+            Intent(
+                examples=[
+                    "Are you busy?",
+                    "How busy are you?",
+                    "Do you have a lot of work?",
+                ],
+            )
+        ),
+        actions=[
+            Utterance(
+                text="It's not too busy around here as you can see.",
+            )
+        ],
+    ),
+]
 
 # TODO: Add a drink
 
+# student_life_state_machine = StateMachineState(
+#     name="restaurant_ordering",
+#     slots=[
+#         SlotGroup([slot_appetizer, slot_entree])
+#             .if(SlotEqualsCondition(slot_entree, "steak"), then=SlotGroup(slot_steak_doneness, slot_order_confirmed))
+#             .then(slot_order_confirmed)
+#     ]
+# )
 
 student_life_state_machine = StateMachineState(
     name="restaurant_ordering",
@@ -308,7 +289,7 @@ student_life_state_machine = StateMachineState(
     ],
     slot_fill_utterances=[
         Utterance("The {appetizer} is a great starter."),
-        Utterance("I really like how they make the {entree} here."),
+        Utterance("Nice, they make a mean {entree} here."),
         Utterance(
             text="Great choices. The {appetizer} goes great with the {entree}"
         ),
@@ -332,11 +313,47 @@ student_life_state_machine = StateMachineState(
             actions=[
                 Utterance("Welcome to Michi Cafe"),
                 Utterance(
-                    "Here is your menu. I'll be back in 5 minutes for your order."
+                    "Take your time looking through the menu. I'll be back in 5 minutes for your order."
                 ),
-                Utterance("Okay, hope you've looked at the menu."),
+                Utterance("Okay, let's take your order."),
             ],
         ),
+        Response(
+            condition=IntentCondition(
+                Intent(
+                    examples=[
+                        "Can I see a menu?",
+                        "Menu please.",
+                        "What's on the menu?",
+                        "What do you have today?",
+                        "What is on your menu?",
+                    ]
+                )
+            ),
+            actions=[
+                Utterance(
+                    "For our appetizers, we have a Greek salad, a celery soup and a salmon tatare."
+                ),
+                Utterance(
+                    "For entrees, we have a tenderloin steak, a grilled sea bass and a vegetarian lasagna."
+                ),
+            ],
+        ),
+        Response(
+            condition=IntentCondition(
+                Intent(
+                    examples=[
+                        "What's in the lasagna?",
+                        "What's kind of lasagna is it?",
+                    ]
+                )
+            ),
+            actions=[
+                Utterance(
+                    "The lasagna has carrots, zucchini and onion. It also has cottage cheese though, in case you were wondering."
+                ),
+            ],
+        ),  # Followup: So it's not vegan then? Bot: No, it's not vegan
         Response(
             condition=SlotEqualsCondition(
                 slot=slot_order_confirmed, value=False
@@ -354,14 +371,15 @@ student_life_state_machine = StateMachineState(
             ),
             actions=[
                 Utterance(
-                    "Okay great, please enjoy yourself while the food is readied."
+                    "Okay great, please enjoy yourself while the food is being readied."
                 ),
                 # SetSlotsAction(
                 #     [slot_appetizer, slot_entree, slot_order_confirmed]
                 # ),
             ],
         ),
-    ],
+    ]
+    + generalResponses,
 )
 
 state_machine_generation.persist(
