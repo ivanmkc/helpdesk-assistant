@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Set
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
-    Slot,
+    TextSlot,
 )
 
 from rasa.shared.nlu.state_machine.state_machine_state import (
@@ -48,7 +48,7 @@ howAreYouDoingIntent = Intent(
     name="how_are_you_doing", examples=["How are you doing?"]
 )
 
-slotName = Slot(
+slotName = TextSlot(
     name="name",
     entities=["PERSON"],
     prompt_actions=[
@@ -63,7 +63,7 @@ slotName = Slot(
     ],
 )
 
-slotHometown = Slot(
+slotHometown = TextSlot(
     name="hometown",
     entities=["GPE", "LOC"],
     prompt_actions=[

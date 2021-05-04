@@ -3,13 +3,11 @@ from typing import Any, Dict, List, Set
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
-    Slot,
     TextSlot,
     BooleanSlot,
 )
 
 from rasa.shared.nlu.state_machine.state_machine_state import (
-    Action,
     Response,
     StateMachineState,
     Transition,

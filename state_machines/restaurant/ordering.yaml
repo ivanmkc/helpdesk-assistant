@@ -56,7 +56,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
     condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotEqualsCondition
       slot: &id001 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.BooleanSlot
         condition: null
-        entities: []
+        entities: &id002 []
         intents:
           affirm: true
           deny: false
@@ -141,7 +141,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
   slots:
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.TextSlot
     condition: null
-    entities: &id002 []
+    entities: *id002
     intents:
       ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
         examples:
