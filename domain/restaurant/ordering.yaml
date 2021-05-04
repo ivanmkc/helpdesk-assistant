@@ -5,48 +5,53 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-- select_steak:
+- select_salad:
     use_entities: true
 - rare:
     use_entities: true
-- want_to_leave:
-    use_entities: true
-- mediumrare:
-    use_entities: true
-- select_tatare:
-    use_entities: true
-- select_vegetables:
-    use_entities: true
-- how_are_you_doing:
+- select_soup:
     use_entities: true
 - can_i_see_a_menu:
     use_entities: true
+- select_tatare:
+    use_entities: true
 - whats_in_the_lasagna:
+    use_entities: true
+- select_vegetables:
+    use_entities: true
+- mediumrare:
+    use_entities: true
+- want_to_leave:
     use_entities: true
 - medium:
     use_entities: true
 - are_you_busy:
     use_entities: true
+- how_are_you_doing:
+    use_entities: true
 - where_are_you_from:
-    use_entities: true
-- select_salad:
-    use_entities: true
-- select_soup:
-    use_entities: true
-- what_are_hours:
     use_entities: true
 - welldone:
     use_entities: true
 - select_fish:
     use_entities: true
+- what_are_hours:
+    use_entities: true
+- select_steak:
+    use_entities: true
 entities: []
 slots:
-  steak_doneness:
+  entree:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: true
-  entree:
+  appetizer:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
+  steak_doneness:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
@@ -56,28 +61,21 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: true
-  appetizer:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: true
 responses:
-  utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna:
-  - text: For entrees, we have a tenderloin steak, a grilled sea bass and a vegetarian lasagna.
   utter_hours:
   - text: We're open from 11am to 9pm, every day except Sunday.
-  utter_what_would_you_like_for_your_appetizer:
+  utter_ask_appetizer:
   - text: What would you like for your appetizer?
+  utter_ask_entree:
+  - text: What would you like for your entree?
   utter_the_lasagna_has_carrots_zucchini_and_onion_it_also_has_cottage_cheese_though_in_case_you_were_wondering:
   - text: The lasagna has carrots, zucchini and onion. It also has cottage cheese though, in case you were wondering.
-  utter_what_would_you_like_for_your_entree:
-  - text: What would you like for your entree?
   utter_its_not_too_busy_around_here_as_you_can_see:
   - text: It's not too busy around here as you can see.
-  utter_the_appetizer_is_a_great_starter:
-  - text: The {appetizer} is a great starter.
   utter_no_okay_we_can_try_again:
   - text: No? Okay, we can try again.
+  utter_the_appetizer_is_a_great_starter:
+  - text: The {appetizer} is a great starter.
   utter_nice_they_make_a_mean_entree_here:
   - text: Nice, they make a mean {entree} here.
   utter_great_choices_the_appetizer_goes_great_with_the_entree:
@@ -102,15 +100,16 @@ responses:
   - text: I'm doing great
   utter_for_our_appetizers_we_have_a_greek_salad_a_celery_soup_and_a_salmon_tatare:
   - text: For our appetizers, we have a Greek salad, a celery soup and a salmon tatare.
+  utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna:
+  - text: For entrees, we have a tenderloin steak, a grilled sea bass and a vegetarian lasagna.
 actions:
-- utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna
 - utter_hours
-- utter_what_would_you_like_for_your_appetizer
+- utter_ask_appetizer
+- utter_ask_entree
 - utter_the_lasagna_has_carrots_zucchini_and_onion_it_also_has_cottage_cheese_though_in_case_you_were_wondering
-- utter_what_would_you_like_for_your_entree
 - utter_its_not_too_busy_around_here_as_you_can_see
-- utter_the_appetizer_is_a_great_starter
 - utter_no_okay_we_can_try_again
+- utter_the_appetizer_is_a_great_starter
 - utter_nice_they_make_a_mean_entree_here
 - utter_great_choices_the_appetizer_goes_great_with_the_entree
 - utter_okay_great_please_enjoy_yourself_while_the_food_is_being_readied
@@ -123,6 +122,7 @@ actions:
 - utter_okay_lets_take_your_order
 - utter_how_are_you_response
 - utter_for_our_appetizers_we_have_a_greek_salad_a_celery_soup_and_a_salmon_tatare
+- utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna
 forms: {}
 state_machine:
   initial_state_name: restaurant_ordering

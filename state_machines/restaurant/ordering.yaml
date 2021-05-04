@@ -33,6 +33,10 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
         - What's on the menu?
         - What do you have today?
         - What is on your menu?
+        - What do you have?
+        - What you have?
+        - What food is there?
+        - What are the specials?
         name: can_i_see_a_menu
     repeatable: true
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
@@ -46,6 +50,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
         examples:
         - What's in the lasagna?
         - What's kind of lasagna is it?
+        - What type of lasagna is it?
         name: whats_in_the_lasagna
     repeatable: true
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
@@ -98,6 +103,9 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
       intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
         examples:
         - How are you doing?
+        - How's it going?
+        - How are you?
+        - How is your day going?
         name: how_are_you_doing
     repeatable: true
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_state.Response
@@ -169,7 +177,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
     only_fill_when_prompted: false
     prompt_actions:
     - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
-      _name: utter_what_would_you_like_for_your_appetizer
+      _name: utter_ask_appetizer
       text: What would you like for your appetizer?
   - &id003 !!python/object:rasa.shared.nlu.state_machine.state_machine_models.TextSlot
     condition: null
@@ -209,7 +217,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
     only_fill_when_prompted: false
     prompt_actions:
     - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance
-      _name: utter_what_would_you_like_for_your_entree
+      _name: utter_ask_entree
       text: What would you like for your entree?
   - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.TextSlot
     condition: !!python/object:rasa.shared.nlu.state_machine.conditions.SlotEqualsCondition
@@ -255,6 +263,10 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
       intent: !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
         examples:
         - I want to leave
+        - I need to know.
+        - I've got to go.
+        - Sorry, something came up and I have to go.
+        - Can I leave?
         name: want_to_leave
     destination_state: null
     name: leave

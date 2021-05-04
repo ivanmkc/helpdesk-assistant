@@ -73,7 +73,7 @@ def get_domain_nlu(state: StateMachineState, states_filename: str):
     # Write NLU
     nlu_data = {
         "version": "2.0",
-        "nlu": [intent.as_yaml() for intent in all_intents],
+        "nlu": [intent.as_nlu_yaml() for intent in all_intents],
     }
 
     return domain, nlu_data
@@ -96,7 +96,7 @@ def persist(
 
     # Persist domain
     rasa.shared.utils.validation.validate_yaml_schema(
-        domain.as_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
+        domain.as_nlu_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
     )
     domain.persist(domain_filename)
 

@@ -22,6 +22,7 @@ from rasa.shared.nlu.state_machine.conditions import (
 )
 
 from data_generation import state_machine_generation
+from data_generation import story_generation
 
 # class SpaceEntity(Enum, Entity):
 #     person = "PERSON"
@@ -39,7 +40,16 @@ from data_generation import state_machine_generation
 # Book a date for your anniversary dinner
 
 
-wantToLeaveIntent = Intent(name="want_to_leave", examples=["I want to leave"])
+wantToLeaveIntent = Intent(
+    name="want_to_leave",
+    examples=[
+        "I want to leave",
+        "I need to know.",
+        "I've got to go.",
+        "Sorry, something came up and I have to go.",
+        "Can I leave?",
+    ],
+)
 
 whereAreYouFromIntent = Intent(
     name="where_are_you_from", examples=["Where are you from?"]
@@ -56,7 +66,13 @@ wheresTheWashroomIntent = Intent(
 )
 
 howAreYouDoingIntent = Intent(
-    name="how_are_you_doing", examples=["How are you doing?"]
+    name="how_are_you_doing",
+    examples=[
+        "How are you doing?",
+        "How's it going?",
+        "How are you?",
+        "How is your day going?",
+    ],
 )
 
 select_salad = Intent(
@@ -147,6 +163,14 @@ select_vegetables = Intent(
 # Ask for recommendations
 # What's an entree
 
+action_ask_appetizer = Utterance(
+    "What would you like for your appetizer?", name="utter_ask_appetizer"
+)
+
+action_ask_entree = Utterance(
+    "What would you like for your entree?", name="utter_ask_entree"
+)
+
 slot_appetizer = TextSlot(
     name="appetizer",
     intents={
@@ -155,7 +179,7 @@ slot_appetizer = TextSlot(
         select_tatare: "tatare",
     },
     prompt_actions=[
-        Utterance("What would you like for your appetizer?"),
+        action_ask_appetizer,
     ],
 )
 
@@ -166,9 +190,7 @@ slot_entree = TextSlot(
         select_steak: "steak",
         select_vegetables: "lasagna",
     },
-    prompt_actions=[
-        Utterance("What would you like for your entree?"),
-    ],
+    prompt_actions=[action_ask_entree],
 )
 
 steak_doneness_rare = Intent(
@@ -325,6 +347,10 @@ student_life_state_machine = StateMachineState(
                         "What's on the menu?",
                         "What do you have today?",
                         "What is on your menu?",
+                        "What do you have?",
+                        "What you have?",
+                        "What food is there?",
+                        "What are the specials?",
                     ]
                 )
             ),
@@ -343,6 +369,7 @@ student_life_state_machine = StateMachineState(
                     examples=[
                         "What's in the lasagna?",
                         "What's kind of lasagna is it?",
+                        "What type of lasagna is it?",
                     ]
                 )
             ),
@@ -385,4 +412,89 @@ state_machine_generation.persist(
     states_filename="state_machines/restaurant/ordering.yaml",
     domain_filename="domain/restaurant/ordering.yaml",
     nlu_filename="data/restaurant/ordering.yaml",
+)
+
+from data_generation.story_generation import Story, Fork, Or
+
+intent_what_is_that = Intent(
+    examples=[
+        "What is that?",
+        "What's that?",
+        "Tell me about that.",
+    ]
+)
+
+intent_what_do_you_recommend = Intent(
+    examples=[
+        "What do you recommend?",
+        "It's up to you",
+        "Up to you",
+        "Can you give me a recommendation?",
+        "Recommend something",
+        "Give me a recommendation",
+        "What do you think?",
+    ]
+)
+
+intent_sure_ill_get_that = Intent(
+    examples=[
+        "Sure, I'll get that",
+        "I'll have that then",
+        "That sounds great",
+        "Yes, I'll get that",
+    ]
+)
+
+story_generation.persist(
+    [
+        Story(
+            name="recommend_appetizer",
+            elements=[
+                action_ask_appetizer,
+                intent_what_do_you_recommend,
+                Utterance(
+                    "May I recommend the tatare? It's our most popular starter."
+                ),
+                Fork(
+                    [
+                        Or(intent_sure_ill_get_that, "affirm"),
+                        Utterance("Great, I'll write that down then"),
+                        StateMachineAction()
+                        # TODO: Set slot
+                    ],
+                    [
+                        "deny",
+                        Utterance(
+                            "In that case, you can choose between the salmon tatare and the cauliflower soup."
+                        ),
+                    ],
+                    # TODO: Handle "nothing" condition
+                ),
+            ],
+        ),
+        Story(
+            name="recommend_entree",
+            elements=[
+                action_ask_entree,
+                intent_what_do_you_recommend,
+                Utterance("I personally prefer the steak."),
+                Fork(
+                    [
+                        Or(intent_sure_ill_get_that, "affirm"),
+                        Utterance("Great, I'll write that down then"),
+                        # TODO: Set slot
+                    ],
+                    [
+                        "deny",
+                        Utterance(
+                            "In that case, you can choose between the sea bass and the vegetarian lasagna."
+                        ),
+                    ],
+                    # TODO: Handle "nothing" condition
+                ),
+            ],
+        ),
+    ],
+    domain_filename="domain/recommend_entree.yaml",
+    nlu_filename="data/recommend_entree.yaml",
 )

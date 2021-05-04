@@ -1,36 +1,36 @@
 version: '2.0'
 nlu:
-- intent: select_steak
-  examples: "- I'll have the beef\n- Can I get the steak?\n- Steak please\n- I'll take the beef\n- Can I get the steak?\n- I'll just have the steak\n- Steak is what I want\n- Steak"
+- intent: select_salad
+  examples: "- I'll have the salad\n- The salad\n- The greens"
 - intent: rare
   examples: "- Rare\n- I'd like it raw\n- Not cooked"
-- intent: want_to_leave
-  examples: '- I want to leave'
-- intent: mediumrare
-  examples: "- Medium-rare\n- Not too cooked\n- I want it medium-rare"
+- intent: select_soup
+  examples: "- I'll have the cauliflower\n- The soup\n- The cauliflower soup please"
+- intent: can_i_see_a_menu
+  examples: "- Can I see a menu?\n- Menu please.\n- What's on the menu?\n- What do you have today?\n- What is on your menu?\n- What do you have?\n- What you have?\n- What food is there?\n- What are the specials?"
 - intent: select_tatare
   examples: "- I'll have the tuna tatare\n- Tatare\n- Tuna\n- The tuna tatare"
+- intent: whats_in_the_lasagna
+  examples: "- What's in the lasagna?\n- What's kind of lasagna is it?\n- What type of lasagna is it?"
 - intent: select_vegetables
   examples: "- I'll have the vegetarian lasagna\n- The lasagna please\n- I'll have the vegetarian option\n- The lasagna for me.Lasagna\n- I'll get the lasagna"
-- intent: how_are_you_doing
-  examples: '- How are you doing?'
-- intent: can_i_see_a_menu
-  examples: "- Can I see a menu?\n- Menu please.\n- What's on the menu?\n- What do you have today?\n- What is on your menu?"
-- intent: whats_in_the_lasagna
-  examples: "- What's in the lasagna?\n- What's kind of lasagna is it?"
+- intent: mediumrare
+  examples: "- Medium-rare\n- Not too cooked\n- I want it medium-rare"
+- intent: want_to_leave
+  examples: "- I want to leave\n- I need to know.\n- I've got to go.\n- Sorry, something came up and I have to go.\n- Can I leave?"
 - intent: medium
   examples: '- Medium'
 - intent: are_you_busy
   examples: "- Are you busy?\n- How busy are you?\n- Do you have a lot of work?"
+- intent: how_are_you_doing
+  examples: "- How are you doing?\n- How's it going?\n- How are you?\n- How is your day going?"
 - intent: where_are_you_from
   examples: '- Where are you from?'
-- intent: select_salad
-  examples: "- I'll have the salad\n- The salad\n- The greens"
-- intent: select_soup
-  examples: "- I'll have the cauliflower\n- The soup\n- The cauliflower soup please"
-- intent: what_are_hours
-  examples: "- What are your hours?\n- When do you close?\n- What time do you open until?\n- What time do you close?\n- Are you still open?"
 - intent: welldone
   examples: "- Well-done\n- I want it well-done"
 - intent: select_fish
   examples: "- I'll have the fish please\n- I'd like the sea bass\n- Sea bass\n- Can I get the fish?\n- The fish"
+- intent: what_are_hours
+  examples: "- What are your hours?\n- When do you close?\n- What time do you open until?\n- What time do you close?\n- Are you still open?"
+- intent: select_steak
+  examples: "- I'll have the beef\n- Can I get the steak?\n- Steak please\n- I'll take the beef\n- Can I get the steak?\n- I'll just have the steak\n- Steak is what I want\n- Steak"
