@@ -1,5 +1,5 @@
 from typing import Any, Dict, List, Set
-
+from rasa.shared.core.constants import STATE_MACHINE_ACTION_NAME
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
@@ -22,6 +22,7 @@ from rasa.shared.nlu.state_machine.conditions import (
 )
 
 from data_generation import state_machine_generation
+from data_generation.story_generation import ActionName, IntentName
 from data_generation import story_generation
 
 # class SpaceEntity(Enum, Entity):
@@ -424,12 +425,24 @@ intent_what_is_that = Intent(
     ]
 )
 
+intent_not_sure = Intent(
+    examples=[
+        "I'm not sure",
+        "I'm don't know",
+        "I can't decide",
+        "not sure",
+        "dunno",
+    ]
+)
+
 intent_what_do_you_recommend = Intent(
     examples=[
         "What do you recommend?",
         "It's up to you",
         "Up to you",
+        "Can you help me decide?",
         "Can you give me a recommendation?",
+        "Care to give me a recommendation?",
         "Recommend something",
         "Give me a recommendation",
         "What do you think?",
@@ -451,22 +464,23 @@ story_generation.persist(
             name="recommend_appetizer",
             elements=[
                 action_ask_appetizer,
-                intent_what_do_you_recommend,
+                Or(intent_what_do_you_recommend, intent_not_sure),
                 Utterance(
                     "May I recommend the tatare? It's our most popular starter."
                 ),
                 Fork(
                     [
-                        Or(intent_sure_ill_get_that, "affirm"),
-                        Utterance("Great, I'll write that down then"),
-                        StateMachineAction()
+                        Or(intent_sure_ill_get_that, IntentName("affirm")),
+                        Utterance("Great, I'll write the tatare then."),
                         # TODO: Set slot
+                        ActionName(STATE_MACHINE_ACTION_NAME),
                     ],
                     [
-                        "deny",
+                        IntentName("deny"),
                         Utterance(
                             "In that case, you can choose between the salmon tatare and the cauliflower soup."
                         ),
+                        ActionName(STATE_MACHINE_ACTION_NAME),
                     ],
                     # TODO: Handle "nothing" condition
                 ),
@@ -476,25 +490,28 @@ story_generation.persist(
             name="recommend_entree",
             elements=[
                 action_ask_entree,
-                intent_what_do_you_recommend,
+                Or(intent_what_do_you_recommend, intent_not_sure),
                 Utterance("I personally prefer the steak."),
                 Fork(
                     [
-                        Or(intent_sure_ill_get_that, "affirm"),
-                        Utterance("Great, I'll write that down then"),
+                        Or(intent_sure_ill_get_that, IntentName("affirm")),
+                        Utterance("Great, one steak then."),
                         # TODO: Set slot
+                        ActionName(STATE_MACHINE_ACTION_NAME),
                     ],
                     [
-                        "deny",
+                        IntentName("deny"),
                         Utterance(
                             "In that case, you can choose between the sea bass and the vegetarian lasagna."
                         ),
+                        ActionName(STATE_MACHINE_ACTION_NAME),
                     ],
                     # TODO: Handle "nothing" condition
                 ),
             ],
         ),
     ],
-    domain_filename="domain/recommend_entree.yaml",
-    nlu_filename="data/recommend_entree.yaml",
+    domain_filename="domain/restaurant/recommendations.yaml",
+    nlu_filename="data/restaurant/recommendations.yaml",
+    use_rule=True,
 )
