@@ -1,0 +1,36 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- sure_ill_get_that:
+    use_entities: true
+- what_do_you_recommend:
+    use_entities: true
+- im_not_sure:
+    use_entities: true
+entities: []
+slots: {}
+responses:
+  utter_in_that_case_you_can_choose_between_the_sea_bass_and_the_vegetarian_lasagna:
+  - text: In that case, you can choose between the sea bass and the vegetarian lasagna.
+  utter_i_personally_prefer_the_steak:
+  - text: I personally prefer the steak.
+  utter_great_one_steak_then:
+  - text: Great, one steak then.
+  utter_ask_entree:
+  - text: What would you like for your entree?
+  utter_may_i_recommend_the_tatare_its_our_most_popular_starter:
+  - text: May I recommend the tatare? It's our most popular starter.
+  utter_in_that_case_you_can_choose_between_the_salmon_tatare_and_the_cauliflower_soup:
+  - text: In that case, you can choose between the salmon tatare and the cauliflower soup.
+  utter_great_ill_write_the_tatare_then:
+  - text: Great, I'll write the tatare then.
+  utter_ask_appetizer:
+  - text: What would you like for your appetizer?
+actions: []
+forms: {}
+state_machine: {}
+e2e_actions: []

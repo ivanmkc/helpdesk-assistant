@@ -5,17 +5,17 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-- welldone:
-    use_entities: true
-- are_you_busy:
-    use_entities: true
 - what_are_hours:
     use_entities: true
 - select_fish:
     use_entities: true
 - select_steak:
     use_entities: true
+- select_soup:
+    use_entities: true
 - rare:
+    use_entities: true
+- select_salad:
     use_entities: true
 - how_are_you_doing:
     use_entities: true
@@ -23,24 +23,29 @@ intents:
     use_entities: true
 - whats_in_the_lasagna:
     use_entities: true
-- select_vegetables:
+- where_are_you_from:
     use_entities: true
 - can_i_see_a_menu:
     use_entities: true
-- select_salad:
+- select_tatare:
     use_entities: true
 - medium:
     use_entities: true
-- select_tatare:
-    use_entities: true
-- select_soup:
-    use_entities: true
-- where_are_you_from:
+- select_vegetables:
     use_entities: true
 - want_to_leave:
     use_entities: true
+- are_you_busy:
+    use_entities: true
+- welldone:
+    use_entities: true
 entities: []
 slots:
+  entree:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: true
   appetizer:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
@@ -51,29 +56,12 @@ slots:
     initial_value: null
     auto_fill: true
     influence_conversation: true
-  entree:
-    type: rasa.shared.core.slots.TextSlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: true
   steak_doneness:
     type: rasa.shared.core.slots.TextSlot
     initial_value: null
     auto_fill: true
     influence_conversation: true
 responses:
-  utter_for_our_appetizers_we_have_a_greek_salad_a_celery_soup_and_a_salmon_tatare:
-  - text: For our appetizers, we have a Greek salad, a celery soup and a salmon tatare.
-  utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna:
-  - text: For entrees, we have a tenderloin steak, a grilled sea bass and a vegetarian lasagna.
-  utter_hours:
-  - text: We're open from 11am to 9pm, every day except Sunday.
-  utter_ask_appetizer:
-  - text: What would you like for your appetizer?
-  utter_ask_entree:
-  - text: What would you like for your entree?
-  utter_the_lasagna_has_carrots_zucchini_and_onion_it_also_has_cottage_cheese_though_in_case_you_were_wondering:
-  - text: The lasagna has carrots, zucchini and onion. It also has cottage cheese though, in case you were wondering.
   utter_its_not_too_busy_around_here_as_you_can_see:
   - text: It's not too busy around here as you can see.
   utter_no_okay_we_can_try_again:
@@ -86,28 +74,35 @@ responses:
   - text: Great choices. The {appetizer} goes great with the {entree}
   utter_okay_great_please_enjoy_yourself_while_the_food_is_being_readied:
   - text: Okay great, please enjoy yourself while the food is being readied.
-  utter_leave_response:
-  - text: I guess you can leave if you need to, since we haven't made the food yet.
   utter_how_would_you_like_your_steak:
   - text: How would you like your steak?
+  utter_leave_response:
+  - text: I guess you can leave if you need to, since we haven't made the food yet.
   ? utter_okay_just_to_confirm_for_your_appetizer_youll_have_the_appetizer_and_for_your_entree_youll_have_the_entree_is_that_correct
   : - text: Okay, just to confirm. For your appetizer, you'll have the {appetizer} and for your entree, you'll have the {entree}. Is that correct?
   utter_welcome_to_michi_cafe:
   - text: Welcome to Michi Cafe
-  utter_take_your_time_looking_through_the_menu_ill_be_back_in_5_minutes_for_your_order:
-  - text: Take your time looking through the menu. I'll be back in 5 minutes for your order.
   utter_where_from_response:
   - text: I'm from Canada
+  utter_take_your_time_looking_through_the_menu_ill_be_back_in_5_minutes_for_your_order:
+  - text: Take your time looking through the menu. I'll be back in 5 minutes for your order.
   utter_okay_lets_take_your_order:
   - text: Okay, let's take your order.
   utter_how_are_you_response:
   - text: I'm doing great
+  utter_ask_entree:
+  - text: What would you like for your entree?
+  utter_for_our_appetizers_we_have_a_greek_salad_a_celery_soup_and_a_salmon_tatare:
+  - text: For our appetizers, we have a Greek salad, a celery soup and a salmon tatare.
+  utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna:
+  - text: For entrees, we have a tenderloin steak, a grilled sea bass and a vegetarian lasagna.
+  utter_hours:
+  - text: We're open from 11am to 9pm, every day except Sunday.
+  utter_ask_appetizer:
+  - text: What would you like for your appetizer?
+  utter_the_lasagna_has_carrots_zucchini_and_onion_it_also_has_cottage_cheese_though_in_case_you_were_wondering:
+  - text: The lasagna has carrots, zucchini and onion. It also has cottage cheese though, in case you were wondering.
 actions:
-- utter_for_our_appetizers_we_have_a_greek_salad_a_celery_soup_and_a_salmon_tatare
-- utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna
-- utter_hours
-- utter_ask_appetizer
-- utter_ask_entree
 - utter_the_lasagna_has_carrots_zucchini_and_onion_it_also_has_cottage_cheese_though_in_case_you_were_wondering
 - utter_its_not_too_busy_around_here_as_you_can_see
 - utter_no_okay_we_can_try_again
@@ -115,14 +110,19 @@ actions:
 - utter_nice_they_make_a_mean_entree_here
 - utter_great_choices_the_appetizer_goes_great_with_the_entree
 - utter_okay_great_please_enjoy_yourself_while_the_food_is_being_readied
-- utter_leave_response
 - utter_how_would_you_like_your_steak
+- utter_leave_response
 - utter_okay_just_to_confirm_for_your_appetizer_youll_have_the_appetizer_and_for_your_entree_youll_have_the_entree_is_that_correct
 - utter_welcome_to_michi_cafe
-- utter_take_your_time_looking_through_the_menu_ill_be_back_in_5_minutes_for_your_order
 - utter_where_from_response
+- utter_take_your_time_looking_through_the_menu_ill_be_back_in_5_minutes_for_your_order
 - utter_okay_lets_take_your_order
 - utter_how_are_you_response
+- utter_for_our_appetizers_we_have_a_greek_salad_a_celery_soup_and_a_salmon_tatare
+- utter_for_entrees_we_have_a_tenderloin_steak_a_grilled_sea_bass_and_a_vegetarian_lasagna
+- utter_hours
+- utter_ask_appetizer
+- utter_ask_entree
 forms: {}
 state_machine:
   initial_state_name: restaurant_ordering

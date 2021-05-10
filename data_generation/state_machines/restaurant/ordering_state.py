@@ -14,16 +14,13 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
 )
 
 from rasa.shared.nlu.state_machine.conditions import (
-    AndCondition,
     IntentCondition,
     OnEntryCondition,
     SlotEqualsCondition,
-    SlotsFilledCondition,
 )
 
-from data_generation import state_machine_generation
+from data_generation import state_machine_generation, story_generation
 from data_generation.story_generation import ActionName, IntentName
-from data_generation import story_generation
 
 # class SpaceEntity(Enum, Entity):
 #     person = "PERSON"
@@ -80,6 +77,7 @@ select_salad = Intent(
     name="select_salad",
     examples=[
         "I'll have the salad",
+        "I want the salad",
         "The salad",
         "The greens",
     ],
@@ -464,7 +462,11 @@ story_generation.persist(
             name="recommend_appetizer",
             elements=[
                 action_ask_appetizer,
-                Or(intent_what_do_you_recommend, intent_not_sure),
+                Or(
+                    intent_what_do_you_recommend,
+                    intent_not_sure,
+                    IntentName("help"),
+                ),
                 Utterance(
                     "May I recommend the tatare? It's our most popular starter."
                 ),
@@ -490,7 +492,11 @@ story_generation.persist(
             name="recommend_entree",
             elements=[
                 action_ask_entree,
-                Or(intent_what_do_you_recommend, intent_not_sure),
+                Or(
+                    intent_what_do_you_recommend,
+                    intent_not_sure,
+                    IntentName("help"),
+                ),
                 Utterance("I personally prefer the steak."),
                 Fork(
                     [
@@ -513,5 +519,5 @@ story_generation.persist(
     ],
     domain_filename="domain/restaurant/recommendations.yaml",
     nlu_filename="data/restaurant/recommendations.yaml",
-    use_rule=True,
+    use_rule=False,
 )

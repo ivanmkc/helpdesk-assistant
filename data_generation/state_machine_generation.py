@@ -96,7 +96,7 @@ def persist(
 
     # Persist domain
     rasa.shared.utils.validation.validate_yaml_schema(
-        domain.as_nlu_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
+        domain.as_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
     )
     domain.persist(domain_filename)
 

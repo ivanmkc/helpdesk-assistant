@@ -120,7 +120,9 @@ class Story:
                         elements=[last_element] + path,
                     )
 
-                    sub_domain, sub_nlu, sub_intents = story.get_domain_nlu()
+                    sub_domain, sub_nlu, sub_intents = story.get_domain_nlu(
+                        use_rule=use_rule
+                    )
                     sub_domains.append(sub_domain)
                     sub_nlus += sub_nlu
                     all_intents.update(sub_intents)
@@ -178,7 +180,7 @@ def persist(
 
     # Persist domain
     rasa.shared.utils.validation.validate_yaml_schema(
-        domain.as_nlu_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
+        domain.as_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
     )
 
     # Write domain

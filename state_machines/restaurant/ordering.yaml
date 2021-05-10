@@ -154,6 +154,7 @@ restaurant_ordering: !!python/object:rasa.shared.nlu.state_machine.state_machine
       ? !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Intent
         examples:
         - I'll have the salad
+        - I want the salad
         - The salad
         - The greens
         name: select_salad
