@@ -1,5 +1,4 @@
 from typing import Any, Dict, List, Set
-from rasa.shared.core.constants import STATE_MACHINE_ACTION_NAME
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
@@ -453,9 +452,20 @@ intent_sure_ill_get_that = Intent(
         "I'll have that then",
         "That sounds great",
         "Yes, I'll get that",
+        "I'll have that",
+        "I'll take one",
+        "Ya, that sounds good",
     ]
 )
 
+# # Descriptions of the food
+# story_generation.persist(
+#     [
+
+#     ]
+# )
+
+# Recommendations
 story_generation.persist(
     [
         Story(
@@ -475,14 +485,14 @@ story_generation.persist(
                         Or(intent_sure_ill_get_that, IntentName("affirm")),
                         Utterance("Great, I'll write the tatare then."),
                         # TODO: Set slot
-                        ActionName(STATE_MACHINE_ACTION_NAME),
+                        ActionName("action_set_appetizer_tatare"),
                     ],
                     [
                         IntentName("deny"),
                         Utterance(
                             "In that case, you can choose between the salmon tatare and the cauliflower soup."
                         ),
-                        ActionName(STATE_MACHINE_ACTION_NAME),
+                        # ActionName(STATE_MACHINE_ACTION_NAME),
                     ],
                     # TODO: Handle "nothing" condition
                 ),
@@ -503,14 +513,15 @@ story_generation.persist(
                         Or(intent_sure_ill_get_that, IntentName("affirm")),
                         Utterance("Great, one steak then."),
                         # TODO: Set slot
-                        ActionName(STATE_MACHINE_ACTION_NAME),
+                        ActionName("action_set_entree_steak"),
                     ],
                     [
                         IntentName("deny"),
                         Utterance(
                             "In that case, you can choose between the sea bass and the vegetarian lasagna."
                         ),
-                        ActionName(STATE_MACHINE_ACTION_NAME),
+                        # ActionName(STATE_MACHINE_ACTION_NAME),
+                        # ActionName("action_set_entree_steak"),
                     ],
                     # TODO: Handle "nothing" condition
                 ),
@@ -519,5 +530,5 @@ story_generation.persist(
     ],
     domain_filename="domain/restaurant/recommendations.yaml",
     nlu_filename="data/restaurant/recommendations.yaml",
-    use_rule=False,
+    use_rules=True,
 )

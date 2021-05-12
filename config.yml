@@ -44,14 +44,14 @@ pipeline:
   - name: EntitySynonymMapper
 policies:
   - name: StateMachinePolicy
-    enable_fallback_prediction: False
+    core_fallback_threshold: 0.999
+    enable_fallback_prediction: True
     priority: 7
   # - name: AugmentedMemoizationPolicy
   #   max_history: 4
-  - name: TEDPolicy
-    max_history: 4
-    epochs: 100
+  # - name: TEDPolicy
+  #   max_history: 4
+  #   epochs: 100
   - name: RulePolicy
-    core_fallback_threshold: 0.4
-    core_fallback_action_name: "action_state_machine"
-    enable_fallback_prediction: True
+    core_fallback_action_name: "utter_default"
+    enable_fallback_prediction: False

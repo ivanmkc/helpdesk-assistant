@@ -3,11 +3,11 @@ nlu:
 - intent: im_not_sure
   examples: "- I'm not sure\n- I'm don't know\n- I can't decide\n- not sure\n- dunno"
 - intent: sure_ill_get_that
-  examples: "- Sure, I'll get that\n- I'll have that then\n- That sounds great\n- Yes, I'll get that"
+  examples: "- Sure, I'll get that\n- I'll have that then\n- That sounds great\n- Yes, I'll get that\n- I'll have that\n- I'll take one\n- Ya, that sounds good"
 - intent: what_do_you_recommend
   examples: "- What do you recommend?\n- It's up to you\n- Up to you\n- Can you help me decide?\n- Can you give me a recommendation?\n- Care to give me a recommendation?\n- Recommend something\n- Give me a recommendation\n- What do you think?"
-stories:
-- story: recommend_appetizer
+rules:
+- rule: recommend_appetizer
   steps:
   - action: utter_ask_appetizer
   - or:
@@ -15,21 +15,23 @@ stories:
     - intent: im_not_sure
     - intent: help
   - action: utter_may_i_recommend_the_tatare_its_our_most_popular_starter
-- story: recommend_appetizer_fork_0
+  wait_for_user_input: false
+- rule: recommend_appetizer_fork_0
   steps:
   - action: utter_may_i_recommend_the_tatare_its_our_most_popular_starter
   - or:
     - intent: sure_ill_get_that
     - intent: affirm
   - action: utter_great_ill_write_the_tatare_then
-  - action: action_state_machine
-- story: recommend_appetizer_fork_1
+  - action: action_set_appetizer_tatare
+  wait_for_user_input: false
+- rule: recommend_appetizer_fork_1
   steps:
   - action: utter_may_i_recommend_the_tatare_its_our_most_popular_starter
   - intent: deny
   - action: utter_in_that_case_you_can_choose_between_the_salmon_tatare_and_the_cauliflower_soup
-  - action: action_state_machine
-- story: recommend_entree
+  wait_for_user_input: false
+- rule: recommend_entree
   steps:
   - action: utter_ask_entree
   - or:
@@ -37,17 +39,19 @@ stories:
     - intent: im_not_sure
     - intent: help
   - action: utter_i_personally_prefer_the_steak
-- story: recommend_entree_fork_0
+  wait_for_user_input: false
+- rule: recommend_entree_fork_0
   steps:
   - action: utter_i_personally_prefer_the_steak
   - or:
     - intent: sure_ill_get_that
     - intent: affirm
   - action: utter_great_one_steak_then
-  - action: action_state_machine
-- story: recommend_entree_fork_1
+  - action: action_set_entree_steak
+  wait_for_user_input: false
+- rule: recommend_entree_fork_1
   steps:
   - action: utter_i_personally_prefer_the_steak
   - intent: deny
   - action: utter_in_that_case_you_can_choose_between_the_sea_bass_and_the_vegetarian_lasagna
-  - action: action_state_machine
+  wait_for_user_input: false

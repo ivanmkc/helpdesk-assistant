@@ -32,20 +32,19 @@ class IntentName(StoryYAMLConvertable):
         return {"intent": self.name}
 
 
-class ActionName(StoryYAMLConvertable):
-    name: str
+class ActionName(Action):
+    @property
+    def name(self) -> str:
+        return self._name
 
     def __init__(self, name: str):
-        self.name = name
-
-    def as_story_yaml(self) -> Dict:
-        return {"action": self.name}
+        self._name = name
 
 
 class Or(StoryYAMLConvertable):
     intents: List[Union[Intent, IntentName]]
 
-    def __init__(self, *args: Union["Or", Intent, Utterance, str]) -> None:
+    def __init__(self, *args: Union["Or", Intent]) -> None:
         self.intents = list(args)
 
     def all_intents(self) -> Set[Intent]:
@@ -58,10 +57,10 @@ class Or(StoryYAMLConvertable):
 
 
 class Fork(StoryYAMLConvertable):
-    paths: List[List[Union["Or", Intent, Utterance, str, "Fork"]]]
+    paths: List[List[Union["Or", Intent, Action, "Fork"]]]
 
     def __init__(
-        self, *args: List[Union["Or", Intent, Utterance, str, "Fork"]]
+        self, *args: List[Union["Or", Intent, Action, "Fork"]]
     ) -> None:
         self.paths = list(args)
 
@@ -70,13 +69,13 @@ class Fork(StoryYAMLConvertable):
 
 
 class Story:
-    paths: List[Union["Or", Intent, Utterance, IntentName, ActionName]]
+    paths: List[Union["Or", Intent, Action, IntentName]]
     name: str
 
     def __init__(
         self,
         name: str,
-        elements: Union["Or", Intent, Utterance, str, Fork],
+        elements: Union["Or", Intent, Action, Fork],
     ) -> None:
         self.paths = elements
         self.name = name
@@ -86,7 +85,7 @@ class Story:
             assert not isinstance(element, Fork)
 
     def get_domain_nlu(
-        self, use_rule: bool
+        self, use_rules: bool
     ) -> Tuple[Domain, List[Dict], Set[Intent]]:
         story_nlu_steps: List[str] = []
         last_element: Optional[Intent] = None
@@ -109,6 +108,8 @@ class Story:
                 all_utterances.add(element)
             elif isinstance(element, Or):
                 all_intents.update(element.all_intents())
+            elif isinstance(element, Action):
+                all_actions.add(element)
             elif isinstance(element, Fork):
                 if last_element:
                     assert isinstance(last_element, Utterance)
@@ -121,7 +122,7 @@ class Story:
                     )
 
                     sub_domain, sub_nlu, sub_intents = story.get_domain_nlu(
-                        use_rule=use_rule
+                        use_rules=use_rules
                     )
                     sub_domains.append(sub_domain)
                     sub_nlus += sub_nlu
@@ -153,10 +154,15 @@ class Story:
         # Save current story
         story_nlu = [
             {
-                "rule" if use_rule else "story": self.name,
+                "rule" if use_rules else "story": self.name,
                 "steps": story_nlu_steps,
             }
         ] + sub_nlus
+
+        # wait_for_user_input
+        if use_rules:
+            for nlu in story_nlu:
+                nlu["wait_for_user_input"] = False
 
         return (domain, story_nlu, all_intents)
 
@@ -165,14 +171,14 @@ def persist(
     stories: List[Story],
     domain_filename: str,
     nlu_filename: str,
-    use_rule: bool = False,
+    use_rules: bool = False,
 ):
     all_domain = Domain.empty()
     all_intents: Set[Intent] = set()
     all_stories: List[Story] = []
 
     for story in stories:
-        domain, stories, intents = story.get_domain_nlu(use_rule=use_rule)
+        domain, stories, intents = story.get_domain_nlu(use_rules=use_rules)
 
         all_domain = all_domain.merge(domain)
         all_intents.update(intents)
@@ -190,7 +196,7 @@ def persist(
     nlu_data = {
         "version": "2.0",
         "nlu": [intent.as_nlu_yaml() for intent in all_intents],
-        "rules" if use_rule else "stories": all_stories,
+        "rules" if use_rules else "stories": all_stories,
     }
 
     nlu_data_yaml = dump_obj_as_yaml_to_string(
