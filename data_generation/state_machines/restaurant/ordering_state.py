@@ -21,54 +21,13 @@ from rasa.shared.nlu.state_machine.conditions import (
 from data_generation import state_machine_generation, story_generation
 from data_generation.story_generation import ActionName, IntentName
 
-# class SpaceEntity(Enum, Entity):
-#     person = "PERSON"
-#     geopolitical_entity = "GPE"
-#     location = "LOC"
-
-#     def name(self) -> str:
-#         return self.value
-
-# Tasks
-# Leave without paying
-# Get the waiter angry
-# Compliment the waiter
-# Get the waiter to tell you a secret
-# Book a date for your anniversary dinner
-
-
-wantToLeaveIntent = Intent(
-    name="want_to_leave",
-    examples=[
-        "I want to leave",
-        "I need to know.",
-        "I've got to go.",
-        "Sorry, something came up and I have to go.",
-        "Can I leave?",
-    ],
-)
-
-whereAreYouFromIntent = Intent(
-    name="where_are_you_from", examples=["Where are you from?"]
-)
-
-wheresTheWashroomIntent = Intent(
+wheres_the_washroom_intent = Intent(
     name="wheres_the_washroom",
     examples=[
         "Where's the washroom?",
         "Where is the restroom?",
         "What is the location of the washroom?",
         "I need to find the toilet",
-    ],
-)
-
-howAreYouDoingIntent = Intent(
-    name="how_are_you_doing",
-    examples=[
-        "How are you doing?",
-        "How's it going?",
-        "How are you?",
-        "How is your day going?",
     ],
 )
 
@@ -234,13 +193,13 @@ slot_order_confirmed = BooleanSlot(
 
 generalResponses: List[Response] = [
     Response(
-        condition=IntentCondition(whereAreYouFromIntent),
+        condition=IntentCondition(common.intent_where_are_you_from),
         actions=[
             Utterance(text="I'm from Canada", name="utter_where_from_response")
         ],
     ),
     Response(
-        condition=IntentCondition(howAreYouDoingIntent),
+        condition=IntentCondition(how_are_you_doing_intent),
         actions=[
             Utterance(
                 text="I'm doing great",
@@ -315,14 +274,14 @@ student_life_state_machine = StateMachineState(
     transitions=[
         Transition(
             name="leave",
-            condition=IntentCondition(wantToLeaveIntent),
+            condition=IntentCondition(want_to_leave_intent),
             transition_utterances=[
                 Utterance(
                     text="I guess you can leave if you need to, since we haven't made the food yet.",
                     name="utter_leave_response",
                 )
             ],
-            destination_state=None,
+            destination_state_name=None,
         )
     ],
     responses=[
@@ -414,56 +373,7 @@ state_machine_generation.persist(
 
 from data_generation.story_generation import Story, Fork, Or
 
-intent_what_is_that = Intent(
-    examples=[
-        "What is that?",
-        "What's that?",
-        "Tell me about that.",
-    ]
-)
-
-intent_not_sure = Intent(
-    examples=[
-        "I'm not sure",
-        "I'm don't know",
-        "I can't decide",
-        "not sure",
-        "dunno",
-    ]
-)
-
-intent_what_do_you_recommend = Intent(
-    examples=[
-        "What do you recommend?",
-        "It's up to you",
-        "Up to you",
-        "Can you help me decide?",
-        "Can you give me a recommendation?",
-        "Care to give me a recommendation?",
-        "Recommend something",
-        "Give me a recommendation",
-        "What do you think?",
-    ]
-)
-
-intent_sure_ill_get_that = Intent(
-    examples=[
-        "Sure, I'll get that",
-        "I'll have that then",
-        "That sounds great",
-        "Yes, I'll get that",
-        "I'll have that",
-        "I'll take one",
-        "Ya, that sounds good",
-    ]
-)
-
-# # Descriptions of the food
-# story_generation.persist(
-#     [
-
-#     ]
-# )
+# Descriptions of the food
 
 # Recommendations
 story_generation.persist(
@@ -483,7 +393,7 @@ story_generation.persist(
                 Fork(
                     [
                         Or(intent_sure_ill_get_that, IntentName("affirm")),
-                        Utterance("Great, I'll write the tatare then."),
+                        Utterance("Great, the tatare it is then."),
                         # TODO: Set slot
                         ActionName("action_set_appetizer_tatare"),
                     ],
@@ -492,7 +402,6 @@ story_generation.persist(
                         Utterance(
                             "In that case, you can choose between the salmon tatare and the cauliflower soup."
                         ),
-                        # ActionName(STATE_MACHINE_ACTION_NAME),
                     ],
                     # TODO: Handle "nothing" condition
                 ),
@@ -507,7 +416,9 @@ story_generation.persist(
                     intent_not_sure,
                     IntentName("help"),
                 ),
-                Utterance("I personally prefer the steak."),
+                Utterance(
+                    "I personally prefer the steak. Would you like that?"
+                ),
                 Fork(
                     [
                         Or(intent_sure_ill_get_that, IntentName("affirm")),
@@ -520,8 +431,6 @@ story_generation.persist(
                         Utterance(
                             "In that case, you can choose between the sea bass and the vegetarian lasagna."
                         ),
-                        # ActionName(STATE_MACHINE_ACTION_NAME),
-                        # ActionName("action_set_entree_steak"),
                     ],
                     # TODO: Handle "nothing" condition
                 ),
@@ -530,5 +439,5 @@ story_generation.persist(
     ],
     domain_filename="domain/restaurant/recommendations.yaml",
     nlu_filename="data/restaurant/recommendations.yaml",
-    use_rules=True,
+    use_rules=False,
 )

@@ -18,38 +18,26 @@ import rasa.shared.utils.validation
 import rasa.shared.constants
 import yaml
 
-from data_generation.story_generation import Story, Or, Fork
+from pathlib import Path
+
+import os
 
 # def get_stories(state: StateMachineState) -> List[Story]:
 #     for response in state.responses
 
 
-def get_domain_nlu(state: StateMachineState, states_filename: str):
-    all_entity_names = {
-        entity
-        for state in state.all_states()
-        for entity in state.all_entities()
-    }
+def get_domain_nlu(state: StateMachineState, is_initial_state: bool):
+    all_entity_names = {entity for entity in state.all_entities()}
 
-    all_intents: Set[Intent] = {
-        intent
-        for state in state.all_states()
-        for intent in state.all_intents()
-    }
+    all_intents: Set[Intent] = {intent for intent in state.all_intents()}
 
-    all_actions: Set[Action] = {
-        action
-        for state in state.all_states()
-        for action in state.all_actions()
-    }
+    all_actions: Set[Action] = {action for action in state.all_actions()}
 
     all_utterances: Set[Utterance] = {
         action for action in all_actions if isinstance(action, Utterance)
     }
 
-    all_slots: Set[Slot] = {
-        slot for state in state.all_states() for slot in state.all_slots()
-    }
+    all_slots: Set[Slot] = {slot for slot in state.all_slots()}
     # all_stories: List[Story] = get_stories(state)
 
     # Write domain
@@ -63,11 +51,13 @@ def get_domain_nlu(state: StateMachineState, states_filename: str):
         },
         action_names=[action.name for action in all_actions],
         forms={},
-        state_machine={
-            "initial_state_name": state.name,
-            "states_file": states_filename,
-        },
         action_texts=[],
+        state_machine_states={
+            state.name: {
+                "is_initial_state": is_initial_state,
+                "state_yaml": yaml.dump(state),
+            }
+        },
     )
 
     # Write NLU
@@ -82,26 +72,35 @@ def get_domain_nlu(state: StateMachineState, states_filename: str):
 # Write NLU
 def persist(
     state: StateMachineState,
-    states_filename: str,
-    domain_filename: str,
-    nlu_filename: str,
+    is_initial_state: bool,
+    domain_folder: str,
+    nlu_folder: str,
 ):
-    # Persist states
-    states_yaml = yaml.dump(
-        {state.name: state for state in state.all_states()}
+    domain, nlu_data = get_domain_nlu(
+        state=state, is_initial_state=is_initial_state
     )
-    write_text_file(states_yaml, states_filename)
 
-    domain, nlu_data = get_domain_nlu(state, states_filename)
+    # Generate filename
+    filename = "".join(
+        e.lower()
+        for e in state.name
+        if e.isalnum() or e.isspace() or e in ["-", "_"]
+    )
+    filename = "_".join(filename.split(" ")) + ".yaml"
 
     # Persist domain
+    domain_filename = os.path.join(domain_folder, filename)
+    Path(domain_filename).parent.mkdir(parents=True, exist_ok=True)
     rasa.shared.utils.validation.validate_yaml_schema(
         domain.as_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
     )
     domain.persist(domain_filename)
 
+    # Persist NLU
+    nlu_filename = os.path.join(nlu_folder, filename)
     nlu_data_yaml = dump_obj_as_yaml_to_string(
         nlu_data, should_preserve_key_order=True
     )
     RasaYAMLReader().validate(nlu_data_yaml)
+    Path(nlu_filename).parent.mkdir(parents=True, exist_ok=True)
     write_text_file(nlu_data_yaml, nlu_filename)

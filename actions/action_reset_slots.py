@@ -10,17 +10,13 @@ vers = "vers: 0.1.0, date: May 18, 2021"
 logger.debug(vers)
 
 
-class ActionSetSlot(abc.ABC, Action):
+class ActionResetSlots(abc.ABC, Action):
     @abc.abstractproperty
     def action_name() -> str:
         pass
 
     @abc.abstractproperty
-    def slot_name() -> str:
-        pass
-
-    @abc.abstractproperty
-    def slot_value() -> Any:
+    def slot_names() -> str:
         pass
 
     def name(self) -> Text:
@@ -32,6 +28,4 @@ class ActionSetSlot(abc.ABC, Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict]:
-        return [
-            SlotSet(self.slot_name, self.slot_value),
-        ]
+        return [SlotSet(slot_name, None) for slot_name in self.slot_names]

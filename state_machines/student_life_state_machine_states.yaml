@@ -121,7 +121,7 @@ student_form: !!python/object:rasa.shared.nlu.state_machine.state_machine_state.
         examples:
         - I want to leave
         name: want_to_leave
-    destination_state: null
+    destination_state_name: null
     name: exit_form
     transition_utterances:
     - !!python/object:rasa.shared.nlu.state_machine.state_machine_models.Utterance

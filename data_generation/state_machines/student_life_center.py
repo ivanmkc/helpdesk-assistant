@@ -31,11 +31,13 @@ import state_machine_generation
 #         return self.value
 
 
-wantToLeaveIntent = Intent(name="want_to_leave", examples=["I want to leave"])
-whereAreYouFromIntent = Intent(
+want_to_leave_intent = Intent(
+    name="want_to_leave", examples=["I want to leave"]
+)
+intent_where_are_you_from = Intent(
     name="where_are_you_from", examples=["Where are you from?"]
 )
-wheresTheWashroomIntent = Intent(
+wheres_the_washroom_intent = Intent(
     name="wheres_the_washroom",
     examples=[
         "Where's the washroom?",
@@ -44,7 +46,7 @@ wheresTheWashroomIntent = Intent(
         "I need to find the toilet",
     ],
 )
-howAreYouDoingIntent = Intent(
+how_are_you_doing_intent = Intent(
     name="how_are_you_doing", examples=["How are you doing?"]
 )
 
@@ -75,13 +77,13 @@ slotHometown = TextSlot(
 
 generalResponses: List[Response] = [
     Response(
-        condition=IntentCondition(whereAreYouFromIntent),
+        condition=IntentCondition(intent_where_are_you_from),
         actions=[
             Utterance(text="I'm from Canada", name="utter_where_from_response")
         ],
     ),
     Response(
-        condition=IntentCondition(wheresTheWashroomIntent),
+        condition=IntentCondition(wheres_the_washroom_intent),
         actions=[
             Utterance(
                 text="It's in the cafeteria",
@@ -90,7 +92,7 @@ generalResponses: List[Response] = [
         ],
     ),
     Response(
-        condition=IntentCondition(howAreYouDoingIntent),
+        condition=IntentCondition(how_are_you_doing_intent),
         actions=[
             Utterance(
                 text="I'm doing great",
@@ -169,14 +171,14 @@ student_life_state_machine = StateMachineState(
     transitions=[
         Transition(
             name="exit_form",
-            condition=IntentCondition(wantToLeaveIntent),
+            condition=IntentCondition(want_to_leave_intent),
             transition_utterances=[
                 Utterance(
                     text="Sure, let's go back to what we were talking about.",
                     name="utter_leave_response",
                 )
             ],
-            destination_state=None,
+            destination_state_name=None,
         )
     ],
     responses=[
@@ -195,7 +197,6 @@ student_life_state_machine = StateMachineState(
 
 state_machine_generation.persist(
     student_life_state_machine,
-    states_filename="state_machines/student_life_state_machine_states.yaml",
     domain_filename="domain/student_life_state_machine.yaml",
     nlu_filename="data/student_life_state_machine.yaml",
 )

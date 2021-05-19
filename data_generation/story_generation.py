@@ -21,6 +21,8 @@ import rasa.shared.utils.validation
 
 import rasa.shared.constants
 
+import uuid
+
 
 class IntentName(StoryYAMLConvertable):
     name: str
@@ -45,7 +47,17 @@ class Or(StoryYAMLConvertable):
     intents: List[Union[Intent, IntentName]]
 
     def __init__(self, *args: Union["Or", Intent]) -> None:
-        self.intents = list(args)
+        intents = list(args)
+
+        if all(
+            [
+                isinstance(intent, Intent) or isinstance(intent, IntentName)
+                for intent in intents
+            ]
+        ):
+            self.intents = intents
+        else:
+            raise TypeError("Non-intent detected")
 
     def all_intents(self) -> Set[Intent]:
         return set(
@@ -54,6 +66,21 @@ class Or(StoryYAMLConvertable):
 
     def as_story_yaml(self) -> Dict:
         return {"or": [intent.as_story_yaml() for intent in self.intents]}
+
+
+class OrActions(StoryYAMLConvertable):
+    actions: List[Union[Action]]
+
+    def __init__(self, *args: Union[Action]) -> None:
+        actions = list(args)
+
+        if all([isinstance(action, Action) for action in actions]):
+            self.actions = actions
+        else:
+            raise TypeError("Non-action detected")
+
+    def as_story_yaml(self) -> Dict:
+        return {}
 
 
 class Fork(StoryYAMLConvertable):
@@ -74,11 +101,11 @@ class Story:
 
     def __init__(
         self,
-        name: str,
         elements: Union["Or", Intent, Action, Fork],
+        name: Optional[str] = None,
     ) -> None:
         self.paths = elements
-        self.name = name
+        self.name = name or str(uuid.uuid4())
 
         # Only the last element may be a fork
         for element in elements[:-1]:
@@ -98,7 +125,7 @@ class Story:
         all_actions: Set[Action] = set()
         # all_slots: Set[Slot] = []
 
-        for element in self.paths:
+        for element_index, element in enumerate(self.paths):
             # Add to current story
             story_nlu_steps.append(element.as_story_yaml())
 
@@ -110,9 +137,30 @@ class Story:
                 all_intents.update(element.all_intents())
             elif isinstance(element, Action):
                 all_actions.add(element)
+            elif isinstance(element, OrActions):
+                # Start a new story for every fork
+                for action_index, action in enumerate(element.actions):
+                    story = Story(
+                        name=f"{self.name}_action_fork_{action_index}",
+                        elements=[action] + self.paths[element_index + 1 :],
+                    )
+
+                    sub_domain, sub_nlu, sub_intents = story.get_domain_nlu(
+                        use_rules=use_rules
+                    )
+                    sub_domains.append(sub_domain)
+                    sub_nlus += sub_nlu
+                    all_intents.update(sub_intents)
+
+                # All subsequent elements have been accounted for, so break
+                break
             elif isinstance(element, Fork):
                 if last_element:
                     assert isinstance(last_element, Utterance)
+                else:
+                    assert RuntimeError(
+                        "Fork must not be the first element in a story path."
+                    )
 
                 # Start a new story for every fork
                 for index, path in enumerate(element.paths):
@@ -127,6 +175,11 @@ class Story:
                     sub_domains.append(sub_domain)
                     sub_nlus += sub_nlu
                     all_intents.update(sub_intents)
+
+                if element_index != len(self.paths) - 1:
+                    raise ValueError(
+                        "The fork must be the last element of its path."
+                    )
 
             last_element = element
 
@@ -152,12 +205,18 @@ class Story:
             domain = domain.merge(sub_domain)
 
         # Save current story
-        story_nlu = [
-            {
-                "rule" if use_rules else "story": self.name,
-                "steps": story_nlu_steps,
-            }
-        ] + sub_nlus
+        story_nlu = (
+            [
+                {
+                    "rule" if use_rules else "story": self.name,
+                    "steps": story_nlu_steps,
+                }
+            ]
+            if len(story_nlu_steps)
+            > 1  # Omit all stories with less than 2 steps
+            else []
+        )
+        story_nlu += sub_nlus
 
         # wait_for_user_input
         if use_rules:
@@ -204,5 +263,7 @@ def persist(
     )
 
     RasaYAMLReader().validate(nlu_data_yaml)
+
+    # TODO: Create folders if not existent
 
     write_text_file(nlu_data_yaml, nlu_filename)
