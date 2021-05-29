@@ -3,6 +3,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Utterance,
     TextSlot,
     BooleanSlot,
+    ActionName,
 )
 
 from rasa.shared.nlu.state_machine.state_machine_state import (
@@ -19,7 +20,7 @@ from rasa.shared.nlu.state_machine.conditions import (
 )
 
 from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import ActionName, IntentName
+from data_generation.story_generation import IntentName
 
 import data_generation.common_intents as common
 
@@ -127,7 +128,7 @@ book_tour_state = StateMachineState(
         Response(
             condition=OnEntryCondition(),
             actions=[
-                Utterance("Let's book your tour."),
+                Utterance("I'll need some info to book your tour."),
             ],
         ),
         Response(
@@ -154,7 +155,7 @@ book_tour_state = StateMachineState(
 
 state_machine_generation.persist(
     state=book_tour_state,
-    is_initial_state=True,
+    is_initial_state=False,
     domain_folder="domain/visitor_center/",
     nlu_folder="data/visitor_center/",
 )

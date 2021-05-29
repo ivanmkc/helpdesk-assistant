@@ -1,4 +1,5 @@
 git+https://github.com/ivanmkc/rasa.git@dev
 rasa-sdk>=2.5.0  # if you change this, make sure to change the Dockerfile to match
 spacy
+pyyaml
 -r actions/requirements-actions.txt

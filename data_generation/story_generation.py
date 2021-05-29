@@ -34,15 +34,6 @@ class IntentName(StoryYAMLConvertable):
         return {"intent": self.name}
 
 
-class ActionName(Action):
-    @property
-    def name(self) -> str:
-        return self._name
-
-    def __init__(self, name: str):
-        self._name = name
-
-
 class Or(StoryYAMLConvertable):
     intents: List[Union[Intent, IntentName]]
 

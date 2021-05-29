@@ -4,6 +4,13 @@ intent_where_are_you_from = Intent(
     name="where_are_you_from", examples=["Where are you from?"]
 )
 
+intent_let_me_think = Intent(
+    examples=[
+        "Give me time",
+        "Let me think",
+    ]
+)
+
 intent_what_do_you_do = Intent(
     examples=[
         "What do you do here?",

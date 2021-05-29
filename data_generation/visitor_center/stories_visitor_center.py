@@ -2,6 +2,7 @@ from typing import Any, Dict, List, Set
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
+    ActionName,
 )
 
 from rasa.shared.nlu.state_machine.state_machine_state import (
@@ -15,106 +16,13 @@ from rasa.shared.nlu.state_machine.conditions import (
     OnEntryCondition,
 )
 
-from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import ActionName, IntentName
+from data_generation import story_generation
+from data_generation.story_generation import IntentName
 
 import data_generation.common_intents as common
-import data_generation.state_machines.visitor_center.book_tour as book_tour
+import data_generation.visitor_center.state_book_tour as book_tour
 
 from data_generation.story_generation import Story, Fork, Or, OrActions
-
-
-generalResponses: List[Response] = [
-    Response(
-        condition=IntentCondition(common.intent_where_are_you_from),
-        actions=[
-            Utterance(text="I'm from Canada", name="utter_where_from_response")
-        ],
-    ),
-    Response(
-        condition=IntentCondition(common.how_are_you_doing_intent),
-        actions=[
-            Utterance(
-                text="I'm doing great",
-                name="utter_how_are_you_response",
-            )
-        ],
-    ),
-    Response(
-        condition=IntentCondition(common.intent_when_is_that),
-        actions=[
-            Utterance(
-                text="We're open from 11am to 9pm, every day except Sunday.",
-                name="utter_hours",
-            )
-        ],
-    ),
-    Response(
-        condition=IntentCondition(
-            Intent(
-                examples=[
-                    "Are you busy?",
-                    "How busy are you?",
-                    "Do you have a lot of work?",
-                ],
-            )
-        ),
-        actions=[
-            Utterance(
-                text="It's not too busy around here as you can see.",
-            )
-        ],
-    ),
-]
-
-intent_book_tour = Intent(
-    examples=[
-        "I’d like to book a tour",
-        "I want to book a tour.",
-        "Can I ask you about tours?",
-        "Can I book a tour?",
-    ]
-)
-
-# TODO: Add a drink
-
-# student_life_state_machine = StateMachineState(
-#     name="restaurant_ordering",
-#     slots=[
-#         SlotGroup([slot_appetizer, slot_entree])
-#             .if(SlotEqualsCondition(slot_entree, "steak"), then=SlotGroup(slot_steak_doneness, slot_tour_confirmed))
-#             .then(slot_tour_confirmed)
-#     ]
-# )
-
-
-start_state = StateMachineState(
-    name="start_state",
-    slots=[],
-    slot_fill_utterances=[],
-    transitions=[
-        Transition(
-            condition=IntentCondition(intent_book_tour),
-            transition_utterances=[
-                # Utterance(
-                #     text="Sure, let's book a tour.",
-                # )
-            ],
-            destination_state_name=book_tour.book_tour_state.name,
-        ),
-    ],
-    responses=[
-        Response(
-            condition=OnEntryCondition(),
-            actions=[
-                Utterance(
-                    "Welcome to the Visitor Center! How can I help you?"
-                ),
-            ],
-        ),
-    ]
-    + generalResponses,
-)
 
 # Response(
 #     condition=IntentCondition(
@@ -242,6 +150,12 @@ stories_what_time = [
             Utterance(
                 "It's open for lunch and dinner. I'm not sure about the exact times"
             ),
+        ]
+    ),
+    Story(
+        [
+            common.intent_when_is_that,
+            Utterance("We're open from 11am to 9pm, every day except Sunday."),
         ]
     ),
 ]
@@ -384,13 +298,6 @@ stories_tours = [
     ),
     # Handle the case: When is my tour again?
 ]
-
-state_machine_generation.persist(
-    state=start_state,
-    is_initial_state=False,
-    domain_folder="domain/visitor_center/",
-    nlu_folder="data/visitor_center/",
-)
 
 # Tour and other info
 story_generation.persist(
