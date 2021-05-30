@@ -34,7 +34,7 @@ pipeline:
     epochs: 100
     random_seed: 1
   - name: FallbackClassifier
-    threshold: 0.3
+    threshold: 0.7
   - name: DucklingEntityExtractor
     url: http://localhost:8000
     dimensions:
@@ -54,6 +54,6 @@ policies:
   #   max_history: 4
   #   epochs: 100
   - name: RulePolicy
-    core_fallback_threshold: 0.4
-    core_fallback_action_name: "action_default_fallback"
+    core_fallback_threshold: 0.7
+    core_fallback_action_name: "question_answer_action"
     enable_fallback_prediction: True

@@ -49,13 +49,15 @@ utter_put_down_bus_tour = Utterance(
 )
 
 utter_museum_exists = Utterance(
-    "The city museum is open right now. You can take the bus."
+    "The Holburne Museum has a great art collection. It has both modern and antique art."
 )
 
-utter_museum_hours = Utterance("The museum opens everyday from 8am to 6pm.")
+utter_museum_hours = Utterance(
+    "The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM."
+)
 
 utter_great_restaurant_nearby = Utterance(
-    "There is a great restaurant around the corner.",
+    "TThere is a great restaurant around the corner. It’s Called “Sally O’s”. You should go there!",
 )
 
 utter_tour_info = Utterance("There's a bus tour and a boat tour.")
@@ -80,6 +82,14 @@ intent_what_tours = Intent(
 stories_tell_me_more = [
     Story(
         [
+            Intent(examples=["What's there to do around here?"]),
+            Utterance(
+                "The Roman Baths are my favorite thing to see in Bath. You could also check out the Museum of Bath Architecture or the Bath Abbey."
+            ),
+        ]
+    ),
+    Story(
+        [
             OrActions(*boat_utterances),
             Or(common.intent_what_is_that),
             Utterance("The boat tour is the most popular tour we have."),
@@ -90,7 +100,7 @@ stories_tell_me_more = [
             OrActions(*bus_utterances),
             Or(common.intent_what_is_that),
             Utterance(
-                "The bus tour is a comfortable way to traverse the city."
+                "The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge."
             ),
         ]
     ),
@@ -99,7 +109,7 @@ stories_tell_me_more = [
             OrActions(*restaurant_utterances),
             Or(common.intent_what_is_that),
             Utterance(
-                "The restaurant is cozy, family-run Italian restaurant."
+                "The restaurant is a cozy, family-run Italian restaurant."
             ),
         ]
     ),
@@ -107,7 +117,7 @@ stories_tell_me_more = [
         [
             Or(common.intent_what_do_you_do, IntentName("help")),
             Utterance(
-                "I help visitors who want to explore the town by giving them information about the places around here. I can also help with booking tours."
+                "I help visitors who want to explore the town by giving them information about the places around here. I can also help with booking tours. You can also buy the CityPass here which lets you go to attractions at a discount."
             ),
             intent_what_tours,
             utter_tour_info,
@@ -123,7 +133,7 @@ stories_what_time = [
             OrActions(*boat_utterances),
             common.intent_when_is_that,
             Utterance(
-                "The boat tour open from 10am to 6pm. It runs every 30 minutes."
+                "The city boat tour is available from 9:00 AM to 5:00 PM. The first city boat tour starts at 9:00 AM. The last city boat tour starts at 4:30 PM."
             ),
         ]
     ),
@@ -132,7 +142,7 @@ stories_what_time = [
             OrActions(*bus_utterances),
             common.intent_when_is_that,
             Utterance(
-                "The bus tour open from 10am to 6pm. It runs every 30 minutes."
+                "The city bus tour is available from 10:00 AM to 9:00 PM. The first city bus tour starts at 10:00 AM. Then, it starts every 30 minutes. The last city bus tour starts at 8:00 PM."
             ),
         ]
     ),
@@ -164,22 +174,16 @@ stories_what_time = [
 stories_lengths = [
     Story(
         elements=[
-            Intent(examples=["How long is the tour?"]),
-            Utterance("Both tours are 30 minutes."),
-        ],
-    ),
-    Story(
-        elements=[
             OrActions(*boat_utterances),
             common.intent_how_long,
-            Utterance("It's a 30 minute boat ride."),
+            Utterance("The city boat tour takes 25 minutes."),
         ],
     ),
     Story(
         elements=[
             OrActions(*bus_utterances),
             common.intent_how_long,
-            Utterance("It's a 30 minute bus ride."),
+            Utterance("The city bus tour takes one hour."),
         ],
     ),
 ]
@@ -187,11 +191,17 @@ stories_lengths = [
 # Stories price
 stories_price = [
     Story(
-        name="tour prices",
         elements=[
-            OrActions(*(boat_utterances + bus_utterances)),
+            OrActions(*boat_utterances),
             common.intent_what_price,
-            Utterance("Both tours are 15 dollars"),
+            Utterance("The city boat tour costs 12 euros per person."),
+        ],
+    ),
+    Story(
+        elements=[
+            OrActions(*bus_utterances),
+            common.intent_what_price,
+            Utterance("The city bus tour costs 20 euros per person."),
         ],
     ),
     Story(
@@ -199,7 +209,7 @@ stories_price = [
             OrActions(*museum_utterances),
             common.intent_what_price,
             Utterance(
-                "The museum costs 10 dollars for adults and free for children under 12."
+                "Tickets for the Holburne Museum cost 12.50 euros for adults and 7.50 euros for children under 12."
             ),
         ]
     ),
@@ -208,7 +218,7 @@ stories_price = [
             OrActions(*restaurant_utterances),
             common.intent_what_price,
             Utterance(
-                "I think it's fairly affordable. You can probably get a lunch for 10 dollars."
+                "I think it's fairly affordable. You can probably get a lunch for 10 euros."
             ),
         ]
     ),

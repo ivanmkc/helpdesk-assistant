@@ -62,6 +62,10 @@ intent_what_price = Intent(
         "Is it expensive?",
         "How much does it cost?",
         "What's the cost?",
+        "What's the price?",
+        "How much?",
+        "What price?",
+        "What cost?",
     ]
 )
 

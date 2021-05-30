@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . /app
 COPY ./data /app/data
 COPY ./domain /app/domain
+COPY ./context /app/context
 
 # Install git
 RUN apt-get update && apt-get install -y git

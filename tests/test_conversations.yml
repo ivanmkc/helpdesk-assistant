@@ -14,46 +14,6 @@ stories:
       I want a pizza
   - action: utter_out_of_scope
 
-- story: open incident
-  steps:
-  - intent: greet
-    user: |-
-      hello
-  - action: utter_greet
-  - action: utter_help
-  - intent: open_incident
-    user: |-
-      I need to open an incident
-  - action: open_incident_form
-  - active_loop: open_incident_form
-  - active_loop: null
-  - action: action_open_incident
-
-- story: open password reset incident
-  steps:
-  - intent: password_reset
-    user: |-
-      I'm having issues with my password
-  - action: open_incident_form
-  - active_loop: open_incident_form
-  - active_loop: null
-  - action: action_open_incident
-
-- story: email incident
-  steps:
-  - intent: greet
-    user: |-
-      hello
-  - action: utter_greet
-  - action: utter_help
-  - intent: problem_email
-    user: |-
-      I have a problem with my email
-  - action: open_incident_form
-  - active_loop: open_incident_form
-  - active_loop: null
-  - action: action_open_incident
-
 - story: interrupted
   steps:
   - intent: problem_email
@@ -111,20 +71,4 @@ stories:
 - story: Test fallback
   steps:
   - intent: nlu_fallback
-  - action: utter_default
-
-- story: incident status happy path 
-  steps:
-  - intent: greet
-    user: |-
-      Hey there
-  - action: utter_greet
-  - action: utter_help
-  - intent: incident_status
-    user: |-
-      Can you check the status of my incident
-  - action: incident_status_form
-  - active_loop: incident_status_form
-  - active_loop: null
-  - action: action_check_incident_status
-
+  - action: question_answer_action

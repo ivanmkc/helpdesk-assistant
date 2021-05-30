@@ -18,6 +18,9 @@ intents:
 - human_handoff
 - handoff
 
+actions:
+- question_answer_action
+
 responses:
   utter_out_of_scope:
   - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.

@@ -58,7 +58,7 @@ intent_select_bus_tour = Intent(
 )
 
 action_ask_tour = Utterance(
-    "We have a boat tour of the city at 3:00pm. We also have a bus tour of the city at 4:00pm. Which one would you prefer?"
+    "We have a boat tour of Bath on the River Anon at 3:00 PM. The last city boat tour starts at 4:30 PM. We also have a bus tour of Bath at 4:00 PM. Which one would you prefer?"
 )
 
 slot_tour = TextSlot(
@@ -75,8 +75,11 @@ slot_tour = TextSlot(
 slot_number_tickets = TextSlot(
     name="tour_num_tickets",
     entities=["number"],
+    intents={Intent(examples=["Just me", "Myself", "Just the one"]): 1},
     prompt_actions=[
-        Utterance("How many tickets do you need for the {tour_type} tour?")
+        Utterance(
+            "That’s a great choice. How many people need tickets for the {tour_type} tour?"
+        )
     ],
     only_fill_when_prompted=True,
 )
