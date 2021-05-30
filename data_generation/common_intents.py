@@ -41,6 +41,15 @@ intent_what_is_that = Intent(
     ]
 )
 
+intent_directions = Intent(
+    examples=[
+        "How do you get there?",
+        "What's the way there?",
+        "How do I go there?",
+        "What are the directions there?",
+    ]
+)
+
 intent_when_is_that = Intent(
     examples=[
         "When is that?",

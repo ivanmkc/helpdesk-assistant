@@ -20,7 +20,7 @@ The Holburne Museum is open from 11:00 AM to 7:00 PM on weekends.
 The Holburne Museum is open daily.
 The Holburne Museum has a great art collection.
 The Holburne Museum has both modern and antique art.
-Tickets for the Museum of Bath Architecture are 15 euros for adults and children.
+Tickets for the Museum of Bath Architecture are 15 euros for adults and children under 12.
 The Museum of Bath Architecture does not have discounts for tickets.
 The Museum of Bath Architecture is open from 12:00 PM to 6:00 PM on weekdays.
 The Museum of Bath Architecture is closed on Saturdays and Sundays.
@@ -36,10 +36,8 @@ Our City Boat Tour and the City Bus Tour stop at the Great Pulteney Bridge.
 The shops on the Great Pulteney Bridge are open all day.
 There are many shops on the Great Pulteney Bridge.
 The Great Pulteney Bridge is a popular place for tourists.
-On weekdays, tickets for the Roman Baths are 10 euros per person. 
-Tickets for the Roman Baths are 8 euros per person on weekends.
+On weekdays, tickets for the Roman Baths are 10 euros per person and 8 euros per person on weekends.
 The Roman Baths are open from 10:00 AM to 6:00 PM everyday.
-The Roman Baths are closed from 2:00 PM to 4:00 PM.
 The Roman Baths are very popular for tourists!
 The Roman Baths are a very old historical monument.
 
