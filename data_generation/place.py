@@ -15,24 +15,9 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     ActionName,
 )
 
-from rasa.shared.nlu.state_machine.state_machine_state import (
-    Response,
-    StateMachineState,
-    Transition,
-)
-
-from rasa.shared.nlu.state_machine.conditions import (
-    IntentCondition,
-    OnEntryCondition,
-)
-
-from data_generation import story_generation
-from data_generation.story_generation import IntentName
-
 import data_generation.common_intents as common
-import data_generation.visitor_center.state_book_tour as book_tour
 
-from data_generation.story_generation import Story, Fork, Or, OrActions
+from data_generation.story_generation import Story, OrActions
 
 
 class Place:

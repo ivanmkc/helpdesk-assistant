@@ -17,3 +17,8 @@ class ActionSetTourBoat(ActionSetSlot):
 class ActionResetTourSlots(ActionResetSlots):
     action_name = "action_reset_tour_slots"
     slot_names = ["tour_type", "tour_num_tickets", "tour_confirmed"]
+
+
+class ActionResetTourSlots(ActionResetSlots):
+    action_name = "action_reset_tour_slots"
+    slot_names = ["citypass_num_tickets", "citypass_confirmed"]

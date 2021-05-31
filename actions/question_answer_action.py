@@ -72,12 +72,16 @@ class QuestionAnswerAction(Action):
             result = self._question_service.handle_question(question=question)
 
             if result and len(result.answer) > 0:
+                logger.debug(
+                    f"Found answer '{result.answer}' for question with confidence {result.confidence}"
+                )
                 dispatcher.utter_message(text=result.answer)
             else:
+                logger.debug("No answer found for question.")
                 dispatcher.utter_message(template="utter_default")
 
         except Exception as exception:
-            logger.debug(exception)
+            logger.error(exception)
             dispatcher.utter_message(template="utter_default")
 
         return [FollowupAction(name=ACTION_LISTEN_NAME)]

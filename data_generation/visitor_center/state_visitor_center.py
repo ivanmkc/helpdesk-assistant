@@ -18,7 +18,8 @@ from rasa.shared.nlu.state_machine.conditions import (
 from data_generation import state_machine_generation
 
 import data_generation.common_intents as common
-import data_generation.visitor_center.state_book_tour as book_tour
+import data_generation.visitor_center.book_tour.state_book_tour as book_tour
+import data_generation.visitor_center.buy_citypass.state_buy_citypass as buy_citypass
 
 
 generalResponses: List[Response] = [
@@ -64,17 +65,19 @@ intent_book_tour = Intent(
     ]
 )
 
-# TODO: Add a drink
+intent_buy_citypass = Intent(
+    examples=[
+        "I want to buy a CityPass",
+        "Can I have a CityPass?",
+        "I'll take one CityPass please?",
+        "I want the CityPass ticket",
+    ]
+)
 
-# student_life_state_machine = StateMachineState(
-#     name="restaurant_ordering",
-#     slots=[
-#         SlotGroup([slot_appetizer, slot_entree])
-#             .if(SlotEqualsCondition(slot_entree, "steak"), then=SlotGroup(slot_steak_doneness, slot_tour_confirmed))
-#             .then(slot_tour_confirmed)
-#     ]
-# )
-
+utter_i_can_help = Utterance(
+    text="Sure, I can help you with that.",
+    name="utter_i_can_help_you",
+)
 
 start_state = StateMachineState(
     name="start_state",
@@ -83,13 +86,13 @@ start_state = StateMachineState(
     transitions=[
         Transition(
             condition=IntentCondition(intent_book_tour),
-            transition_utterances=[
-                Utterance(
-                    text="Sure, I can help you with that.",
-                    name="utter_i_can_help_you",
-                )
-            ],
+            transition_utterances=[utter_i_can_help],
             destination_state_name=book_tour.book_tour_state.name,
+        ),
+        Transition(
+            condition=IntentCondition(intent_buy_citypass),
+            transition_utterances=[utter_i_can_help],
+            destination_state_name=buy_citypass.buy_citypass_state.name,
         ),
     ],
     responses=[
@@ -97,7 +100,7 @@ start_state = StateMachineState(
             condition=OnEntryCondition(),
             actions=[
                 Utterance(
-                    "Welcome to the Visitor Center! How can I help you?"
+                    "Welcome to the Bath Visitor Center! How can I help you?"
                 ),
             ],
         ),

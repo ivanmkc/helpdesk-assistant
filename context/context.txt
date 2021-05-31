@@ -13,7 +13,7 @@ The first city bus tour starts at 10:00 AM. Then, it starts every 30 minutes.
 The last city bus tour starts at 8:00 PM.
 The city bus tour takes one hour.
 The city bus tour is in English.
-The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge.
+The city bus tour stops at famous historical monuments, such as the Bath Abbey, the River Avon and the Great Pulteney Bridge.
 Tickets for the Holburne Museum cost 12.50 for adults and 7.50 for children under 12.
 The Holburne Museum is open from 10:00 AM to 5:00 PM on weekdays.
 The Holburne Museum is open from 11:00 AM to 7:00 PM on weekends.
@@ -41,7 +41,7 @@ The Roman Baths are open from 10:00 AM to 6:00 PM everyday.
 The Roman Baths are very popular for tourists!
 The Roman Baths are a very old historical monument.
 
-The Bath Visitor’s Center is offering a CityPass ticket is 50 euros per person.
+The Bath Visitor’s Center is offering a CityPass ticket for 50 euros per person.
 With our CityPass, you can see all of the attractions with just one ticket.
 You have three days to use the CityPass ticket.
 
