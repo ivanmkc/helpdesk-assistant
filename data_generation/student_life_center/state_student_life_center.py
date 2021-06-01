@@ -1,26 +1,23 @@
 from typing import Any, Dict, List, Set
 
-from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
-    Utterance,
-    TextSlot,
-)
-
-from rasa.shared.nlu.state_machine.state_machine_state import (
-    Action,
-    Response,
-    StateMachineState,
-    Transition,
-)
-
+import state_machine_generation
 from rasa.shared.nlu.state_machine.conditions import (
     AndCondition,
     IntentCondition,
     OnEntryCondition,
     SlotEqualsCondition,
 )
-
-import state_machine_generation
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    Intent,
+    TextSlot,
+    Utterance,
+)
+from rasa.shared.nlu.state_machine.state_machine_state import (
+    Action,
+    Response,
+    StateMachineState,
+    Transition,
+)
 
 # class SpaceEntity(Enum, Entity):
 #     person = "PERSON"

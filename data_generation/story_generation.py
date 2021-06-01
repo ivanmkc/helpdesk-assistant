@@ -1,36 +1,26 @@
-from typing import Any, List, Dict, Optional, Set, Tuple, Union
+import uuid
+from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
+import rasa.shared.constants
+import rasa.shared.utils.validation
+from rasa.shared.core.domain import Domain
+from rasa.shared.core.slots import (
+    AnySlot,
+    BooleanSlot,
+    CategoricalSlot,
+    FloatSlot,
+    ListSlot,
+    Slot,
+    TextSlot,
+)
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
 )
-
-from rasa.shared.nlu.state_machine.state_machine_state import (
-    Action,
-)
-
+from rasa.shared.nlu.state_machine.state_machine_state import Action
 from rasa.shared.nlu.state_machine.yaml_convertible import StoryYAMLConvertable
-
-from rasa.shared.core.domain import Domain
-from rasa.shared.core.slots import (
-    CategoricalSlot,
-    TextSlot,
-    BooleanSlot,
-    ListSlot,
-    FloatSlot,
-    AnySlot,
-    Slot,
-)
-
-from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
-
 from rasa.shared.nlu.training_data.formats import RasaYAMLReader
-
-import rasa.shared.utils.validation
-
-import rasa.shared.constants
-
-import uuid
+from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 
 
 class IntentName(StoryYAMLConvertable):

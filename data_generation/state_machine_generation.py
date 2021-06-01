@@ -1,26 +1,20 @@
+import os
+from pathlib import Path
 from typing import List, Set
+
+import rasa.shared.constants
+import rasa.shared.utils.validation
+import yaml
+from rasa.shared.core.domain import Domain
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Action,
     Intent,
     Slot,
     Utterance,
 )
-
-from rasa.shared.core.domain import Domain
-from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
-from rasa.shared.nlu.state_machine.state_machine_state import (
-    StateMachineState,
-)
-
+from rasa.shared.nlu.state_machine.state_machine_state import StateMachineState
 from rasa.shared.nlu.training_data.formats import RasaYAMLReader
-
-import rasa.shared.utils.validation
-import rasa.shared.constants
-import yaml
-
-from pathlib import Path
-
-import os
+from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 
 # def get_stories(state: StateMachineState) -> List[Story]:
 #     for response in state.responses

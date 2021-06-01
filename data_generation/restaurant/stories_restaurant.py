@@ -3,7 +3,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Utterance,
 )
 
-from data_generation.story_generation import Story, Fork, Or
+from data_generation.story_generation import Fork, Or, Story
 
 i_like_dogs = (
     Intent(

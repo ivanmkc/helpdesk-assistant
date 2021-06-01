@@ -35,6 +35,7 @@ class ActionAskEmail(Action):
             dispatcher.utter_message(template=f"utter_ask_email")
         return []
 
+
 def _validate_email(
     value: Text,
     dispatcher: CollectingDispatcher,

@@ -3,9 +3,8 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Utterance,
 )
 
-from data_generation.place import Place
-
 import data_generation.visitor_center.book_tour.stories_book_tour as stories_book_tour
+from data_generation.place import Place
 
 holburne_museum = Place(
     name="The Holburne Museum",

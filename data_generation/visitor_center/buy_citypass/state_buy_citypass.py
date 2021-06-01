@@ -1,17 +1,3 @@
-from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
-    Utterance,
-    TextSlot,
-    BooleanSlot,
-    ActionName,
-)
-
-from rasa.shared.nlu.state_machine.state_machine_state import (
-    Response,
-    StateMachineState,
-    Transition,
-)
-
 from rasa.shared.nlu.state_machine.conditions import (
     AndCondition,
     IntentCondition,
@@ -19,11 +5,22 @@ from rasa.shared.nlu.state_machine.conditions import (
     SlotEqualsCondition,
     SlotsFilledCondition,
 )
-
-from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import IntentName
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    ActionName,
+    BooleanSlot,
+    Intent,
+    TextSlot,
+    Utterance,
+)
+from rasa.shared.nlu.state_machine.state_machine_state import (
+    Response,
+    StateMachineState,
+    Transition,
+)
 
 import data_generation.common_intents as common
+from data_generation import state_machine_generation, story_generation
+from data_generation.story_generation import IntentName
 
 slot_number_tickets = TextSlot(
     name="citypass_num_tickets",

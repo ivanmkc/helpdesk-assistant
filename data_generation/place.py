@@ -1,25 +1,18 @@
-from typing import Optional, Union
-from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
-    Utterance,
-    TextSlot,
-    BooleanSlot,
-    ActionName,
-    Action,
-)
+from typing import Any, Dict, List, Optional, Set, Union
 
-from typing import Any, Dict, List, Set
 from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
-    Utterance,
+    Action,
     ActionName,
+    BooleanSlot,
+    Intent,
+    TextSlot,
+    Utterance,
 )
 
 import data_generation.common_intents as common
-
-from data_generation.story_generation import Story, OrActions, SlotWasSet
 import data_generation.parameterized_intents as parameterized_intents
 from data_generation.parameterized_intents import ParameterizedIntentCreator
+from data_generation.story_generation import OrActions, SlotWasSet, Story
 
 CONTEXT_SLOT_NAME = "context"
 

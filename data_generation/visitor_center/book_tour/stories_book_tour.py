@@ -1,14 +1,17 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
-    Utterance,
     ActionName,
+    Utterance,
 )
-
-from data_generation.story_generation import IntentName
 
 import data_generation.common_intents as common
 import data_generation.visitor_center.book_tour.state_book_tour as book_tour
-
-from data_generation.story_generation import Story, Fork, Or, OrActions
+from data_generation.story_generation import (
+    Fork,
+    IntentName,
+    Or,
+    OrActions,
+    Story,
+)
 
 utter_put_down_boat_tour = Utterance(
     "Sure, I'll put you down for the 3pm boat tour then."

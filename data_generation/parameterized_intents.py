@@ -1,8 +1,5 @@
-from typing import Any, Dict, Optional, List, Union
-from rasa.shared.nlu.state_machine.yaml_convertible import (
-    YAMLConvertable,
-    StoryYAMLConvertable,
-)
+from typing import Any, Dict, List, Optional, Union
+
 from rasa.shared.nlu.state_machine.state_machine_models import Intent
 
 

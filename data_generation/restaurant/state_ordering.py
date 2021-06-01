@@ -1,21 +1,20 @@
 from typing import Any, Dict, List, Set
-from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
-    Utterance,
-    TextSlot,
-    BooleanSlot,
-)
-
-from rasa.shared.nlu.state_machine.state_machine_state import (
-    Response,
-    StateMachineState,
-    Transition,
-)
 
 from rasa.shared.nlu.state_machine.conditions import (
     IntentCondition,
     OnEntryCondition,
     SlotEqualsCondition,
+)
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    BooleanSlot,
+    Intent,
+    TextSlot,
+    Utterance,
+)
+from rasa.shared.nlu.state_machine.state_machine_state import (
+    Response,
+    StateMachineState,
+    Transition,
 )
 
 from data_generation import state_machine_generation, story_generation
@@ -371,7 +370,7 @@ state_machine_generation.persist(
     nlu_filename="data/restaurant/ordering.yaml",
 )
 
-from data_generation.story_generation import Story, Fork, Or
+from data_generation.story_generation import Fork, Or, Story
 
 # Descriptions of the food
 

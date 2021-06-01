@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: Apr 2, 2020"
 logger.debug(vers)
 
+
 class ActionAskName(Action):
     def name(self) -> Text:
         return "action_ask_name"
@@ -65,8 +66,11 @@ class ActionConfirmName(Action):
         dispatcher.utter_message(response=f"utter_confirm_name_slot_filled")
         return []
 
+
 EXPECTED_NAME: str = "Alice"
 EXPECTED_HOMETOWN: str = "austin"
+
+
 class ValidateIDInformation(Action):
     def name(self) -> Text:
         return "action_validate_id_information"
@@ -77,7 +81,7 @@ class ValidateIDInformation(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict]:
-        name = tracker.get_slot("name") 
+        name = tracker.get_slot("name")
         hometown = tracker.get_slot("hometown")
         age = tracker.get_slot("age")
 
@@ -92,7 +96,16 @@ class ValidateIDInformation(Action):
 
         is_validated = False
         if all([name, hometown, age]):
-            if EXPECTED_NAME.lower() in name.lower() and EXPECTED_HOMETOWN.lower() in hometown.lower() and age == 20:
+            if (
+                EXPECTED_NAME.lower() in name.lower()
+                and EXPECTED_HOMETOWN.lower() in hometown.lower()
+                and age == 20
+            ):
                 is_validated = True
-        
-        return [SlotSet("name", None), SlotSet("hometown", None), SlotSet("age", None), SlotSet("is_id_card_given", is_validated)]
+
+        return [
+            SlotSet("name", None),
+            SlotSet("hometown", None),
+            SlotSet("age", None),
+            SlotSet("is_id_card_given", is_validated),
+        ]
