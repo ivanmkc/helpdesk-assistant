@@ -17,6 +17,24 @@ import data_generation.visitor_center.book_tour.state_book_tour as book_tour
 import data_generation.visitor_center.book_tour.stories_book_tour as stories_book_tour
 import data_generation.visitor_center.state_visitor_center as state_visitor_center
 
+# Personal
+stories_personal = [
+    Story(
+        [
+            Intent(examples=["Who are you?", "What's your name?"]),
+            Utterance("I'm called Patrick"),
+            Utterance("I help visitors to Bath, like yourself."),
+        ]
+    ),
+    Story(
+        [
+            Intent(examples=["Who are you?", "What's your name?"]),
+            Utterance("I'm called Patrick"),
+            Utterance("I help visitors to Bath, like yourself."),
+        ]
+    ),
+]
+
 # Tell me more
 stories_tell_me_more = [
     Story(
@@ -47,7 +65,9 @@ stories_tell_me_more = [
                     "I have some questions about tours",
                 ]
             ),
-            Utterance("We have a bus tour and a boat tour"),
+            Utterance(
+                "We have a bus tour and a boat tour. You can book them here."
+            ),
         ]
     ),
 ]
@@ -80,6 +100,7 @@ stories_tours = [
                     "I want to buy a ticket",
                     "Can I have a ticket?",
                     "I buy tickets",
+                    "Give me a ticket",
                 ]
             ),
             Utterance("Which one? The bus tour, boat tour or the CityPass?"),

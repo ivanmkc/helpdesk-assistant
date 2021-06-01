@@ -62,6 +62,7 @@ intent_book_tour = Intent(
         "I want to book a tour.",
         "Can I ask you about tours?",
         "Can I book a tour?",
+        "Give me a tour",
     ]
 )
 

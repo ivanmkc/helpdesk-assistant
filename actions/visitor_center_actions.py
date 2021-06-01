@@ -20,5 +20,5 @@ class ActionResetTourSlots(ActionResetSlots):
 
 
 class ActionResetTourSlots(ActionResetSlots):
-    action_name = "action_reset_tour_slots"
+    action_name = "action_reset_citypass_slots"
     slot_names = ["citypass_num_tickets", "citypass_confirmed"]

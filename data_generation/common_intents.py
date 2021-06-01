@@ -47,6 +47,7 @@ intent_directions = Intent(
         "What's the way there?",
         "How do I go there?",
         "What are the directions there?",
+        "Where is that?",
     ]
 )
 
@@ -62,6 +63,8 @@ intent_when_is_that = Intent(
         "What time does it open until?",
         "What time does it close?",
         "Is it still open?",
+        "What would be the hours?",
+        "What would the hours be?",
     ]
 )
 

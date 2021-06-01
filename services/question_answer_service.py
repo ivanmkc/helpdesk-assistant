@@ -7,7 +7,7 @@ import requests
 import abc
 import os
 
-CONFIDENCE_THRESHOLD = 0.05
+CONFIDENCE_THRESHOLD = 0.3
 
 
 class QuestionAnswerModel(abc.ABC):
