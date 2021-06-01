@@ -100,10 +100,3 @@ buy_citypass_state = StateMachineState(
         ),
     ],
 )
-
-state_machine_generation.persist(
-    state=buy_citypass_state,
-    is_initial_state=False,
-    domain_folder="domain/visitor_center/",
-    nlu_folder="data/visitor_center/",
-)

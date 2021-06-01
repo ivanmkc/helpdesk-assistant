@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List, Set
+from typing import Set
 
 import rasa.shared.constants
 import rasa.shared.utils.validation

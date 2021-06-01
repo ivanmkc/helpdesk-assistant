@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import List
 
 from rasa.shared.nlu.state_machine.state_machine_models import Intent
 
@@ -10,21 +10,23 @@ class ParameterizedIntentCreator:
 
     def create_parameterized_intent(
         self,
-        context_entity_name: str,
+        context_name: str,
         context_value: str,
+        context_value_synonyms: List[str] = [],
     ) -> Intent:
         examples_replaced = [
             example.replace(
                 "{context}",
-                f'[{context_value}]{{"entity":"{context_entity_name}", "value": "{context_value}"}}',
+                f'[{synonym}]{{"entity":"{context_name}", "value": "{context_value}"}}',
             )
+            for synonym in context_value_synonyms + [context_value]
             for example in self.parameterized_examples
         ]
 
         return Intent(
             examples=examples_replaced,
             name=self.name,
-            entities=[context_entity_name],
+            entities=[context_name],
         )
 
 

@@ -152,10 +152,3 @@ book_tour_state = StateMachineState(
         ),
     ],
 )
-
-state_machine_generation.persist(
-    state=book_tour_state,
-    is_initial_state=False,
-    domain_folder="domain/visitor_center/",
-    nlu_folder="data/visitor_center/",
-)

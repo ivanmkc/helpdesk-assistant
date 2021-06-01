@@ -8,7 +8,7 @@ from data_generation.place import Place
 
 holburne_museum = Place(
     name="The Holburne Museum",
-    synonyms=["museum"],
+    synonyms=["museum", "antique museum", "art gallery", "art museum"],
     intent=Intent(
         examples=[
             "What about museums?",
@@ -56,7 +56,7 @@ bath_architecture_museum = Place(
 
 bath_abbey = Place(
     name="Bath Abbey",
-    synonyms=["abbey"],
+    synonyms=["abbey", "monastery", "church"],
     intent=Intent(
         examples=[
             "What about the Bath Abbey?",
@@ -96,7 +96,7 @@ bridge = Place(
 
 roman_baths = Place(
     name="Roman Baths",
-    synonyms=["baths"],
+    synonyms=["baths", "roman ruins", "ruins"],
     intent=Intent(
         examples=[
             "What about Roman Baths?",
@@ -115,7 +115,7 @@ roman_baths = Place(
 
 restaurant = Place(
     name="Sally O's",
-    synonyms=["restaurant"],
+    synonyms=["restaurant", "italian place", "the restaurant"],
     intent=Intent(
         examples=[
             "What about restaurants?",

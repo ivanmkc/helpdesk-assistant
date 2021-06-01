@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import List, Optional, Union
 
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Action,
@@ -42,14 +42,15 @@ class Place:
         self.directions = directions
         self.related_actions = related_actions
 
+    @staticmethod
     def _create_stories(
-        self,
-        element_name: str,
+        entity_name: str,
+        entity_synonyms: str,
         intents_or_utterances_with_context: List[Union[Intent, Utterance]],
         parameterized_intent_creator: ParameterizedIntentCreator,
         question_intent: Intent,
         response_action: Action,
-    ) -> Dict:
+    ) -> List[Story]:
         story = Story(
             [
                 OrActions(*intents_or_utterances_with_context),
@@ -63,11 +64,12 @@ class Place:
         story_by_entities = Story(
             [
                 parameterized_intent_creator.create_parameterized_intent(
-                    context_entity_name=CONTEXT_SLOT_NAME,
-                    context_value=element_name,
+                    context_name=CONTEXT_SLOT_NAME,
+                    context_value=entity_name,
+                    context_value_synonyms=entity_synonyms,
                 ),
                 SlotWasSet(
-                    slot_name=CONTEXT_SLOT_NAME, slot_value=element_name
+                    slot_name=CONTEXT_SLOT_NAME, slot_value=entity_name
                 ),
                 response_action,
             ]
@@ -77,7 +79,7 @@ class Place:
             [
                 question_intent,
                 SlotWasSet(
-                    slot_name=CONTEXT_SLOT_NAME, slot_value=element_name
+                    slot_name=CONTEXT_SLOT_NAME, slot_value=entity_name
                 ),
                 response_action,
             ]
@@ -114,7 +116,8 @@ class Place:
         if self.hours:
             all_stories.extend(
                 self._create_stories(
-                    element_name=self.name,
+                    entity_name=self.name,
+                    entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_when_is_that_creator,
                     question_intent=common.intent_when_is_that,
@@ -125,7 +128,8 @@ class Place:
         if self.price:
             all_stories.extend(
                 self._create_stories(
-                    element_name=self.name,
+                    entity_name=self.name,
+                    entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_what_price_creator,
                     question_intent=common.intent_what_price,
@@ -136,7 +140,8 @@ class Place:
         if self.more_details:
             all_stories.extend(
                 self._create_stories(
-                    element_name=self.name,
+                    entity_name=self.name,
+                    entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_what_is_context_creator,
                     question_intent=common.intent_what_is_that,
@@ -147,7 +152,8 @@ class Place:
         if self.duration:
             all_stories.extend(
                 self._create_stories(
-                    element_name=self.name,
+                    entity_name=self.name,
+                    entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_what_duration_creator,
                     question_intent=common.intent_how_long,
@@ -158,7 +164,8 @@ class Place:
         if self.directions:
             all_stories.extend(
                 self._create_stories(
-                    element_name=self.name,
+                    entity_name=self.name,
+                    entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_directions_creator,
                     question_intent=common.intent_directions,

@@ -7,17 +7,8 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 import data_generation.common_intents as common
 import data_generation.visitor_center.book_tour.state_book_tour as book_tour
 import data_generation.visitor_center.book_tour.stories_book_tour as stories_book_tour
-import data_generation.visitor_center.places as places
 import data_generation.visitor_center.state_visitor_center as state_visitor_center
-from data_generation import story_generation
-from data_generation.place import Place
-from data_generation.story_generation import (
-    Fork,
-    IntentName,
-    Or,
-    OrActions,
-    Story,
-)
+from data_generation.story_generation import Fork, IntentName, Or, Story
 
 # Personal
 stories_personal = [
@@ -151,14 +142,3 @@ stories_tours = [
         ],
     ),
 ]
-
-# Tour and other info
-story_generation.persist(
-    stories_tell_me_more
-    + stories_book_tour.stories_tours
-    + stories_what_time
-    + [story for place in places.places for story in place.generate_stories()],
-    domain_filename="domain/visitor_center/stories.yaml",
-    nlu_filename="data/visitor_center/stories.yaml",
-    use_rules=False,
-)

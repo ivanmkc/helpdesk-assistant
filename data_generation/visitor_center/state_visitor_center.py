@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Set
+from typing import List
 
 from rasa.shared.nlu.state_machine.conditions import (
     IntentCondition,
@@ -104,11 +104,4 @@ start_state = StateMachineState(
         ),
     ]
     + generalResponses,
-)
-
-state_machine_generation.persist(
-    state=start_state,
-    is_initial_state=True,
-    domain_folder="domain/visitor_center/",
-    nlu_folder="data/visitor_center/",
 )
