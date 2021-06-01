@@ -1,0 +1,163 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "./",
+            }
+        },
+        {
+            "name": "Generate chatbot",
+            "type": "python",
+            "request": "launch",
+            "module": "data_generation.generate_chatbot",
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "./",
+                "CHATBOT_ID": "visitor_center"
+            }
+        },
+        {
+            "name": "Install local dev repo",
+            "type": "python",
+            "request": "launch",
+            "module": "pip",
+            "args": [
+                "install",
+                "-U",
+                "/Users/chosan/code/converso/rasa/rasa-library",
+            ],
+        },
+        {
+            "name": "Rasa: Train",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "train",
+                "--domain=domain",
+                "--force"
+            ]
+        },
+        {
+            "name": "Rasa: Test NLU",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "test",
+                "nlu",
+            ]
+        },
+        {
+            "name": "Rasa: Action Server",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa_sdk",
+            "args": [
+                "--actions",
+                "actions",
+            ],
+            "justMyCode": false,
+            "env": {
+                "PYTHONPATH": "./",
+                "HUGGING_FACE_API_KEY": "api_uuohdWOZncRJLAtjpqmmABznWfEXBJzfdZ"
+            }
+        },
+        {
+            "name": "Rasa: Shell",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "shell",
+                "--debug"
+            ],
+            "env": {
+                "RASA_SHELL_STREAM_READING_TIMEOUT_IN_SECONDS": "-1",
+                "PYTHONPATH": "./"
+            }
+        },
+        {
+            "name": "Rasa: Run",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "run"
+            ]
+        },
+        {
+            "name": "Duckling: Start server",
+            "request": "launch",
+            "command": "docker run -p 8000:8000 rasa/duckling",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Rasa X",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "args": [
+                "x",
+                "--domain",
+                "domain"
+            ]
+        },
+        {
+            "name": "Cloud Build: Build docker image",
+            "request": "launch",
+            "command": "gcloud builds submit --tag=${config:DOCKER_IMAGE_TAG} --timeout=3600",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Run: Deploy docker image",
+            "request": "launch",
+            "command": "gcloud run deploy ${config:DOCKER_CONTAINER_NAME} --image=${config:DOCKER_IMAGE_TAG} --platform=managed --cpu=2 --memory=4G --port=8080 --allow-unauthenticated",
+            "type": "node-terminal"
+        },
+        {
+            "name": "Show logs",
+            "request": "launch",
+            "command": "gcloud app logs tail -s default",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Docker: Pull container from cloud",
+            "request": "launch",
+            "command": "docker pull ${config:DOCKER_IMAGE_TAG}",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Docker: Build container locally",
+            "request": "launch",
+            "command": "docker build -t ${config:DOCKER_CONTAINER_NAME} .",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Docker: Run bash in container",
+            "request": "launch",
+            "command": "docker pull ${config:DOCKER_IMAGE_TAG} && docker run -it ${config:DOCKER_IMAGE_TAG} bash",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Docker: Run container locally",
+            "request": "launch",
+            "command": "docker pull ${config:DOCKER_IMAGE_TAG} && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --memory=2g --cpus=2 ${config:DOCKER_IMAGE_TAG}",
+            "type": "node-terminal",
+        }
+    ]
+}
