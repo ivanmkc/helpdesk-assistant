@@ -21,8 +21,8 @@ class Place:
     def __init__(
         self,
         name: str,
-        intent: Intent,
         intro: Action,
+        question_intent: Optional[Intent] = None,
         synonyms: List[str] = [],
         hours: Optional[Action] = None,
         more_details: Optional[Action] = None,
@@ -33,7 +33,7 @@ class Place:
     ):
         self.name = name
         self.synonyms = synonyms
-        self.intent = intent
+        self.question_intent = question_intent
         self.intro = intro
         self.hours = hours
         self.more_details = more_details
@@ -48,47 +48,57 @@ class Place:
         entity_synonyms: str,
         intents_or_utterances_with_context: List[Union[Intent, Utterance]],
         parameterized_intent_creator: ParameterizedIntentCreator,
-        question_intent: Intent,
         response_action: Action,
+        question_intent: Optional[Intent] = None,
     ) -> List[Story]:
-        story = Story(
-            [
-                OrActions(*intents_or_utterances_with_context),
-                question_intent,
-                response_action,
-            ]
-        )
+        stories: List[Story] = []
+        if question_intent:
+            stories.append(
+                Story(
+                    [
+                        OrActions(*intents_or_utterances_with_context),
+                        question_intent,
+                        response_action,
+                    ]
+                )
+            )
+
+            stories.append(
+                Story(
+                    [
+                        question_intent,
+                        SlotWasSet(
+                            slot_name=CONTEXT_SLOT_NAME, slot_value=entity_name
+                        ),
+                        response_action,
+                    ]
+                )
+            )
 
         # TODO: Set context for utterances
 
-        story_by_entities = Story(
-            [
-                parameterized_intent_creator.create_parameterized_intent(
-                    context_name=CONTEXT_SLOT_NAME,
-                    context_value=entity_name,
-                    context_value_synonyms=entity_synonyms,
-                ),
-                SlotWasSet(
-                    slot_name=CONTEXT_SLOT_NAME, slot_value=entity_name
-                ),
-                response_action,
-            ]
+        stories.append(
+            Story(
+                [
+                    parameterized_intent_creator.create_parameterized_intent(
+                        context_name=CONTEXT_SLOT_NAME,
+                        context_value=entity_name,
+                        context_value_synonyms=entity_synonyms,
+                    ),
+                    SlotWasSet(
+                        slot_name=CONTEXT_SLOT_NAME, slot_value=entity_name
+                    ),
+                    response_action,
+                ]
+            )
         )
 
-        story_by_context = Story(
-            [
-                question_intent,
-                SlotWasSet(
-                    slot_name=CONTEXT_SLOT_NAME, slot_value=entity_name
-                ),
-                response_action,
-            ]
-        )
-
-        return [story, story_by_entities, story_by_context]
+        # Return stories that aren't None
+        return stories
 
     def generate_stories(self) -> List[Story]:
         # Consolidate all utterances
+        # TODO: Replace by setting the context after each of these utterances
         utterances = [
             utterance
             for utterance in [
@@ -105,13 +115,25 @@ class Place:
         all_stories: List[Story] = []
 
         # Create intro story
-        story_intro = Story(
-            elements=[
-                self.intent,
-                self.intro,
-            ],
+        if self.question_intent:
+            all_stories.append(
+                Story(
+                    elements=[
+                        self.question_intent,
+                        self.intro,
+                    ],
+                )
+            )
+
+        all_stories.extend(
+            self._create_stories(
+                entity_name=self.name,
+                entity_synonyms=self.synonyms,
+                intents_or_utterances_with_context=utterances,
+                parameterized_intent_creator=parameterized_intents.intent_is_there_a_context_creator,
+                response_action=self.intro,
+            )
         )
-        all_stories.append(story_intro)
 
         if self.hours:
             all_stories.extend(
@@ -120,8 +142,8 @@ class Place:
                     entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_when_is_that_creator,
-                    question_intent=common.intent_when_is_that,
                     response_action=self.hours,
+                    question_intent=common.intent_when_is_that,
                 )
             )
 
@@ -132,8 +154,8 @@ class Place:
                     entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_what_price_creator,
-                    question_intent=common.intent_what_price,
                     response_action=self.price,
+                    question_intent=common.intent_what_price,
                 )
             )
 
@@ -144,8 +166,8 @@ class Place:
                     entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_what_is_context_creator,
-                    question_intent=common.intent_what_is_that,
                     response_action=self.more_details,
+                    question_intent=common.intent_what_is_that,
                 )
             )
 
@@ -156,8 +178,8 @@ class Place:
                     entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_what_duration_creator,
-                    question_intent=common.intent_how_long,
                     response_action=self.duration,
+                    question_intent=common.intent_how_long,
                 )
             )
 
@@ -168,8 +190,8 @@ class Place:
                     entity_synonyms=self.synonyms,
                     intents_or_utterances_with_context=utterances,
                     parameterized_intent_creator=parameterized_intents.intent_directions_creator,
-                    question_intent=common.intent_directions,
                     response_action=self.directions,
+                    question_intent=common.intent_directions,
                 )
             )
 

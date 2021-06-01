@@ -106,7 +106,7 @@ class Story:
 
     def __init__(
         self,
-        elements: Union["Or", Intent, Action, Fork, SlotWasSet],
+        elements: List[Union["Or", Intent, Action, Fork, SlotWasSet]],
         name: Optional[str] = None,
     ) -> None:
         self.paths = elements

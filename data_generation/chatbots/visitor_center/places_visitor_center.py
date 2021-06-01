@@ -3,19 +3,18 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Utterance,
 )
 
-import data_generation.visitor_center.book_tour.stories_book_tour as stories_book_tour
+import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as stories_book_tour
 from data_generation.place import Place
 
 holburne_museum = Place(
     name="The Holburne Museum",
-    synonyms=["museum", "antique museum", "art gallery", "art museum"],
-    intent=Intent(
-        examples=[
-            "What about museums?",
-            "I'd like to go to a museum",
-            "Are there any museums?",
-        ]
-    ),
+    synonyms=[
+        "museum",
+        "antique museum",
+        "art gallery",
+        "art museum",
+        "the museum",
+    ],
     intro=Utterance(
         "The Holburne Museum has a great art collection. It has both modern and antique art."
     ),
@@ -33,12 +32,6 @@ holburne_museum = Place(
 bath_architecture_museum = Place(
     name="Museum of Bath Architecture",
     synonyms=["museum of architecture", "architecture museum"],
-    intent=Intent(
-        examples=[
-            "What about the architecture museum?",
-            "Is there a museum of architecture?",
-        ]
-    ),
     intro=Utterance(
         "The Museum of Bath Architecture is great if you love architecture and design!"
     ),
@@ -57,13 +50,6 @@ bath_architecture_museum = Place(
 bath_abbey = Place(
     name="Bath Abbey",
     synonyms=["abbey", "monastery", "church"],
-    intent=Intent(
-        examples=[
-            "What about the Bath Abbey?",
-            "Is there an abbey around?",
-            "Tell me about the abbey",
-        ]
-    ),
     intro=Utterance("The Bath Abbey is a famous medieval church in England."),
     hours=Utterance(
         "The Bath Abbey is open on Monday to Saturday from 10:00 AM to 3:45 PM."
@@ -76,13 +62,6 @@ bath_abbey = Place(
 bridge = Place(
     name="Great Pultaney Bridge",
     synonyms=["bridge", "pultaney bridge"],
-    intent=Intent(
-        examples=[
-            "What about the bridge?",
-            "Is there a bridge around?",
-            "I heard about a bridge",
-        ]
-    ),
     intro=Utterance(
         "The Great Pulteney Bridge is a popular place for tourists."
     ),
@@ -97,11 +76,6 @@ bridge = Place(
 roman_baths = Place(
     name="Roman Baths",
     synonyms=["baths", "roman ruins", "ruins"],
-    intent=Intent(
-        examples=[
-            "What about Roman Baths?",
-        ]
-    ),
     intro=Utterance("The Roman Baths are a very old historical monument."),
     hours=Utterance(
         "The Roman Baths are open from 10:00 AM to 6:00 PM everyday."
@@ -115,22 +89,34 @@ roman_baths = Place(
 
 restaurant = Place(
     name="Sally O's",
-    synonyms=["restaurant", "italian place", "the restaurant"],
-    intent=Intent(
+    synonyms=[
+        "restaurant",
+        "italian place",
+        "the restaurant",
+        "somewhere to eat",
+        "place to eat",
+        "cafe",
+        "diner",
+        "place with drinks",
+        "place with food",
+    ],
+    intro=Utterance(
+        "There is a great restaurant around the corner. It’s called “Sally O’s”. You should go there!",
+    ),
+    question_intent=Intent(
         examples=[
             "What about restaurants?",
             "I'm hungry",
             "I'd like to eat something",
+            "I'd like to drink something",
             "Any idea where I can get some food?",
             "What's there to eat?",
             "I want to eat something",
             "What is there to eat around here?",
             "What do you recommend I eat?",
             "Any food recommendations?",
+            "Is there a restaurant?",
         ]
-    ),
-    intro=Utterance(
-        "There is a great restaurant around the corner. It’s called “Sally O’s”. You should go there!",
     ),
     hours=Utterance(
         "It's open for lunch and dinner. I'm not sure about the exact times"
@@ -147,14 +133,6 @@ restaurant = Place(
 boat_tour = Place(
     name="City Boat Tour",
     synonyms=["boat tour", "river tour"],
-    intent=Intent(
-        examples=[
-            "Is there a boat tour?",
-            "Tell me about the boat tour",
-            "I heard there is a boat tour",
-            "I heard there was a river tour",
-        ]
-    ),
     intro=Utterance(
         "The boat tour is the most popular tour we have.",
     ),
@@ -174,13 +152,6 @@ boat_tour = Place(
 bus_tour = Place(
     name="City Bus Tour",
     synonyms=["bus tour"],
-    intent=Intent(
-        examples=[
-            "Is there a bus tour?",
-            "Tell me about the bus tour",
-            "I heard there is a bus tour",
-        ]
-    ),
     intro=Utterance(
         "The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge."
     ),

@@ -15,8 +15,8 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
 )
 
 import data_generation.common_intents as common
-import data_generation.visitor_center.book_tour.state_book_tour as book_tour
-import data_generation.visitor_center.buy_citypass.state_buy_citypass as buy_citypass
+import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
+import data_generation.chatbots.visitor_center.buy_citypass.state_buy_citypass as buy_citypass
 from data_generation import state_machine_generation
 
 generalResponses: List[Response] = [

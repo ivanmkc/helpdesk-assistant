@@ -5,9 +5,9 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 )
 
 import data_generation.common_intents as common
-import data_generation.visitor_center.book_tour.state_book_tour as book_tour
-import data_generation.visitor_center.book_tour.stories_book_tour as stories_book_tour
-import data_generation.visitor_center.state_visitor_center as state_visitor_center
+import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
+import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as stories_book_tour
+import data_generation.chatbots.visitor_center.state_visitor_center as state_visitor_center
 from data_generation.story_generation import Fork, IntentName, Or, Story
 
 # Personal
