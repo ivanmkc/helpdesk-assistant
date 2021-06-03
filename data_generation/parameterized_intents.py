@@ -16,6 +16,7 @@ class ParameterizedIntentCreator:
         context_name: str,
         context_value: str,
         context_value_synonyms: List[str] = [],
+        # TODO: Add applicable verbs
     ) -> Intent:
         all_synonyms = context_value_synonyms + [context_value]
 
@@ -99,6 +100,8 @@ intent_directions_creator = ParameterizedIntentCreator(
         "How do I go to {context}?",
         "What are the directions to {context}?",
         "Where is {context}?",
+        "Do you know where the {context} is?",
+        "Do you know how to get to {context}?",
     ],
 )
 
@@ -121,6 +124,16 @@ intent_is_there_a_context_creator = ParameterizedIntentCreator(
         "Can you point me towards a {context}",
     ],
 )
+
+intent_is_there_a_place_to_verb_creator = ParameterizedIntentCreator(
+    name="intent_is_there_a_place_to_very_with_entities",
+    parameterized_examples=[
+        "Is there a place to {verb}?",
+        "Do you know of any places for {verbing}?",
+        "I want to {verb}?",
+    ],
+)
+
 
 intent_when_is_that_creator = ParameterizedIntentCreator(
     name="intent_what_hours_with_entities",

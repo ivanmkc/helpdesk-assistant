@@ -60,11 +60,13 @@ intent_when_is_that = Intent(
         "When does it close?",
         "What are the hours?",
         "When does it close?",
+        "What time does it open?",
         "What time does it open until?",
         "What time does it close?",
         "Is it still open?",
         "What would be the hours?",
         "What would the hours be?",
+        "Do you know when it opens?",
     ]
 )
 

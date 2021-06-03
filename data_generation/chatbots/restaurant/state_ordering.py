@@ -221,7 +221,7 @@ generalResponses: List[Response] = [
         ),
         actions=[
             Utterance(
-                text="We're open from 11am to 9pm, every day except Sunday.",
+                text="We are open from 6:00 AM to 9:00 PM everyday.",
                 name="utter_hours",
             )
         ],

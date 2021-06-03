@@ -38,7 +38,7 @@ slot_citypass_confirmed = BooleanSlot(
     },
     prompt_actions=[
         Utterance(
-            "Okay, just to confirm. You want {citypass_num_tickets} of the CityPass. Is that correct?"
+            "Just to confirm. You want {citypass_num_tickets} of the CityPass. Is that correct?"
         ),
     ],
     only_fill_when_prompted=True,

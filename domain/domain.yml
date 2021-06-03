@@ -1,28 +1,47 @@
-version: "2.0"
+version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
-  session_expiration_time: 0.0
+  session_expiration_time: 0
   carry_over_slots_to_new_session: true
-
 intents:
-- greet
-- goodbye
-- bot_challenge
-- inform
-- thank
-- help
-- out_of_scope
-- restart
-- affirm
-- deny
-- trigger_handoff
-- human_handoff
-- handoff
-
-actions:
-- question_answer_action
-
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- inform:
+    use_entities: true
+- thank:
+    use_entities: true
+- help:
+    use_entities: true
+- out_of_scope:
+    use_entities: true
+- restart:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- trigger_handoff:
+    use_entities: true
+- human_handoff:
+    use_entities: true
+- handoff:
+    use_entities: true
+- incident_status:
+    use_entities: true
+entities: []
+slots: {}
 responses:
   utter_out_of_scope:
   - text: Sorry, I'm not sure how to respond to that. Type "help" for assistance.
   utter_default:
   - text: I didn't quite understand that. Could you rephrase?
+actions:
+- question_answer_action
+forms: {}
+state_machine_states: {}
+e2e_actions: []

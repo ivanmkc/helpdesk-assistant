@@ -32,6 +32,10 @@ from data_generation.story_generation import IntentName
 intent_select_boat_tour = Intent(
     examples=[
         "The boat tour",
+        "The city tour",
+        "The first one",
+        "The former",
+        "First",
         "boat",
         "I would prefer the boat one",
         "The 3pm",
@@ -46,6 +50,10 @@ intent_select_bus_tour = Intent(
         "The bus tour",
         "bus",
         "I would prefer the bus one",
+        "The last one",
+        "The latter",
+        "The second",
+        "The second one",
         "The 4pm",
         "The one at 4 o clock",
         "The tour at 4",
@@ -89,7 +97,7 @@ slot_tour_confirmed = BooleanSlot(
     },
     prompt_actions=[
         Utterance(
-            "Okay, just to confirm. I've booked you for the {tour_type} tour for {tour_num_tickets}. Is that correct?"
+            "Okay, just to confirm. I've booked you for the {tour_type} tour for {tour_num_tickets} people. Is that correct?"
         ),
     ],
     only_fill_when_prompted=True,
