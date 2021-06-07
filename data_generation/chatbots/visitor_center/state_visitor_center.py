@@ -5,7 +5,7 @@ from rasa.shared.nlu.state_machine.conditions import (
     OnEntryCondition,
 )
 from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
+    IntentWithExamples,
     Utterance,
 )
 from rasa.shared.nlu.state_machine.state_machine_state import (
@@ -37,7 +37,7 @@ generalResponses: List[Response] = [
     ),
     Response(
         condition=IntentCondition(
-            Intent(
+            IntentWithExamples(
                 examples=[
                     "Are you busy?",
                     "How busy are you?",
@@ -53,7 +53,7 @@ generalResponses: List[Response] = [
     ),
 ]
 
-intent_book_tour = Intent(
+intent_book_tour = IntentWithExamples(
     examples=[
         "I’d like to book a tour",
         "I want to book a tour.",
@@ -63,7 +63,7 @@ intent_book_tour = Intent(
     ]
 )
 
-intent_buy_citypass = Intent(
+intent_buy_citypass = IntentWithExamples(
     examples=[
         "I want to buy a CityPass",
         "Can I have a CityPass?",

@@ -20,6 +20,7 @@ logger.debug(vers)
 
 
 CONTEXT_FILE_PATH = "context/context.txt"
+ACTION_NAME = "question_answer_action"
 
 
 class QuestionAnswerAction(Action):
@@ -33,7 +34,7 @@ class QuestionAnswerAction(Action):
         )
 
     def name(self) -> Text:
-        return "question_answer_action"
+        return ACTION_NAME
 
     async def run(
         self,

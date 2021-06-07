@@ -1,15 +1,23 @@
-from typing import List
+from typing import Optional, List
 
-from rasa.shared.nlu.state_machine.state_machine_models import Intent
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    IntentWithExamples,
+)
 import inflect
 
 inflect_engine = inflect.engine()
 
 
 class ParameterizedIntentCreator:
-    def __init__(self, name: str, parameterized_examples: List[str]):
+    def __init__(
+        self,
+        name: str,
+        parameterized_examples: List[str],
+        object_attribute: Optional[str] = None,
+    ):
         self.name = name
         self.parameterized_examples = parameterized_examples
+        self.object_attribute = object_attribute
 
     def create_parameterized_intent(
         self,
@@ -17,7 +25,7 @@ class ParameterizedIntentCreator:
         context_value: str,
         context_value_synonyms: List[str] = [],
         # TODO: Add applicable verbs
-    ) -> Intent:
+    ) -> IntentWithExamples:
         all_synonyms = context_value_synonyms + [context_value]
 
         # Strip
@@ -74,7 +82,7 @@ class ParameterizedIntentCreator:
             for example in self.parameterized_examples
         ]
 
-        return Intent(
+        return IntentWithExamples(
             examples=examples_replaced,
             name=self.name,
             entities=[context_name],
@@ -89,19 +97,6 @@ intent_what_is_context_creator = ParameterizedIntentCreator(
         "Tell me about {context}.",
         "Can I hear more about {context}?",
         "Do you have more details about {context}",
-    ],
-)
-
-intent_directions_creator = ParameterizedIntentCreator(
-    name="intent_directions_with_entities",
-    parameterized_examples=[
-        "How do you get to {context}?",
-        "What's the way to {context}?",
-        "How do I go to {context}?",
-        "What are the directions to {context}?",
-        "Where is {context}?",
-        "Do you know where the {context} is?",
-        "Do you know how to get to {context}?",
     ],
 )
 
@@ -151,6 +146,7 @@ intent_when_is_that_creator = ParameterizedIntentCreator(
         "When would the {context} open?",
         "When would the {context} close?",
     ],
+    object_attribute="hours",
 )
 
 intent_what_price_creator = ParameterizedIntentCreator(
@@ -165,6 +161,7 @@ intent_what_price_creator = ParameterizedIntentCreator(
         "How much for {context}?",
         "What price for {context}?",
     ],
+    object_attribute="price",
 )
 
 intent_what_duration_creator = ParameterizedIntentCreator(
@@ -175,6 +172,21 @@ intent_what_duration_creator = ParameterizedIntentCreator(
         "What's the duration of {context}?",
         "How much time does {context} take?",
     ],
+    object_attribute="duration",
+)
+
+intent_directions_creator = ParameterizedIntentCreator(
+    name="intent_directions_with_entities",
+    parameterized_examples=[
+        "How do you get to {context}?",
+        "What's the way to {context}?",
+        "How do I go to {context}?",
+        "What are the directions to {context}?",
+        "Where is {context}?",
+        "Do you know where the {context} is?",
+        "Do you know how to get to {context}?",
+    ],
+    object_attribute="directions",
 )
 
 intent_ill_have_context_creator = ParameterizedIntentCreator(
@@ -189,3 +201,14 @@ intent_ill_have_context_creator = ParameterizedIntentCreator(
         "Ya, {context} sounds good",
     ],
 )
+
+intent_creators = [
+    intent_what_is_context_creator,
+    intent_directions_creator,
+    intent_is_there_a_context_creator,
+    intent_is_there_a_place_to_verb_creator,
+    intent_when_is_that_creator,
+    intent_what_price_creator,
+    intent_what_duration_creator,
+    intent_ill_have_context_creator,
+]

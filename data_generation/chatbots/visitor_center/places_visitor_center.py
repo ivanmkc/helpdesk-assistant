@@ -1,10 +1,11 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
+    IntentWithExamples,
     Utterance,
 )
 
 import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as stories_book_tour
-from data_generation.place import Place
+
+# from data_generation.place import Place
 
 holburne_museum = Place(
     name="The Holburne Museum",
@@ -103,7 +104,7 @@ restaurant = Place(
     intro=Utterance(
         "There is a great restaurant around the corner. It’s called “Sally O’s”. You should go there!",
     ),
-    question_intent=Intent(
+    question_intent=IntentWithExamples(
         examples=[
             "What about restaurants?",
             "I'm hungry",

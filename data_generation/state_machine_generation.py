@@ -8,7 +8,7 @@ import yaml
 from rasa.shared.core.domain import Domain
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Action,
-    Intent,
+    IntentWithExamples,
     Slot,
     Utterance,
 )
@@ -23,7 +23,9 @@ from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 def get_domain_nlu(state: StateMachineState, is_initial_state: bool):
     all_entity_names = {entity for entity in state.all_entities()}
 
-    all_intents: Set[Intent] = {intent for intent in state.all_intents()}
+    all_intents: Set[IntentWithExamples] = {
+        intent for intent in state.all_intents()
+    }
 
     all_actions: Set[Action] = {action for action in state.all_actions()}
 
@@ -57,7 +59,11 @@ def get_domain_nlu(state: StateMachineState, is_initial_state: bool):
     # Write NLU
     nlu_data = {
         "version": "2.0",
-        "nlu": [intent.as_nlu_yaml() for intent in all_intents],
+        "nlu": [
+            intent.as_nlu_yaml()
+            for intent in all_intents
+            if isinstance(intent, IntentWithExamples)
+        ],
     }
 
     return domain, nlu_data

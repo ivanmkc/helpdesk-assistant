@@ -5,16 +5,11 @@ import rasa.shared.constants
 import rasa.shared.utils.validation
 from rasa.shared.core.domain import Domain
 from rasa.shared.core.slots import (
-    AnySlot,
-    BooleanSlot,
-    CategoricalSlot,
-    FloatSlot,
-    ListSlot,
     Slot,
-    TextSlot,
 )
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
+    IntentWithExamples,
     Utterance,
 )
 from rasa.shared.nlu.state_machine.state_machine_state import Action
@@ -23,40 +18,23 @@ from rasa.shared.nlu.training_data.formats import RasaYAMLReader
 from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 
 
-class IntentName(StoryYAMLConvertable):
-    name: str
-
-    def __init__(self, name: str):
-        self.name = name
-
-    def as_story_yaml(self) -> Dict:
-        return {"intent": self.name}
-
-
 class SlotWasSet(StoryYAMLConvertable):
-    def __init__(self, slot_name: str, slot_value: Optional[Any]) -> None:
-        self.slot_name = slot_name
-        self.slot_value = slot_value
+    def __init__(self, slots_and_values: List[Dict[str, Any]]) -> None:
+        self.slots_and_values = slots_and_values
 
     def as_story_yaml(self) -> Dict:
-        return {
-            "slot_was_set": [
-                {self.slot_name: self.slot_value}
-                if self.slot_value is not None
-                else self.slot_value
-            ]
-        }
+        return {"slot_was_set": self.slots_and_values}
 
 
 class Or(StoryYAMLConvertable):
-    intents: List[Union[Intent, IntentName]]
+    intents: List[Union[Intent, Intent]]
 
     def __init__(self, *args: Union["Or", Intent]) -> None:
         intents = list(args)
 
         if all(
             [
-                isinstance(intent, Intent) or isinstance(intent, IntentName)
+                isinstance(intent, Intent) or isinstance(intent, Intent)
                 for intent in intents
             ]
         ):
@@ -101,7 +79,7 @@ class Fork(StoryYAMLConvertable):
 
 
 class Story:
-    paths: List[Union["Or", Intent, Action, IntentName, SlotWasSet]]
+    paths: List[Union["Or", Intent, Action, Intent, SlotWasSet]]
     name: str
 
     def __init__(
@@ -129,7 +107,6 @@ class Story:
         all_utterances: Set[Utterance] = set()
         all_actions: Set[Action] = set()
         all_slot_was_sets: Set[SlotWasSet] = set()
-        # all_slots: Set[Slot] = []
 
         for element_index, element in enumerate(self.paths):
             # Add to current story
@@ -248,42 +225,74 @@ def persist(
     stories: List[Story],
     domain_filename: str,
     nlu_filename: str,
+    additional_intents: List[Intent],
+    slots: List[Slot],
     use_rules: bool = False,
 ):
     all_domain = Domain.empty()
-    all_intents: Set[Intent] = set()
+    all_intents: Set[Intent] = set(additional_intents)
     all_stories: List[Story] = []
     all_slot_was_sets: Set[SlotWasSet] = set()
 
     for story in stories:
-        domain, stories, intents, slot_was_sets = story.get_domain_nlu(
+        domain, sub_stories, intents, slot_was_sets = story.get_domain_nlu(
             use_rules=use_rules
         )
 
+        # print([intent.name for intent in intents])
+        # print(domain.intents)
+
         all_domain = all_domain.merge(domain)
         all_intents.update(intents)
-        all_stories.extend(stories)
+        all_stories.extend(sub_stories)
         all_slot_was_sets.update(slot_was_sets)
 
-    # Go through all entities and create consolidated slot
-    slots_dict: Dict[str, List[Any]] = {}
-    for slot_was_set in all_slot_was_sets:
-        new_slot_values = slots_dict.get(slot_was_set.slot_name, []) + [
-            slot_was_set.slot_value
-        ]
-        slots_dict[slot_was_set.slot_name] = list(
-            set(new_slot_values)
-        )  # Get unique values
+    # # Create consolidated slots
+    # slots_dict: Dict[str, List[Any]] = {}
+    # # Go through all entities and create consolidated slot
+    # for slot_was_set in all_slot_was_sets:
+    #     for slot in slot_was_set.slots_and_values:
+    #         if isinstance(slot, dict):
+    #             for slot_name, slot_value in slot:
+    #                 new_slot_values = slots_dict.get(slot_name, []) + [
+    #                     slot_value
+    #                 ]
+    #                 slots_dict[slot_name] = list(
+    #                     set(new_slot_values)
+    #                 )  # Get unique values
 
-    slots: List[Slot] = [
-        CategoricalSlot(name=slot_name, values=slot_values)
-        for slot_name, slot_values in slots_dict.items()
-    ]
+    # # Go through all entities and create consolidated slot
+    # for intent in all_intents:
+    #     for example in intent.examples:
+    #         # TODO: Extract entities of form: [City Bus Tour]()
+
+    #         # Extract entities of form: [City Bus Tour]{"entity":"object_name", "value": "City Bus Tour"}
+    #         regex = r"\[.+?\](\{.+?\})"
+    #         matches = re.finditer(regex, example, re.MULTILINE)
+    #         for match in matches:
+    #             for groupNum in range(0, len(match.groups())):
+    #                 groupNum = groupNum + 1
+    #                 group = match.group(groupNum)
+    #                 extracted_entity = json.loads(group)
+    #                 slot_name = extracted_entity["entity"]
+    #                 slot_value = extracted_entity["value"]
+
+    #                 new_slot_values = slots_dict.get(slot_name, []) + [
+    #                     slot_value
+    #                 ]
+    #                 slots_dict[slot_name] = list(
+    #                     set(new_slot_values)
+    #                 )  # Get unique values
+
+    # slots: List[Slot] = [
+    #     CategoricalSlot(name=slot_name, values=slot_values)
+    #     for slot_name, slot_values in slots_dict.items()
+    # ]
 
     # Append consolidated slots
     domain_slots = Domain(
-        intents=[],
-        entities=[],
+        intents=set([intent.name for intent in all_intents]),
+        entities=[slot.name for slot in slots],
         slots=slots,
         responses={},
         action_names=[],
@@ -302,7 +311,11 @@ def persist(
     # Write NLU
     nlu_data = {
         "version": "2.0",
-        "nlu": [intent.as_nlu_yaml() for intent in all_intents],
+        "nlu": [
+            intent.as_nlu_yaml()
+            for intent in all_intents
+            if isinstance(intent, IntentWithExamples)
+        ],
         "rules" if use_rules else "stories": all_stories,
     }
 

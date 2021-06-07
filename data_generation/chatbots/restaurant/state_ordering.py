@@ -7,7 +7,7 @@ from rasa.shared.nlu.state_machine.conditions import (
 )
 from rasa.shared.nlu.state_machine.state_machine_models import (
     BooleanSlot,
-    Intent,
+    IntentWithExamples,
     TextSlot,
     Utterance,
 )
@@ -18,9 +18,9 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
 )
 
 from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import ActionName, IntentName
+from data_generation.story_generation import ActionName, Intent
 
-wheres_the_washroom_intent = Intent(
+wheres_the_washroom_intent = IntentWithExamples(
     name="wheres_the_washroom",
     examples=[
         "Where's the washroom?",
@@ -30,7 +30,7 @@ wheres_the_washroom_intent = Intent(
     ],
 )
 
-select_salad = Intent(
+select_salad = IntentWithExamples(
     name="select_salad",
     examples=[
         "I'll have the salad",
@@ -40,7 +40,7 @@ select_salad = Intent(
     ],
 )
 
-select_soup = Intent(
+select_soup = IntentWithExamples(
     name="select_soup",
     examples=[
         "I'll have the cauliflower",
@@ -49,7 +49,7 @@ select_soup = Intent(
     ],
 )
 
-select_tatare = Intent(
+select_tatare = IntentWithExamples(
     name="select_tatare",
     examples=[
         "I'll have the tuna tatare",
@@ -59,7 +59,7 @@ select_tatare = Intent(
     ],
 )
 
-select_generic = Intent(
+select_generic = IntentWithExamples(
     name="select_generic",
     examples=[
         "I'll have the [steak](entree)",
@@ -74,7 +74,7 @@ select_generic = Intent(
     ],
 )
 
-select_fish = Intent(
+select_fish = IntentWithExamples(
     name="select_fish",
     examples=[
         "I'll have the fish please",
@@ -85,7 +85,7 @@ select_fish = Intent(
     ],
 )
 
-select_steak = Intent(
+select_steak = IntentWithExamples(
     name="select_steak",
     examples=[
         "I'll have the beef",
@@ -99,7 +99,7 @@ select_steak = Intent(
     ],
 )
 
-select_vegetables = Intent(
+select_vegetables = IntentWithExamples(
     name="select_vegetables",
     examples=[
         "I'll have the vegetarian lasagna",
@@ -149,17 +149,19 @@ slot_entree = TextSlot(
     prompt_actions=[action_ask_entree],
 )
 
-steak_doneness_rare = Intent(
+steak_doneness_rare = IntentWithExamples(
     examples=["Rare", "I'd like it raw", "Not cooked"]
 )
 
-steak_doneness_mediumrare = Intent(
+steak_doneness_mediumrare = IntentWithExamples(
     examples=["Medium-rare", "Not too cooked", "I want it medium-rare"]
 )
 
-steak_doneness_medium = Intent(examples=["Medium"])
+steak_doneness_medium = IntentWithExamples(examples=["Medium"])
 
-steak_doneness_welldone = Intent(examples=["Well-done", "I want it well-done"])
+steak_doneness_welldone = IntentWithExamples(
+    examples=["Well-done", "I want it well-done"]
+)
 
 slot_steak_doneness = TextSlot(
     name="steak_doneness",
@@ -208,7 +210,7 @@ generalResponses: List[Response] = [
     ),
     Response(
         condition=IntentCondition(
-            Intent(
+            IntentWithExamples(
                 name="what_are_hours",
                 examples=[
                     "What are your hours?",
@@ -228,7 +230,7 @@ generalResponses: List[Response] = [
     ),
     Response(
         condition=IntentCondition(
-            Intent(
+            IntentWithExamples(
                 examples=[
                     "Are you busy?",
                     "How busy are you?",
@@ -296,7 +298,7 @@ student_life_state_machine = StateMachineState(
         ),
         Response(
             condition=IntentCondition(
-                Intent(
+                IntentWithExamples(
                     examples=[
                         "Can I see a menu?",
                         "Menu please.",
@@ -321,7 +323,7 @@ student_life_state_machine = StateMachineState(
         ),
         Response(
             condition=IntentCondition(
-                Intent(
+                IntentWithExamples(
                     examples=[
                         "What's in the lasagna?",
                         "What's kind of lasagna is it?",
@@ -384,20 +386,20 @@ story_generation.persist(
                 Or(
                     intent_what_do_you_recommend,
                     intent_not_sure,
-                    IntentName("help"),
+                    Intent("help"),
                 ),
                 Utterance(
                     "May I recommend the tatare? It's our most popular starter."
                 ),
                 Fork(
                     [
-                        Or(intent_sure_ill_get_that, IntentName("affirm")),
+                        Or(intent_sure_ill_get_that, Intent("affirm")),
                         Utterance("Great, the tatare it is then."),
                         # TODO: Set slot
                         ActionName("action_set_appetizer_tatare"),
                     ],
                     [
-                        IntentName("deny"),
+                        Intent("deny"),
                         Utterance(
                             "In that case, you can choose between the salmon tatare and the cauliflower soup."
                         ),
@@ -413,20 +415,20 @@ story_generation.persist(
                 Or(
                     intent_what_do_you_recommend,
                     intent_not_sure,
-                    IntentName("help"),
+                    Intent("help"),
                 ),
                 Utterance(
                     "I personally prefer the steak. Would you like that?"
                 ),
                 Fork(
                     [
-                        Or(intent_sure_ill_get_that, IntentName("affirm")),
+                        Or(intent_sure_ill_get_that, Intent("affirm")),
                         Utterance("Great, one steak then."),
                         # TODO: Set slot
                         ActionName("action_set_entree_steak"),
                     ],
                     [
-                        IntentName("deny"),
+                        Intent("deny"),
                         Utterance(
                             "In that case, you can choose between the sea bass and the vegetarian lasagna."
                         ),

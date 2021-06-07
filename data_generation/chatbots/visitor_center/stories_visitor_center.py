@@ -1,6 +1,6 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
     ActionName,
-    Intent,
+    IntentWithExamples,
     Utterance,
 )
 
@@ -8,20 +8,20 @@ import data_generation.common_intents as common
 import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
 import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as stories_book_tour
 import data_generation.chatbots.visitor_center.state_visitor_center as state_visitor_center
-from data_generation.story_generation import Fork, IntentName, Or, Story
+from data_generation.story_generation import Fork, Intent, Or, Story
 
 # Personal
 stories_personal = [
     Story(
         [
-            Intent(examples=["Who are you?", "What's your name?"]),
+            IntentWithExamples(examples=["Who are you?", "What's your name?"]),
             Utterance("I'm called Patrick"),
             Utterance("I help visitors to Bath, like yourself."),
         ]
     ),
     Story(
         [
-            Intent(examples=["Who are you?", "What's your name?"]),
+            IntentWithExamples(examples=["Who are you?", "What's your name?"]),
             Utterance("I'm called Patrick"),
             Utterance("I help visitors to Bath, like yourself."),
         ]
@@ -32,7 +32,7 @@ stories_personal = [
 stories_tell_me_more = [
     Story(
         [
-            Intent(examples=["What's there to do around here?"]),
+            IntentWithExamples(examples=["What's there to do around here?"]),
             Utterance(
                 "The Roman Baths are my favorite thing to see in Bath. You could also check out the Museum of Bath Architecture or the Bath Abbey."
             ),
@@ -40,7 +40,7 @@ stories_tell_me_more = [
     ),
     Story(
         [
-            Or(common.intent_what_do_you_do, IntentName("help")),
+            Or(common.intent_what_do_you_do, Intent("help")),
             Utterance(
                 "I help visitors who want to explore the town by giving them information about the places around here. I can also help with booking tours. You can also buy the CityPass here which lets you go to attractions at a discount."
             ),
@@ -48,7 +48,7 @@ stories_tell_me_more = [
     ),
     Story(
         [
-            Intent(
+            IntentWithExamples(
                 examples=[
                     "What tours do you have?",
                     "What tours are there?",
@@ -69,7 +69,7 @@ stories_tell_me_more = [
 stories_what_time = [
     Story(
         [
-            Intent(
+            IntentWithExamples(
                 examples=[
                     "What are your hours?",
                     "When do you open?",
@@ -88,7 +88,7 @@ stories_tours = [
     Story(
         name="tours",
         elements=[
-            Intent(
+            IntentWithExamples(
                 examples=[
                     "I want to buy a ticket",
                     "Can I have a ticket?",
@@ -118,7 +118,7 @@ stories_tours = [
                     Or(
                         common.intent_what_do_you_recommend,
                         common.intent_not_sure,
-                        IntentName("help"),
+                        Intent("help"),
                     ),
                     Utterance(
                         "I'd personally go with the CityPass as I love museums."
@@ -127,12 +127,12 @@ stories_tours = [
                         [
                             Or(
                                 common.intent_sure_ill_get_that,
-                                IntentName("affirm"),
+                                Intent("affirm"),
                             ),
                             # TODO: StateMachineTransition
                         ],
                         [
-                            IntentName("deny"),
+                            Intent("deny"),
                             Utterance("It's up to you."),
                         ],
                         # TODO: Handle "nothing" condition

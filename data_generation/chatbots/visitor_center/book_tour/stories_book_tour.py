@@ -7,7 +7,7 @@ import data_generation.common_intents as common
 import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
 from data_generation.story_generation import (
     Fork,
-    IntentName,
+    Intent,
     Or,
     OrActions,
     Story,
@@ -45,21 +45,21 @@ stories_tours = [
                     Or(
                         common.intent_what_do_you_recommend,
                         common.intent_not_sure,
-                        IntentName("help"),
+                        Intent("help"),
                     ),
                     utter_recommend_boat,
                     Fork(
                         [
                             Or(
                                 common.intent_sure_ill_get_that,
-                                IntentName("affirm"),
+                                Intent("affirm"),
                             ),
                             Utterance("Great, the boat tour then."),
                             # TODO: Set slot
                             ActionName("action_set_tour_boat"),
                         ],
                         [
-                            IntentName("deny"),
+                            Intent("deny"),
                             Utterance("It's up to you."),
                         ],
                         # TODO: Handle "nothing" condition

@@ -1,74 +1,108 @@
 version: "2.0"
 stories:
-- story: bot challenge
-  steps:
-  - intent: bot_challenge
-    user: |-
-      Are you a bot?
-  - action: utter_iamabot
 
-- story: out of scope
+- story: what do you do here?
   steps:
-  - intent: out_of_scope
-    user: |-
-      I want a pizza
-  - action: utter_out_of_scope
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: what_do_you_do_here
+    - action: utter_i_help_visitors_who_want_to_explore_the_town_by_giving_them_information_about_the_places_around_here_i_can_also_help_with_booking_tours_you_can_also_buy_the_citypass_here_which_lets_you_go_to_attractions_at_a_discount
 
-- story: interrupted
-  steps:
-  - intent: problem_email
-    user: |-
-      I have a problem with my email
-  - action: open_incident_form
-  - active_loop: open_incident_form
-  - intent: help
-  - action: utter_help
-  - action: open_incident_form
-  - active_loop: null
-  - action: action_open_incident
+# - story: what price for place?
+#   steps:
+#     - intent: greet
+#     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+#     - intent: intent_what_price_with_entities
+#     - action: action_set_object_attribute_price
 
-- story: greet + thank
+- story: what hours for place?
   steps:
-  - intent: greet
-    user: |-
-      Hey there
-  - action: utter_greet
-  - action: utter_help
-  - intent: thank
-    user: |-
-      Awesome, thanks!
-  - action: utter_welcome
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: intent_what_hours_with_entities
+      entities:
+      - object_name    
+    - slot_was_set:
+      - object_name
+    - action: action_set_object_attribute_hours
+    - slot_was_set:
+      - object_name
+      - object_attribute
+    - action: get_object_info
+    - action: action_listen
 
-- story: user requests a human handoff
+- story: what price for place?
   steps:
-  - intent: human_handoff
-    user: |-
-      I want to talk to a person now
-  - action: utter_ask_handoff
-  - action: action_handoff_options
-  - intent: deny
-    user: |-
-      uh no
-  - action: utter_ask_whatelse
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: intent_what_price_with_entities
+      entities:
+      - object_name
+    - slot_was_set:
+      - object_name      
+    - action: action_set_object_attribute_price
+    - slot_was_set:
+      - object_name
+      - object_attribute
+    - action: get_object_info
+    - action: action_listen
 
-- story: User says something out of scope
-  steps:
-  - intent: out_of_scope
-    user: |-
-      Can you get me a pizza
-  - action: utter_out_of_scope
+# - story: bot challenge
+#   steps:
+#   - intent: bot_challenge
+#     user: |-
+#       Are you a bot?
+#   - action: utter_iamabot
 
-- story: trigger handoff
-  steps:
-  - intent: human_handoff
-    user: |-
-      give me a human
-  - action: utter_ask_handoff
-  - action: action_handoff_options
-  - intent: trigger_handoff
-  - action: action_handoff
+# # - story: out of scope
+# #   steps:
+# #   - intent: out_of_scope
+# #     user: |-
+# #       I want a pizza
+# #   - action: utter_out_of_scope
 
-- story: Test fallback
-  steps:
-  - intent: nlu_fallback
-  - action: question_answer_action
+# # - story: greet + thank
+# #   steps:
+# #   - intent: greet
+# #     user: |-
+# #       Hey there
+# #   - action: utter_greet
+# #   - action: utter_help
+# #   - intent: thank
+# #     user: |-
+# #       Awesome, thanks!
+# #   - action: utter_welcome
+
+# # # - story: user requests a human handoff
+# # #   steps:
+# # #   - intent: human_handoff
+# # #     user: |-
+# # #       I want to talk to a person now
+# # #   - action: utter_ask_handoff
+# # #   - action: action_handoff_options
+# # #   - intent: deny
+# # #     user: |-
+# # #       uh no
+# # #   - action: utter_ask_whatelse
+
+# # - story: User says something out of scope
+# #   steps:
+# #   - intent: out_of_scope
+# #     user: |-
+# #       Can you get me a pizza
+# #   - action: utter_out_of_scope
+
+# # # - story: trigger handoff
+# # #   steps:
+# # #   - intent: human_handoff
+# # #     user: |-
+# # #       give me a human
+# # #   - action: utter_ask_handoff
+# # #   - action: action_handoff_options
+# # #   - intent: trigger_handoff
+# # #   - action: action_handoff
+
+# # - story: Test fallback
+# #   steps:
+# #   - intent: nlu_fallback
+# #   - action: question_answer_action

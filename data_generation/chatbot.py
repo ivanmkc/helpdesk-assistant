@@ -4,10 +4,18 @@ from data_generation.state_machine import StateMachine
 from data_generation import story_generation
 from data_generation.story_generation import Story
 from actions import question_answer_action
-
 from typing import List
 import os
 import shutil
+
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    Intent,
+)
+
+from rasa.shared.core.slots import (
+    Slot,
+    TextSlot,
+)
 
 
 @dataclass
@@ -16,7 +24,16 @@ class Chatbot:
 
     state_machine: StateMachine
     stories: List[Story]
+    additional_intents: List[Intent]
     question_answer_context_file_path: str
+
+    @property
+    def base_slots(self) -> List[Slot]:
+        return [
+            TextSlot(name="object_name"),
+            TextSlot(name="object_type"),
+            TextSlot(name="object_attribute"),
+        ]
 
     def persist(self, domain_folder: str, nlu_folder: str):
         self.state_machine.persist(
@@ -31,6 +48,8 @@ class Chatbot:
             self.stories,
             domain_filename=domain_filename,
             nlu_filename=nlu_filename,
+            additional_intents=self.additional_intents,
+            slots=self.base_slots,
             use_rules=False,
         )
 

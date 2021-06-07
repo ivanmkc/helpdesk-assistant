@@ -8,7 +8,7 @@ from rasa.shared.nlu.state_machine.conditions import (
 from rasa.shared.nlu.state_machine.state_machine_models import (
     ActionName,
     BooleanSlot,
-    Intent,
+    IntentWithExamples,
     TextSlot,
     Utterance,
 )
@@ -20,12 +20,14 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
 
 import data_generation.common_intents as common
 from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import IntentName
+from data_generation.story_generation import Intent
 
 slot_number_tickets = TextSlot(
     name="citypass_num_tickets",
     entities=["number"],
-    intents={Intent(examples=["Just me", "Myself", "Just the one"]): 1},
+    intents={
+        IntentWithExamples(examples=["Just me", "Myself", "Just the one"]): 1
+    },
     prompt_actions=[Utterance("How many tickets do you need?")],
     only_fill_when_prompted=True,
 )

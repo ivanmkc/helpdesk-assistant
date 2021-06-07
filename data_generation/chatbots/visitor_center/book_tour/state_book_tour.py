@@ -7,7 +7,7 @@ from rasa.shared.nlu.state_machine.conditions import (
 from rasa.shared.nlu.state_machine.state_machine_models import (
     ActionName,
     BooleanSlot,
-    Intent,
+    IntentWithExamples,
     TextSlot,
     Utterance,
 )
@@ -19,7 +19,7 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
 
 import data_generation.common_intents as common
 from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import IntentName
+from data_generation.story_generation import Intent
 
 # class SpaceEntity(Enum, Entity):
 #     person = "PERSON"
@@ -29,7 +29,7 @@ from data_generation.story_generation import IntentName
 #     def name(self) -> str:
 #         return self.value
 
-intent_select_boat_tour = Intent(
+intent_select_boat_tour = IntentWithExamples(
     examples=[
         "The boat tour",
         "The city tour",
@@ -45,7 +45,7 @@ intent_select_boat_tour = Intent(
     ]
 )
 
-intent_select_bus_tour = Intent(
+intent_select_bus_tour = IntentWithExamples(
     examples=[
         "The bus tour",
         "bus",
@@ -80,7 +80,9 @@ slot_tour = TextSlot(
 slot_number_tickets = TextSlot(
     name="tour_num_tickets",
     entities=["number"],
-    intents={Intent(examples=["Just me", "Myself", "Just the one"]): 1},
+    intents={
+        IntentWithExamples(examples=["Just me", "Myself", "Just the one"]): 1
+    },
     prompt_actions=[
         Utterance(
             "That’s a great choice. How many people need tickets for the {tour_type} tour?"

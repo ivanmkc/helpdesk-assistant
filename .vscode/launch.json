@@ -76,6 +76,22 @@
             }
         },
         {
+            "name": "Rasa: Test",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "test",
+                "core",
+                "--stories",
+                "tests/"
+            ],
+            "env": {
+                "PYTHONPATH": "./"
+            }
+        },
+        {
             "name": "Rasa: Shell",
             "type": "python",
             "request": "launch",

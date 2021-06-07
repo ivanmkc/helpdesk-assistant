@@ -22,3 +22,27 @@ class ActionResetTourSlots(ActionResetSlots):
 class ActionResetTourSlots(ActionResetSlots):
     action_name = "action_reset_citypass_slots"
     slot_names = ["citypass_num_tickets", "citypass_confirmed"]
+
+
+class ActionSetObjectAttribute(ActionSetSlot):
+    slot_name = "object_attribute"
+
+
+class ActionSetObjectAttributePrice(ActionSetObjectAttribute):
+    action_name = "action_set_object_attribute_price"
+    slot_value = "price"
+
+
+class ActionSetObjectAttributeDuration(ActionSetObjectAttribute):
+    action_name = "action_set_object_attribute_duration"
+    slot_value = "duration"
+
+
+class ActionSetObjectAttributeHours(ActionSetObjectAttribute):
+    action_name = "action_set_object_attribute_hours"
+    slot_value = "hours"
+
+
+class ActionSetObjectAttributeDirections(ActionSetObjectAttribute):
+    action_name = "action_set_object_attribute_directions"
+    slot_value = "directions"

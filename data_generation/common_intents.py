@@ -1,17 +1,19 @@
-from rasa.shared.nlu.state_machine.state_machine_models import Intent
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    IntentWithExamples,
+)
 
-intent_where_are_you_from = Intent(
+intent_where_are_you_from = IntentWithExamples(
     name="where_are_you_from", examples=["Where are you from?"]
 )
 
-intent_let_me_think = Intent(
+intent_let_me_think = IntentWithExamples(
     examples=[
         "Give me time",
         "Let me think",
     ]
 )
 
-intent_what_do_you_do = Intent(
+intent_what_do_you_do = IntentWithExamples(
     examples=[
         "What do you do here?",
         "How can you help?",
@@ -21,7 +23,7 @@ intent_what_do_you_do = Intent(
     ]
 )
 
-intent_changed_my_mind = Intent(
+intent_changed_my_mind = IntentWithExamples(
     examples=[
         "I changed my mind",
         "Nevermind",
@@ -31,7 +33,7 @@ intent_changed_my_mind = Intent(
     ]
 )
 
-intent_what_is_that = Intent(
+intent_what_is_that = IntentWithExamples(
     examples=[
         "What is that?",
         "What's that?",
@@ -41,7 +43,7 @@ intent_what_is_that = Intent(
     ]
 )
 
-intent_directions = Intent(
+intent_directions = IntentWithExamples(
     examples=[
         "How do you get there?",
         "What's the way there?",
@@ -51,7 +53,7 @@ intent_directions = Intent(
     ]
 )
 
-intent_when_is_that = Intent(
+intent_when_is_that = IntentWithExamples(
     examples=[
         "When is that?",
         "What are the hours?",
@@ -70,7 +72,7 @@ intent_when_is_that = Intent(
     ]
 )
 
-intent_what_price = Intent(
+intent_what_price = IntentWithExamples(
     examples=[
         "How much is it?",
         "Is it expensive?",
@@ -83,7 +85,7 @@ intent_what_price = Intent(
     ]
 )
 
-intent_not_sure = Intent(
+intent_not_sure = IntentWithExamples(
     examples=[
         "I'm not sure",
         "I'm don't know",
@@ -93,7 +95,7 @@ intent_not_sure = Intent(
     ]
 )
 
-intent_how_long = Intent(
+intent_how_long = IntentWithExamples(
     examples=[
         "How long?",
         "How long is it?",
@@ -102,7 +104,7 @@ intent_how_long = Intent(
     ]
 )
 
-intent_what_do_you_recommend = Intent(
+intent_what_do_you_recommend = IntentWithExamples(
     examples=[
         "What do you recommend?",
         "It's up to you",
@@ -116,7 +118,7 @@ intent_what_do_you_recommend = Intent(
     ]
 )
 
-intent_sure_ill_get_that = Intent(
+intent_sure_ill_get_that = IntentWithExamples(
     examples=[
         "Sure, I'll get that",
         "I'll have that then",
@@ -128,7 +130,7 @@ intent_sure_ill_get_that = Intent(
     ]
 )
 
-want_to_leave_intent = Intent(
+want_to_leave_intent = IntentWithExamples(
     name="want_to_leave",
     examples=[
         "I want to leave",
@@ -140,7 +142,7 @@ want_to_leave_intent = Intent(
 )
 
 
-how_are_you_doing_intent = Intent(
+how_are_you_doing_intent = IntentWithExamples(
     name="how_are_you_doing",
     examples=[
         "How are you doing?",
