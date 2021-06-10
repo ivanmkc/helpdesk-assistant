@@ -17,6 +17,7 @@ import yaml
 
 from data_generation.models import Object
 import actions.find_objects_action as find_objects_action
+import actions.question_answer_action as question_answer_action
 
 logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: May 18, 2021"
@@ -27,7 +28,7 @@ OBJECTS_FILE_PATH = "context/objects.yaml"
 
 SLOT_OBJECT_ATTRIBUTE = "object_attribute"
 
-ACTION_NAME = "get_object_info"
+ACTION_NAME = "action_get_object_info"
 
 
 class GetObjectInfo(Action):
@@ -77,15 +78,17 @@ class GetObjectInfo(Action):
 
                 if attribute_value:
                     dispatcher.utter_message(text=attribute_value)
+                    return []
                 else:
-                    dispatcher.utter_message(
-                        text="Sorry, I don't have the answer to that."
-                    )
+                    # dispatcher.utter_message(
+                    #     text="Sorry, I don't have the answer to that."
+                    # )
+                    return [
+                        FollowupAction(name=question_answer_action.ACTION_NAME)
+                    ]
 
-                return []
+        # dispatcher.utter_message(
+        #     text="Sorry, I don't have the answer to that."
+        # )
 
-        dispatcher.utter_message(
-            text="Sorry, I don't have the answer to that."
-        )
-
-        return []
+        return [FollowupAction(name=question_answer_action.ACTION_NAME)]

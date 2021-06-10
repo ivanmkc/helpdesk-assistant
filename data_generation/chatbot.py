@@ -2,11 +2,13 @@ from dataclasses import dataclass
 from rasa.shared.nlu.state_machine.state_machine_state import StateMachineState
 from data_generation.state_machine import StateMachine
 from data_generation import story_generation
+from data_generation.models import Object
 from data_generation.story_generation import Story
-from actions import question_answer_action
+from actions import question_answer_action, get_object_info
 from typing import List
 import os
 import shutil
+import yaml
 
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
@@ -24,6 +26,7 @@ class Chatbot:
 
     state_machine: StateMachine
     stories: List[Story]
+    objects: List[Object]
     additional_intents: List[Intent]
     question_answer_context_file_path: str
 
@@ -53,7 +56,10 @@ class Chatbot:
             use_rules=False,
         )
 
-        # Copy context
+        # Object
+        with open(get_object_info.OBJECTS_FILE_PATH, "w") as file:
+            yaml.dump(self.objects, file)
+
         shutil.copy(
             self.question_answer_context_file_path,
             question_answer_action.CONTEXT_FILE_PATH,

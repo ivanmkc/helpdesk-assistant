@@ -253,11 +253,11 @@ def persist(
     # for slot_was_set in all_slot_was_sets:
     #     for slot in slot_was_set.slots_and_values:
     #         if isinstance(slot, dict):
-    #             for slot_name, slot_value in slot:
-    #                 new_slot_values = slots_dict.get(slot_name, []) + [
+    #             for entity_name, slot_value in slot:
+    #                 new_slot_values = slots_dict.get(entity_name, []) + [
     #                     slot_value
     #                 ]
-    #                 slots_dict[slot_name] = list(
+    #                 slots_dict[entity_name] = list(
     #                     set(new_slot_values)
     #                 )  # Get unique values
 
@@ -274,19 +274,19 @@ def persist(
     #                 groupNum = groupNum + 1
     #                 group = match.group(groupNum)
     #                 extracted_entity = json.loads(group)
-    #                 slot_name = extracted_entity["entity"]
+    #                 entity_name = extracted_entity["entity"]
     #                 slot_value = extracted_entity["value"]
 
-    #                 new_slot_values = slots_dict.get(slot_name, []) + [
+    #                 new_slot_values = slots_dict.get(entity_name, []) + [
     #                     slot_value
     #                 ]
-    #                 slots_dict[slot_name] = list(
+    #                 slots_dict[entity_name] = list(
     #                     set(new_slot_values)
     #                 )  # Get unique values
 
     # slots: List[Slot] = [
-    #     CategoricalSlot(name=slot_name, values=slot_values)
-    #     for slot_name, slot_values in slots_dict.items()
+    #     CategoricalSlot(name=entity_name, values=slot_values)
+    #     for entity_name, slot_values in slots_dict.items()
     # ]
 
     # Append consolidated slots

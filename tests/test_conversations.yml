@@ -28,9 +28,23 @@ stories:
     - slot_was_set:
       - object_name
       - object_attribute
-    - action: get_object_info
+    - action: action_get_object_info
     - action: action_listen
-
+    - intent: intent_what_price # Followup
+    - action: action_set_object_attribute_price
+    - slot_was_set:
+      - object_name
+      - object_attribute
+    - action: action_get_object_info
+    - action: action_listen
+    - intent: intent_what_about_context_with_entities # Followup
+      entities:
+      - object_name    
+    - slot_was_set:
+      - object_name
+    - action: action_get_object_info
+    - action: action_listen
+        
 - story: what price for place?
   steps:
     - intent: greet
@@ -44,8 +58,32 @@ stories:
     - slot_was_set:
       - object_name
       - object_attribute
-    - action: get_object_info
+    - action: action_get_object_info
     - action: action_listen
+
+- story: is there a ruin?
+  steps:
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: intent_is_there_a_context_with_entities
+      entities:
+      - object_name    
+    - slot_was_set:
+      - object_name
+    - action: action_find_objects
+    - action: action_listen
+
+- story: is there a place to eat?
+  steps:
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: intent_is_there_a_place_with_context_with_entities
+      entities:
+      - object_thing_provided    
+    - slot_was_set:
+      - object_thing_provided
+    - action: action_find_objects
+    - action: action_listen    
 
 # - story: bot challenge
 #   steps:

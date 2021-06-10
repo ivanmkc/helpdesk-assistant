@@ -40,7 +40,8 @@ intent_what_is_that = IntentWithExamples(
         "Tell me about that.",
         "Can I hear more about that?",
         "Do you have more details",
-    ]
+    ],
+    name="intent_what_is_this",
 )
 
 intent_directions = IntentWithExamples(
@@ -50,7 +51,8 @@ intent_directions = IntentWithExamples(
         "How do I go there?",
         "What are the directions there?",
         "Where is that?",
-    ]
+    ],
+    name="intent_directions",
 )
 
 intent_when_is_that = IntentWithExamples(
@@ -69,7 +71,8 @@ intent_when_is_that = IntentWithExamples(
         "What would be the hours?",
         "What would the hours be?",
         "Do you know when it opens?",
-    ]
+    ],
+    name="intent_when_is_that",
 )
 
 intent_what_price = IntentWithExamples(
@@ -82,7 +85,8 @@ intent_what_price = IntentWithExamples(
         "How much?",
         "What price?",
         "What cost?",
-    ]
+    ],
+    name="intent_what_price",
 )
 
 intent_not_sure = IntentWithExamples(
@@ -92,16 +96,18 @@ intent_not_sure = IntentWithExamples(
         "I can't decide",
         "not sure",
         "dunno",
-    ]
+    ],
+    name="intent_not_sure",
 )
 
-intent_how_long = IntentWithExamples(
+intent_duration = IntentWithExamples(
     examples=[
         "How long?",
         "How long is it?",
         "What's the length?",
         "How much time does it take?",
-    ]
+    ],
+    name="intent_how_long",
 )
 
 intent_what_do_you_recommend = IntentWithExamples(
@@ -115,7 +121,8 @@ intent_what_do_you_recommend = IntentWithExamples(
         "Recommend something",
         "Give me a recommendation",
         "What do you think?",
-    ]
+    ],
+    name="intent_what_do_you_recommend",
 )
 
 intent_sure_ill_get_that = IntentWithExamples(

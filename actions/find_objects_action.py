@@ -1,3 +1,4 @@
+from actions import question_answer_action
 import typing
 from typing import Text, Dict, List, Any, Optional
 from rasa_sdk import Tracker
@@ -29,7 +30,7 @@ SLOT_OBJECT_NAME = "object_name"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
 
-ACTION_NAME = "find_objects_action"
+ACTION_NAME = "action_find_objects"
 
 
 class FindObjectsAction(Action):
@@ -40,7 +41,8 @@ class FindObjectsAction(Action):
     objects: List[Object]
 
     def __init__(self) -> None:
-        self.objects = yaml.load(OBJECTS_FILE_PATH)
+        with open(OBJECTS_FILE_PATH, "r") as file:
+            self.objects = yaml.load(file, yaml.Loader)
 
     def name(self) -> Text:
         return ACTION_NAME
@@ -65,15 +67,27 @@ class FindObjectsAction(Action):
 
         object_type = tracker.get_slot(SLOT_OBJECT_TYPE)
         # last_object_type = tracker.get_slot(SLOT_LAST_OBJECT_TYPE)
-        # object_name = tracker.get_slot(SLOT_OBJECT_NAME)
+        object_name = tracker.get_slot(SLOT_OBJECT_NAME)
         object_activity_provided = tracker.get_slot(
             SLOT_OBJECT_ACTIVITY_PROVIDED
         )
         object_thing_provided = tracker.get_slot(SLOT_OBJECT_THING_PROVIDED)
 
+        # If no parameters were set, then quit
+        if not any(
+            [
+                object_type,
+                object_name,
+                object_activity_provided,
+                object_thing_provided,
+            ]
+        ):
+            return [FollowupAction(name=question_answer_action.ACTION_NAME)]
+
         # Find objects of the given type
         found_objects: List[Object] = []
         for object in self.objects:
+
             # Match type if specified
             if object_type and not object_type == object.type:
                 continue
@@ -90,11 +104,18 @@ class FindObjectsAction(Action):
             ]:
                 continue
 
+            # Match object name if specified
+            if object_name and not object_name == object.name:
+                continue
+
             found_objects.append(object)
 
-        dispatcher.utter_message(text=f"You might try the following:")
+        if len(found_objects) > 0:
+            dispatcher.utter_message(text=f"You might try the following:")
 
-        for i, obj in enumerate(found_objects, 1):
-            dispatcher.utter_message(text=f"{i}: {obj.name}")
+            for i, obj in enumerate(found_objects, 1):
+                dispatcher.utter_message(text=f"{i}: {obj.intro}")
+        else:
+            dispatcher.utter_message(text=f"I don't think I know any.")
 
         return [FollowupAction(name=ACTION_LISTEN_NAME)]

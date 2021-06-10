@@ -3,6 +3,9 @@ from typing import Optional, List
 from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
 )
+
+import actions.find_objects_action as find_objects_action
+
 import inflect
 
 inflect_engine = inflect.engine()
@@ -13,20 +16,21 @@ class ParameterizedIntentCreator:
         self,
         name: str,
         parameterized_examples: List[str],
+        entity_name: str,
         object_attribute: Optional[str] = None,
     ):
         self.name = name
         self.parameterized_examples = parameterized_examples
+        self.entity_name = entity_name
         self.object_attribute = object_attribute
 
     def create_parameterized_intent(
         self,
-        context_name: str,
-        context_value: str,
-        context_value_synonyms: List[str] = [],
+        entity_value: str,
+        entity_synonyms: List[str] = [],
         # TODO: Add applicable verbs
     ) -> IntentWithExamples:
-        all_synonyms = context_value_synonyms + [context_value]
+        all_synonyms = entity_synonyms + [entity_value]
 
         # Strip
         all_synonyms = [synonym.strip() for synonym in all_synonyms]
@@ -76,7 +80,7 @@ class ParameterizedIntentCreator:
         examples_replaced = [
             example.replace(
                 "{context}",
-                f'[{synonym}]{{"entity":"{context_name}", "value": "{context_value}"}}',
+                f'[{synonym}]{{"entity":"{self.entity_name}", "value": "{entity_value}"}}',
             )
             for synonym in all_synonyms
             for example in self.parameterized_examples
@@ -85,7 +89,7 @@ class ParameterizedIntentCreator:
         return IntentWithExamples(
             examples=examples_replaced,
             name=self.name,
-            entities=[context_name],
+            entities=[self.entity_name],
         )
 
 
@@ -98,6 +102,8 @@ intent_what_is_context_creator = ParameterizedIntentCreator(
         "Can I hear more about {context}?",
         "Do you have more details about {context}",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    object_attribute="details",
 )
 
 intent_is_there_a_context_creator = ParameterizedIntentCreator(
@@ -107,7 +113,6 @@ intent_is_there_a_context_creator = ParameterizedIntentCreator(
         "Is there a {context} around here?",
         "Do you know of any {context}?",
         "Any {context}?",
-        "What about {context}?",
         "Have you heard about {context}?",
         "You wouldn't know the {context}, would you?",
         "Tell me about the {context}?",
@@ -118,15 +123,32 @@ intent_is_there_a_context_creator = ParameterizedIntentCreator(
         "Tell me about any {context}",
         "Can you point me towards a {context}",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
 )
 
-intent_is_there_a_place_to_verb_creator = ParameterizedIntentCreator(
-    name="intent_is_there_a_place_to_very_with_entities",
+intent_what_about_context_creator = ParameterizedIntentCreator(
+    name="intent_what_about_context_with_entities",
     parameterized_examples=[
-        "Is there a place to {verb}?",
-        "Do you know of any places for {verbing}?",
-        "I want to {verb}?",
+        "What about {context}?",
+        "How about {context}",
+        "And {context}?",
+        "How about for {context}?",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+)
+
+
+intent_is_there_a_place_with_context_creator = ParameterizedIntentCreator(
+    name="intent_is_there_a_place_with_context_with_entities",
+    parameterized_examples=[
+        "Is there a place to {context}?",
+        "Do you know of any places for {context}?",
+        "I want to {context}?",
+        "Where can I find {context}?",
+        "Where would I go for {context}?",
+        "I'm looking for {context}?",
+    ],
+    entity_name=find_objects_action.SLOT_OBJECT_THING_PROVIDED,
 )
 
 
@@ -146,6 +168,7 @@ intent_when_is_that_creator = ParameterizedIntentCreator(
         "When would the {context} open?",
         "When would the {context} close?",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
     object_attribute="hours",
 )
 
@@ -161,6 +184,7 @@ intent_what_price_creator = ParameterizedIntentCreator(
         "How much for {context}?",
         "What price for {context}?",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
     object_attribute="price",
 )
 
@@ -172,6 +196,7 @@ intent_what_duration_creator = ParameterizedIntentCreator(
         "What's the duration of {context}?",
         "How much time does {context} take?",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
     object_attribute="duration",
 )
 
@@ -186,6 +211,7 @@ intent_directions_creator = ParameterizedIntentCreator(
         "Do you know where the {context} is?",
         "Do you know how to get to {context}?",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
     object_attribute="directions",
 )
 
@@ -200,15 +226,17 @@ intent_ill_have_context_creator = ParameterizedIntentCreator(
         "I'll take a {context}",
         "Ya, {context} sounds good",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME,
 )
 
 intent_creators = [
-    intent_what_is_context_creator,
-    intent_directions_creator,
     intent_is_there_a_context_creator,
-    intent_is_there_a_place_to_verb_creator,
+    intent_what_is_context_creator,
+    intent_what_about_context_creator,
+    intent_directions_creator,
+    intent_is_there_a_place_with_context_creator,
     intent_when_is_that_creator,
     intent_what_price_creator,
     intent_what_duration_creator,
-    intent_ill_have_context_creator,
+    # intent_ill_have_context_creator,
 ]

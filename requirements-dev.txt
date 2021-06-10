@@ -1,5 +1,8 @@
 -r requirements.txt
 
+# data generation
+inflect
+
 # lint/format/types
 black==19.10b0
 flake8==3.7.8

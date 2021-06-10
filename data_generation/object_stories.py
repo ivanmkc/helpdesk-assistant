@@ -27,61 +27,145 @@ stories = [
     Story(
         [
             common.intent_when_is_that,
-            SlotWasSet([find_objects_action.SLOT_OBJECT_NAME]),
+            ActionName("action_set_object_attribute_hours"),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                ]
+            ),
+            ActionName(get_object_info.ACTION_NAME),
+        ]
+    ),
+    Story(
+        [
+            common.intent_when_is_that,
+            ActionName("action_set_object_attribute_hours"),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                ]
+            ),
             ActionName(get_object_info.ACTION_NAME),
         ]
     ),
     Story(
         [
             common.intent_what_price,
-            SlotWasSet([find_objects_action.SLOT_OBJECT_NAME]),
+            ActionName("action_set_object_attribute_price"),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                ]
+            ),
             ActionName(get_object_info.ACTION_NAME),
         ]
     ),
     Story(
         [
             common.intent_what_is_that,
-            SlotWasSet([find_objects_action.SLOT_OBJECT_NAME]),
+            ActionName("action_set_object_attribute_details"),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                ]
+            ),
             ActionName(get_object_info.ACTION_NAME),
         ]
     ),
     Story(
         [
-            common.intent_how_long,
-            SlotWasSet([find_objects_action.SLOT_OBJECT_NAME]),
+            common.intent_duration,
+            ActionName("action_set_object_attribute_duration"),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                ]
+            ),
             ActionName(get_object_info.ACTION_NAME),
         ]
     ),
     Story(
         [
             common.intent_directions,
-            SlotWasSet([find_objects_action.SLOT_OBJECT_NAME]),
+            ActionName("action_set_object_attribute_directions"),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                ]
+            ),
             ActionName(get_object_info.ACTION_NAME),
         ]
     ),
 ]
 
-# Add place stories
-# stories += [
-#     Story(
-#         [
-#             Intent(intent_creator.name),
-#             SlotWasSet(
-#                 [
-#                     OBJECT_NAME_SLOT_NAME,
-#                     OBJECT_ATTRIBUTE_SLOT_NAME,
-#                 ]
-#             ),
-#             ActionName(get_object_info.ACTION_NAME),
-#         ]
-#     )
-#     for intent_creator in parameterized_intents.intent_creators
-# ]
+# Find object stories
+stories.append(
+    Story(
+        elements=[
+            Intent(
+                name=parameterized_intents.intent_is_there_a_context_creator.name,
+                entities=[find_objects_action.SLOT_OBJECT_NAME],
+            ),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_OBJECT_NAME,
+                ]
+            ),
+            ActionName(find_objects_action.ACTION_NAME),
+        ]
+    )
+)
 
+# Find object with activities stories
+intent_creator = (
+    parameterized_intents.intent_is_there_a_place_with_context_creator
+)
+stories.append(
+    Story(
+        elements=[
+            Intent(
+                name=intent_creator.name,
+                entities=[intent_creator.entity_name],
+            ),
+            SlotWasSet(
+                [
+                    intent_creator.entity_name,
+                ]
+            ),
+            ActionName(find_objects_action.ACTION_NAME),
+        ]
+    )
+)
+
+# Handle what about scenarios
+intent_creator = parameterized_intents.intent_what_about_context_creator
+stories.append(
+    Story(
+        elements=[
+            Intent(
+                name=intent_creator.name,
+                entities=[intent_creator.entity_name],
+            ),
+            SlotWasSet(
+                [
+                    intent_creator.entity_name,
+                ]
+            ),
+            ActionName(get_object_info.ACTION_NAME),
+        ]
+    )
+)
+
+
+# Get object info stores
 for intent_creator in parameterized_intents.intent_creators:
     if intent_creator.object_attribute:
-        # TODO: Create the action dynamically to set get_object_info.SLOT_OBJECT_ATTRIBUTE to intent_creator.object_attribute
-
         slot_set_action_name = f"action_set_{get_object_info.SLOT_OBJECT_ATTRIBUTE}_{intent_creator.object_attribute}"
 
         # Create story
@@ -90,14 +174,19 @@ for intent_creator in parameterized_intents.intent_creators:
                 elements=[
                     Intent(
                         name=intent_creator.name,
-                        entities=[find_objects_action.SLOT_OBJECT_NAME],
+                        entities=[intent_creator.entity_name],
+                    ),
+                    SlotWasSet(
+                        [
+                            intent_creator.entity_name,
+                        ]
                     ),
                     ActionName(
                         slot_set_action_name
                     ),  # Action should be the one created dynamically above
                     SlotWasSet(
                         [
-                            find_objects_action.SLOT_OBJECT_NAME,
+                            intent_creator.entity_name,
                             get_object_info.SLOT_OBJECT_ATTRIBUTE,
                         ]
                     ),

@@ -46,3 +46,8 @@ class ActionSetObjectAttributeHours(ActionSetObjectAttribute):
 class ActionSetObjectAttributeDirections(ActionSetObjectAttribute):
     action_name = "action_set_object_attribute_directions"
     slot_value = "directions"
+
+
+class ActionSetObjectAttributeDetails(ActionSetObjectAttribute):
+    action_name = "action_set_object_attribute_details"
+    slot_value = "details"
