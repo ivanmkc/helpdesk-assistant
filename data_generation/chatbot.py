@@ -36,6 +36,7 @@ class Chatbot:
             TextSlot(name="object_name"),
             TextSlot(name="object_type"),
             TextSlot(name="object_attribute"),
+            TextSlot(name="object_thing_provided"),
         ]
 
     def persist(self, domain_folder: str, nlu_folder: str):

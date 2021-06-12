@@ -10,7 +10,14 @@ from data_generation.models import Place, Concept
 class Thing:
     antiques = Concept(
         name="antiques",
-        synonyms=["old things", "history", "mummy", "ruins", "sword"],
+        synonyms=[
+            "old thing",
+            "history",
+            "mummy",
+            "ruins",
+            "sword",
+            "antique",
+        ],
     )
 
     sightseeing = Concept(
@@ -29,6 +36,15 @@ class Thing:
         synonyms=[
             "fossils",
             "dinosaur",
+        ],
+    )
+
+    sightseeing = Concept(
+        "sightseeing",
+        synonyms=[
+            "sightseeing",
+            "landmark",
+            "attractions",
         ],
     )
 

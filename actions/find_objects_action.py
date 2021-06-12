@@ -65,13 +65,40 @@ class FindObjectsAction(Action):
 
         """
 
-        object_type = tracker.get_slot(SLOT_OBJECT_TYPE)
-        # last_object_type = tracker.get_slot(SLOT_LAST_OBJECT_TYPE)
-        object_name = tracker.get_slot(SLOT_OBJECT_NAME)
-        object_activity_provided = tracker.get_slot(
-            SLOT_OBJECT_ACTIVITY_PROVIDED
+        slot_names_since_last_user_utterance: List[str] = []
+        for event in reversed(tracker.events):
+            event_type = event["event"]
+            if event_type == "slot":
+                slot_names_since_last_user_utterance.append(event["name"])
+            elif event_type == "user":
+                break
+
+        object_type = (
+            tracker.get_slot(SLOT_OBJECT_TYPE)
+            if SLOT_OBJECT_TYPE in slot_names_since_last_user_utterance
+            else None
         )
-        object_thing_provided = tracker.get_slot(SLOT_OBJECT_THING_PROVIDED)
+
+        # last_object_type = tracker.get_slot(SLOT_LAST_OBJECT_TYPE)
+        object_name = (
+            tracker.get_slot(SLOT_OBJECT_NAME)
+            if SLOT_OBJECT_NAME in slot_names_since_last_user_utterance
+            else None
+        )
+
+        object_activity_provided = (
+            tracker.get_slot(SLOT_OBJECT_ACTIVITY_PROVIDED)
+            if SLOT_OBJECT_ACTIVITY_PROVIDED
+            in slot_names_since_last_user_utterance
+            else None
+        )
+
+        object_thing_provided = (
+            tracker.get_slot(SLOT_OBJECT_THING_PROVIDED)
+            if SLOT_OBJECT_THING_PROVIDED
+            in slot_names_since_last_user_utterance
+            else None
+        )
 
         # If no parameters were set, then quit
         if not any(

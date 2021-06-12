@@ -7,7 +7,6 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 import data_generation.parameterized_intents as parameterized_intents
 
 from data_generation.models import Place
-from actions import find_objects_action
 from data_generation.concepts import Thing
 
 places: List[Place] = []
@@ -21,6 +20,7 @@ places += [
             "art gallery",
             "art museum",
             "the museum",
+            "Holburne Museum",
         ],
         intro="The Holburne Museum has a great art collection. It has both modern and antique art.",
         hours="The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM.",
@@ -32,6 +32,7 @@ places += [
             Thing.art,
             Thing.antiques,
             Thing.natural_history,
+            Thing.sightseeing,
         ],
     ),
     Place(
@@ -47,6 +48,7 @@ places += [
             Thing.art,
             Thing.antiques,
             Thing.natural_history,
+            Thing.sightseeing,
         ],
     ),
     Place(
@@ -62,6 +64,7 @@ places += [
             Thing.art,
             Thing.antiques,
             Thing.religion,
+            Thing.sightseeing,
         ],
     ),
     Place(
@@ -73,7 +76,7 @@ places += [
         price="It is free to walk on the Great Pulteney Bridge.",
         directions="We are on the left side of the Great Pulteney Bridge. You can go right outside and see the bridge!",
         activities_provided=[],
-        things_provided=[Thing.shopping],
+        things_provided=[Thing.shopping, Thing.sightseeing],
     ),
     Place(
         name="Roman Baths",
@@ -84,7 +87,7 @@ places += [
         price="On weekdays, tickets for the Roman Baths are 10 euros per person and 8 euros per person on weekends.",
         directions="You should walk to the Roman Baths. You can see many cool shops! Walk south along the River Avon and then make a right.",
         activities_provided=[],
-        things_provided=[Thing.antiques],
+        things_provided=[Thing.antiques, Thing.sightseeing],
     ),
     Place(
         name="Circle Diner",
@@ -120,7 +123,7 @@ places += [
         price="Everything on the menu is half off from 2:00 PM to 5:00 PM.",
         directions="The Circle Diner is a bit far. You should take a taxi or car sharing service.",
         activities_provided=[],
-        things_provided=[Thing.food],
+        things_provided=[Thing.food, Thing.sightseeing],
     ),
     Place(
         name="City Boat Tour",
@@ -131,7 +134,7 @@ places += [
         price="The city boat tour costs 12 euros per person.",
         directions="The pickup location for the city boat tour is right outside the Visitor’s Center.",
         activities_provided=[],
-        things_provided=[Thing.sightseeing],
+        things_provided=[Thing.sightseeing, Thing.sightseeing],
     ),
     Place(
         name="City Bus Tour",
@@ -143,7 +146,7 @@ places += [
         duration="The city bus tour takes one hour.",
         directions="The pickup location for the city bus tour is right outside the Visitor’s Center.",
         activities_provided=[],
-        things_provided=[Thing.sightseeing],
+        things_provided=[Thing.sightseeing, Thing.sightseeing],
     ),
 ]
 
@@ -158,15 +161,15 @@ intents = [
     for parameterized_intent_creator in parameterized_intents.intent_creators
 ]
 
-# # Write place with things intents
-# intents += [
-#     parameterized_intents.intent_is_there_a_place_with_context_creator.create_parameterized_intent(
-#         entity_value=thing.name,
-#         entity_synonyms=thing.synonyms,
-#     )
-#     for place in places
-#     for thing in place.things_provided
-# ]
+# Write place with things intents
+intents += [
+    parameterized_intents.intent_is_there_a_place_with_context_creator.create_parameterized_intent(
+        entity_value=thing.name,
+        entity_synonyms=thing.synonyms,
+    )
+    for place in places
+    for thing in place.things_provided
+]
 
 # intents: List[IntentWithExamples] = []
 # stories: List[Story] = []
