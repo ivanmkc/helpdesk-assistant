@@ -1,0 +1,18 @@
+version: "2.0"
+nlu:
+- intent: greet
+  examples: |
+      - hey
+      - hello
+      - hi
+- intent: intent_what_do_you_do
+  examples: |
+      - What do you do?
+      - What's your job?
+- intent: intent_directions_with_entities
+  examples: |
+      - Where is the [Holburne Museum](object_name)?
+- intent: intent_is_there_a_place_with_context_with_entities
+  examples: |
+      - I want to [eat]{"entity":"object_thing_provided", "value": "food"}
+      - I want to see [art]{"entity":"object_thing_provided", "value": "art"}

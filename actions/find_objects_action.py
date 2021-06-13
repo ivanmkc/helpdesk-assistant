@@ -1,16 +1,16 @@
 import typing
-from typing import Text, Dict, List, Any, Optional
+from typing import Text, Dict, List, Any
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher, Action
 
 if typing.TYPE_CHECKING:  # pragma: no cover
     from rasa_sdk.types import DomainDict
 
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import AllSlotsReset, SlotSet
 import logging
 import yaml
 
-from data_generation.models import Object
+from data_generation.models.object_models import Object
 
 logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: May 18, 2021"
@@ -19,7 +19,7 @@ logger.debug(vers)
 
 OBJECTS_FILE_PATH = "context/objects.yaml"
 
-SLOT_OBJECT_TYPE = "object_type"
+SLOT_OBJECT_TYPES = "object_types"
 SLOT_OBJECT_NAMES = "object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
@@ -67,9 +67,9 @@ class FindObjectsAction(Action):
             elif event_type == "user":
                 break
 
-        object_type = (
-            tracker.get_slot(SLOT_OBJECT_TYPE)
-            if SLOT_OBJECT_TYPE in slot_names_since_last_user_utterance
+        object_types = (
+            tracker.get_slot(SLOT_OBJECT_TYPES)
+            if SLOT_OBJECT_TYPES in slot_names_since_last_user_utterance
             else None
         )
 
@@ -96,7 +96,7 @@ class FindObjectsAction(Action):
         # If no parameters were set, then quit
         if not any(
             [
-                object_type,
+                object_types,
                 object_names,
                 object_activity_provided,
                 object_thing_provided,
@@ -104,14 +104,14 @@ class FindObjectsAction(Action):
         ):
             # return [FollowupAction(name=question_answer_action.ACTION_NAME)]
             # return []
-            return [SlotSet(key=SLOT_OBJECT_NAMES, value=None)]
+            return [AllSlotsReset()]
 
         # Find objects of the given type
         found_objects: List[Object] = []
         for object in self.objects:
 
             # Match type if specified
-            if object_type and not object_type == object.type:
+            if object_types and object.type not in object_types:
                 continue
 
             # Match activity if specified
@@ -141,4 +141,10 @@ class FindObjectsAction(Action):
         #     dispatcher.utter_message(text=f"I don't think I know any.")
 
         # return [FollowupAction(name=ACTION_LISTEN_NAME)]
-        return [SlotSet(key=SLOT_OBJECT_NAMES, value=found_objects)]
+        return [
+            AllSlotsReset(),
+            SlotSet(
+                key=SLOT_OBJECT_NAMES,
+                value=[object.name for object in found_objects],
+            ),
+        ]

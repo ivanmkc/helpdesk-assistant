@@ -5,7 +5,7 @@ stories:
   steps:
     - intent: greet
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
-    - intent: what_do_you_do_here
+    - intent: intent_what_do_you_do
     - action: utter_i_help_visitors_who_want_to_explore_the_town_by_giving_them_information_about_the_places_around_here_i_can_also_help_with_booking_tours_you_can_also_buy_the_citypass_here_which_lets_you_go_to_attractions_at_a_discount
 
 # - story: what price for place?
@@ -65,13 +65,45 @@ stories:
   steps:
     - intent: greet
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
-    - intent: intent_is_there_a_context_with_entities
+    - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_names
+      - object_types
     - slot_was_set:
-      - object_names
+      - object_types
+    - action: action_find_objects
+    - slot_was_set:
+      - object_names    
     - action: say_object_intros
     - action: action_listen
+
+- story: Is there a church? None found.
+  steps:
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: intent_is_there_a_type_with_entities
+      entities:
+      - object_types    
+    - slot_was_set:
+      - object_types
+    - action: action_find_objects
+    - action: utter_none_objects_found
+    - action: action_listen
+
+- story: Is there a church? Something found.
+  steps:
+    - intent: greet
+    - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
+    - intent: intent_is_there_a_type_with_entities
+      entities:
+      - object_types    
+    - slot_was_set:
+      - object_types
+    - action: action_find_objects
+    - slot_was_set:
+      - object_names    
+    - action: say_object_intros
+    - action: action_listen    
+
 
 - story: Is there a place to eat? None found.
   steps:
@@ -101,7 +133,21 @@ stories:
     - action: say_object_intros
     - action: action_listen    
 
-# - story: bot challenge
+- story: intent_what_hours_with_entities
+  steps:
+  - intent: greet
+  - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you    
+  - intent: intent_what_hours_with_entities
+    entities:
+    - object_names
+  - slot_was_set:
+    - object_names
+  - action: action_set_object_attribute_hours
+  - slot_was_set:
+    - object_names
+    - object_attribute
+  - action: action_get_object_info
+
 #   steps:
 #   - intent: bot_challenge
 #     user: |-

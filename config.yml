@@ -2,7 +2,7 @@ language: en
 pipeline:
   - name: "SpacyNLP"
     # language model to load
-    model: "en_core_web_md"
+    model: "en_core_web_trf"
     # when retrieving word vectors, this will decide if the casing
     # of the word is relevant. E.g. `hello` and `Hello` will
     # retrieve the same vector, if set to `False`. For some
@@ -31,10 +31,11 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 3
-    random_seed: 1
+    epochs: 10
+    constrain_similarities: True
+    model_confidence: linear_norm
   - name: FallbackClassifier
-    threshold: 0.7
+    threshold: 0.1
   - name: DucklingEntityExtractor
     url: http://localhost:8000
     dimensions:

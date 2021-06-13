@@ -17,9 +17,8 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
     Transition,
 )
 
-import data_generation.common_intents as common
-from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import Intent
+import data_generation.common_nlu.common_intents as common
+from data_generation.models.story_models import Intent
 
 # class SpaceEntity(Enum, Entity):
 #     person = "PERSON"

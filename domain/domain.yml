@@ -42,6 +42,5 @@ responses:
   - text: I didn't quite understand that. Could you rephrase?
 actions:
 - question_answer_action
-forms: {}
 state_machine_states: {}
 e2e_actions: []

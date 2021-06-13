@@ -10,6 +10,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
     TextSlot,
     Utterance,
+    ActionName,
 )
 from rasa.shared.nlu.state_machine.state_machine_state import (
     Response,
@@ -17,8 +18,7 @@ from rasa.shared.nlu.state_machine.state_machine_state import (
     Transition,
 )
 
-from data_generation import state_machine_generation, story_generation
-from data_generation.story_generation import ActionName, Intent
+from data_generation.models.story_models import Intent
 
 wheres_the_washroom_intent = IntentWithExamples(
     name="wheres_the_washroom",

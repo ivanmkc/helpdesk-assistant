@@ -13,7 +13,7 @@ import yaml
 
 from rasa_sdk.events import FollowupAction
 
-from data_generation.models import Object
+from data_generation.models.object_models import Object
 
 logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: May 18, 2021"
@@ -22,7 +22,7 @@ logger.debug(vers)
 
 OBJECTS_FILE_PATH = "context/objects.yaml"
 
-SLOT_OBJECT_TYPE = "object_type"
+SLOT_OBJECT_TYPES = "object_types"
 SLOT_OBJECT_NAMES = "object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
@@ -62,19 +62,7 @@ class SayObjectIntrosAction(Action):
 
         """
 
-        slot_names_since_last_user_utterance: List[str] = []
-        for event in reversed(tracker.events):
-            event_type = event["event"]
-            if event_type == "slot":
-                slot_names_since_last_user_utterance.append(event["name"])
-            elif event_type == "user":
-                break
-
-        object_names = (
-            tracker.get_slot(SLOT_OBJECT_NAMES)
-            if SLOT_OBJECT_NAMES in slot_names_since_last_user_utterance
-            else None
-        )
+        object_names = tracker.get_slot(SLOT_OBJECT_NAMES)
 
         # If no parameters were set, then quit
         if not object_names or len(object_names) == 0:
@@ -87,11 +75,13 @@ class SayObjectIntrosAction(Action):
             if object.name in object_names:
                 found_objects.append(object)
 
-        if len(found_objects) > 0:
-            dispatcher.utter_message(text=f"You might try the following:")
+        if len(found_objects) == 1:
+            dispatcher.utter_message(text=found_objects[0].intro)
+        elif len(found_objects) > 0:
+            dispatcher.utter_message(text=f"You have a few options.")
 
             for i, obj in enumerate(found_objects, 1):
-                dispatcher.utter_message(text=f"{i}: {obj.intro}")
+                dispatcher.utter_message(text=f"{obj.intro}")
         else:
             dispatcher.utter_message(text=f"I don't think I know any.")
 

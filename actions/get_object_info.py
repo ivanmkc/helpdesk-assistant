@@ -6,16 +6,11 @@ from rasa_sdk.executor import CollectingDispatcher, Action
 if typing.TYPE_CHECKING:  # pragma: no cover
     from rasa_sdk.types import DomainDict
 
-from services.question_answer_service import (
-    QuestionAnswerService,
-)
-
-from rasa.shared.core.constants import ACTION_LISTEN_NAME
 from rasa_sdk.events import FollowupAction
 import logging
 import yaml
 
-from data_generation.models import Object
+from data_generation.models.object_models import Object
 import actions.find_objects_action as find_objects_action
 import actions.question_answer_action as question_answer_action
 
@@ -76,6 +71,7 @@ class GetObjectInfo(Action):
             if object.name in object_names:
                 attribute_value = object.__getattribute__(object_attribute)
 
+                # Answer with the first value found
                 if attribute_value:
                     dispatcher.utter_message(text=attribute_value)
                     return []
@@ -84,11 +80,15 @@ class GetObjectInfo(Action):
                     #     text="Sorry, I don't have the answer to that."
                     # )
                     return [
-                        FollowupAction(name=question_answer_action.ACTION_NAME)
+                        FollowupAction(
+                            name=question_answer_action.ACTION_NAME
+                        ),
                     ]
 
         # dispatcher.utter_message(
         #     text="Sorry, I don't have the answer to that."
         # )
 
-        return [FollowupAction(name=question_answer_action.ACTION_NAME)]
+        return [
+            FollowupAction(name=question_answer_action.ACTION_NAME),
+        ]

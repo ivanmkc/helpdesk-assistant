@@ -19,7 +19,7 @@
             "name": "Generate chatbot",
             "type": "python",
             "request": "launch",
-            "module": "data_generation.generate_chatbot",
+            "module": "data_generation.utils.generate_chatbot",
             "justMyCode": false,
             "env": {
                 "PYTHONPATH": "./",
@@ -50,17 +50,6 @@
             ]
         },
         {
-            "name": "Rasa: Test NLU",
-            "type": "python",
-            "request": "launch",
-            "module": "rasa",
-            "justMyCode": false,
-            "args": [
-                "test",
-                "nlu",
-            ]
-        },
-        {
             "name": "Rasa: Action Server",
             "type": "python",
             "request": "launch",
@@ -77,6 +66,43 @@
         },
         {
             "name": "Rasa: Test",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "test",
+                "--domain=domain"
+            ]
+        },
+        {
+            "name": "Rasa: Test NLU (fast)",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "test",
+                "nlu",
+                "--domain=domain",
+                "--nlu=tests/test_nlu.yml"
+            ]
+        },
+        {
+            "name": "Rasa: Test NLU",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "test",
+                "nlu",
+                "--nlu=data",
+                "--domain=domain"
+            ]
+        },
+        {
+            "name": "Rasa: Test core",
             "type": "python",
             "request": "launch",
             "module": "rasa",

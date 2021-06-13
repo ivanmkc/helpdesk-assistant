@@ -4,11 +4,11 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Utterance,
 )
 
-import data_generation.common_intents as common
+import data_generation.common_nlu.common_intents as common
 import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
 import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as stories_book_tour
 import data_generation.chatbots.visitor_center.state_visitor_center as state_visitor_center
-from data_generation.story_generation import Fork, Intent, Or, Story
+from data_generation.models.story_models import Fork, Intent, Or, Story
 
 # Personal
 stories_personal = [
