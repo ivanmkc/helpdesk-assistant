@@ -1,4 +1,3 @@
-from actions import question_answer_action
 import typing
 from typing import Text, Dict, List, Any, Optional
 from rasa_sdk import Tracker
@@ -7,12 +6,7 @@ from rasa_sdk.executor import CollectingDispatcher, Action
 if typing.TYPE_CHECKING:  # pragma: no cover
     from rasa_sdk.types import DomainDict
 
-from services.question_answer_service import (
-    QuestionAnswerService,
-)
-
-from rasa.shared.core.constants import ACTION_LISTEN_NAME
-from rasa_sdk.events import FollowupAction
+from rasa_sdk.events import SlotSet
 import logging
 import yaml
 
@@ -26,7 +20,7 @@ logger.debug(vers)
 OBJECTS_FILE_PATH = "context/objects.yaml"
 
 SLOT_OBJECT_TYPE = "object_type"
-SLOT_OBJECT_NAME = "object_name"
+SLOT_OBJECT_NAMES = "object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
 
@@ -35,7 +29,7 @@ ACTION_NAME = "action_find_objects"
 
 class FindObjectsAction(Action):
     """
-    Action that uses a knowledge base to find relevant objects
+    Action that sets the object_names slot
     """
 
     objects: List[Object]
@@ -79,10 +73,9 @@ class FindObjectsAction(Action):
             else None
         )
 
-        # last_object_type = tracker.get_slot(SLOT_LAST_OBJECT_TYPE)
-        object_name = (
-            tracker.get_slot(SLOT_OBJECT_NAME)
-            if SLOT_OBJECT_NAME in slot_names_since_last_user_utterance
+        object_names = (
+            tracker.get_slot(SLOT_OBJECT_NAMES)
+            if SLOT_OBJECT_NAMES in slot_names_since_last_user_utterance
             else None
         )
 
@@ -104,12 +97,14 @@ class FindObjectsAction(Action):
         if not any(
             [
                 object_type,
-                object_name,
+                object_names,
                 object_activity_provided,
                 object_thing_provided,
             ]
         ):
-            return [FollowupAction(name=question_answer_action.ACTION_NAME)]
+            # return [FollowupAction(name=question_answer_action.ACTION_NAME)]
+            # return []
+            return [SlotSet(key=SLOT_OBJECT_NAMES, value=None)]
 
         # Find objects of the given type
         found_objects: List[Object] = []
@@ -132,17 +127,18 @@ class FindObjectsAction(Action):
                 continue
 
             # Match object name if specified
-            if object_name and not object_name == object.name:
+            if object_names and object.name not in object_names:
                 continue
 
             found_objects.append(object)
 
-        if len(found_objects) > 0:
-            dispatcher.utter_message(text=f"You might try the following:")
+        # if len(found_objects) > 0:
+        #     dispatcher.utter_message(text=f"You might try the following:")
 
-            for i, obj in enumerate(found_objects, 1):
-                dispatcher.utter_message(text=f"{i}: {obj.intro}")
-        else:
-            dispatcher.utter_message(text=f"I don't think I know any.")
+        #     for i, obj in enumerate(found_objects, 1):
+        #         dispatcher.utter_message(text=f"{i}: {obj.intro}")
+        # else:
+        #     dispatcher.utter_message(text=f"I don't think I know any.")
 
-        return [FollowupAction(name=ACTION_LISTEN_NAME)]
+        # return [FollowupAction(name=ACTION_LISTEN_NAME)]
+        return [SlotSet(key=SLOT_OBJECT_NAMES, value=found_objects)]

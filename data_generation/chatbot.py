@@ -14,10 +14,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
 )
 
-from rasa.shared.core.slots import (
-    Slot,
-    TextSlot,
-)
+from rasa.shared.core.slots import Slot, TextSlot, ListSlot
 
 
 @dataclass
@@ -33,7 +30,7 @@ class Chatbot:
     @property
     def base_slots(self) -> List[Slot]:
         return [
-            TextSlot(name="object_name"),
+            ListSlot(name="object_names"),
             TextSlot(name="object_type"),
             TextSlot(name="object_attribute"),
             TextSlot(name="object_thing_provided"),

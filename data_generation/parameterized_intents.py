@@ -102,7 +102,7 @@ intent_what_is_context_creator = ParameterizedIntentCreator(
         "Can I hear more about {context}?",
         "Do you have more details about {context}",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
     object_attribute="details",
 )
 
@@ -123,7 +123,7 @@ intent_is_there_a_context_creator = ParameterizedIntentCreator(
         "Tell me about any {context}",
         "Can you point me towards a {context}",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
 )
 
 intent_what_about_context_creator = ParameterizedIntentCreator(
@@ -134,7 +134,7 @@ intent_what_about_context_creator = ParameterizedIntentCreator(
         "And {context}?",
         "How about for {context}?",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
 )
 
 
@@ -172,7 +172,7 @@ intent_when_is_that_creator = ParameterizedIntentCreator(
         "When would the {context} open?",
         "When would the {context} close?",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
     object_attribute="hours",
 )
 
@@ -188,7 +188,7 @@ intent_what_price_creator = ParameterizedIntentCreator(
         "How much for {context}?",
         "What price for {context}?",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
     object_attribute="price",
 )
 
@@ -200,7 +200,7 @@ intent_what_duration_creator = ParameterizedIntentCreator(
         "What's the duration of {context}?",
         "How much time does {context} take?",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
     object_attribute="duration",
 )
 
@@ -215,7 +215,7 @@ intent_directions_creator = ParameterizedIntentCreator(
         "Do you know where the {context} is?",
         "Do you know how to get to {context}?",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
     object_attribute="directions",
 )
 
@@ -230,7 +230,7 @@ intent_ill_have_context_creator = ParameterizedIntentCreator(
         "I'll take a {context}",
         "Ya, {context} sounds good",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAME,
+    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
 )
 
 intent_creators = [

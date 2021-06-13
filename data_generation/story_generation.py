@@ -19,7 +19,9 @@ from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 
 
 class SlotWasSet(StoryYAMLConvertable):
-    def __init__(self, slots_and_values: List[Dict[str, Any]]) -> None:
+    def __init__(
+        self, slots_and_values: List[Union[Dict[str, Any], str]]
+    ) -> None:
         self.slots_and_values = slots_and_values
 
     def as_story_yaml(self) -> Dict:
@@ -145,7 +147,7 @@ class Story:
                 break
             elif isinstance(element, Fork):
                 if last_element:
-                    assert isinstance(last_element, Utterance)
+                    assert isinstance(last_element, Action)
                 else:
                     assert RuntimeError(
                         "Fork must not be the first element in a story path."
