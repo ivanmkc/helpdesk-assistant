@@ -22,7 +22,7 @@ logger.debug(vers)
 
 OBJECTS_FILE_PATH = "context/objects.yaml"
 
-SLOT_OBJECT_TYPES = "object_types"
+SLOT_OBJECT_TYPE = "object_type"
 SLOT_OBJECT_NAMES = "object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"

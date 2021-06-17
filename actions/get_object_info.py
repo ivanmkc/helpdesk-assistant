@@ -13,6 +13,7 @@ import yaml
 from data_generation.models.object_models import Object
 import actions.find_objects_action as find_objects_action
 import actions.question_answer_action as question_answer_action
+from data_generation.models.object_models import Concept
 
 logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: May 18, 2021"
@@ -65,25 +66,48 @@ class GetObjectInfo(Action):
             dispatcher.utter_message(response="utter_ask_rephrase")
             return []
 
-        # Find objects of the given type
+        found_object: Optional[Concept] = None
+
+        # Find objects of the given name
         for object in self.objects:
-
             if object.name in object_names:
-                attribute_value = object.__getattribute__(object_attribute)
+                found_object = object
+                break
 
-                # Answer with the first value found
-                if attribute_value:
-                    dispatcher.utter_message(text=attribute_value)
-                    return []
-                else:
-                    # dispatcher.utter_message(
-                    #     text="Sorry, I don't have the answer to that."
-                    # )
-                    return [
-                        FollowupAction(
-                            name=question_answer_action.ACTION_NAME
-                        ),
-                    ]
+        # Find objects of the given type
+        if not found_object:
+            for object in self.objects:
+                if found_object:
+                    break
+                for type in object.types:
+                    if type.name in object_names:
+                        found_object = object
+                        break
+
+        # Find objects with the given thing
+        if not found_object:
+            for object in self.objects:
+                if found_object:
+                    break
+                for thing in object.things_provided:
+                    if thing.name in object_names:
+                        found_object = object
+                        break
+
+        if found_object:
+            attribute_value = object.__getattribute__(object_attribute)
+
+            # Answer with the first value found
+            if attribute_value:
+                dispatcher.utter_message(text=attribute_value)
+                return []
+            else:
+                # dispatcher.utter_message(
+                #     text="Sorry, I don't have the answer to that."
+                # )
+                return [
+                    FollowupAction(name=question_answer_action.ACTION_NAME),
+                ]
 
         # dispatcher.utter_message(
         #     text="Sorry, I don't have the answer to that."

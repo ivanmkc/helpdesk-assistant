@@ -19,7 +19,7 @@ logger.debug(vers)
 
 OBJECTS_FILE_PATH = "context/objects.yaml"
 
-SLOT_OBJECT_TYPES = "object_types"
+SLOT_OBJECT_TYPE = "object_type"
 SLOT_OBJECT_NAMES = "object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
@@ -67,9 +67,9 @@ class FindObjectsAction(Action):
             elif event_type == "user":
                 break
 
-        object_types = (
-            tracker.get_slot(SLOT_OBJECT_TYPES)
-            if SLOT_OBJECT_TYPES in slot_names_since_last_user_utterance
+        object_type = (
+            tracker.get_slot(SLOT_OBJECT_TYPE)
+            if SLOT_OBJECT_TYPE in slot_names_since_last_user_utterance
             else None
         )
 
@@ -96,7 +96,7 @@ class FindObjectsAction(Action):
         # If no parameters were set, then quit
         if not any(
             [
-                object_types,
+                object_type,
                 object_names,
                 object_activity_provided,
                 object_thing_provided,
@@ -104,14 +104,17 @@ class FindObjectsAction(Action):
         ):
             # return [FollowupAction(name=question_answer_action.ACTION_NAME)]
             # return []
-            return [AllSlotsReset()]
+            # return [AllSlotsReset()]
+            return []
 
         # Find objects of the given type
         found_objects: List[Object] = []
         for object in self.objects:
 
             # Match type if specified
-            if object_types and object.type not in object_types:
+            if object_type and object_type not in [
+                type.name for type in object.types
+            ]:
                 continue
 
             # Match activity if specified
@@ -142,7 +145,7 @@ class FindObjectsAction(Action):
 
         # return [FollowupAction(name=ACTION_LISTEN_NAME)]
         return [
-            AllSlotsReset(),
+            # AllSlotsReset(),
             SlotSet(
                 key=SLOT_OBJECT_NAMES,
                 value=[object.name for object in found_objects],

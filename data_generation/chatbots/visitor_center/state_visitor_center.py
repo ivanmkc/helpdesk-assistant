@@ -3,6 +3,7 @@ from typing import List
 from rasa.shared.nlu.state_machine.conditions import (
     IntentCondition,
     OnEntryCondition,
+    OrCondition,
 )
 from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
@@ -83,7 +84,13 @@ start_state = StateMachineState(
     slot_fill_utterances=[],
     transitions=[
         Transition(
-            condition=IntentCondition(intent_book_tour),
+            condition=OrCondition(
+                [
+                    IntentCondition(intent_book_tour),
+                    IntentCondition(book_tour.intent_select_bus_tour),
+                    IntentCondition(book_tour.intent_select_boat_tour),
+                ]
+            ),
             transition_utterances=[utter_i_can_help],
             destination_state_name=book_tour.book_tour_state.name,
         ),

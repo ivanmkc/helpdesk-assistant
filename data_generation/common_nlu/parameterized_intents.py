@@ -3,6 +3,7 @@ from typing import Optional, List
 from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
 )
+from random import sample
 
 import actions.find_objects_action as find_objects_action
 
@@ -36,33 +37,33 @@ class ParameterizedIntentCreator:
         all_synonyms = [synonym.strip() for synonym in all_synonyms]
         base_synonyms = all_synonyms[:]
 
-        # Add "the" to synonyms without it
-        all_synonyms += [
-            f"the {synonym_without_the}"
-            for synonym_without_the in [
-                synonym
-                for synonym in base_synonyms
-                if not synonym.startswith("the ")
-                and not synonym.startswith("The ")
-                and not synonym.startswith("a ")
-                and not synonym.startswith("an ")
-            ]
-        ]
+        # # Add "the" to synonyms without it
+        # all_synonyms += [
+        #     f"the {synonym_without_the}"
+        #     for synonym_without_the in [
+        #         synonym
+        #         for synonym in base_synonyms
+        #         if not synonym.startswith("the ")
+        #         and not synonym.startswith("The ")
+        #         and not synonym.startswith("a ")
+        #         and not synonym.startswith("an ")
+        #     ]
+        # ]
 
-        # Add plurals
-        all_synonyms += [
-            inflect_engine.plural_noun(synonym) for synonym in base_synonyms
-        ]
+        # # Add plurals
+        # all_synonyms += [
+        #     inflect_engine.plural_noun(synonym) for synonym in base_synonyms
+        # ]
 
-        # Add singulars
-        all_synonyms += [
-            synonym
-            for synonym in [
-                inflect_engine.singular_noun(synonym)
-                for synonym in base_synonyms
-            ]
-            if isinstance(synonym, str)
-        ]
+        # # Add singulars
+        # all_synonyms += [
+        #     synonym
+        #     for synonym in [
+        #         inflect_engine.singular_noun(synonym)
+        #         for synonym in base_synonyms
+        #     ]
+        #     if isinstance(synonym, str)
+        # ]
 
         # # Add a or an
         # all_synonyms += [
@@ -83,8 +84,14 @@ class ParameterizedIntentCreator:
                 f'[{synonym}]{{"entity":"{self.entity_name}", "value": "{entity_value}"}}',
             )
             for synonym in all_synonyms
-            for example in self.parameterized_examples
+            for example in sample(
+                self.parameterized_examples,
+                min(3, len(self.parameterized_examples)),
+            )
         ]
+
+        # Sample examples
+        # examples_replaced = sample(examples_replaced, 5)
 
         return IntentWithExamples(
             examples=examples_replaced,
@@ -134,7 +141,7 @@ intent_is_there_a_type_creator = ParameterizedIntentCreator(
         "Tell me about any {context}",
         "Can you point me towards a {context}",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_TYPES,
+    entity_name=find_objects_action.SLOT_OBJECT_TYPE,
 )
 
 intent_is_there_a_place_with_thing_creator = ParameterizedIntentCreator(

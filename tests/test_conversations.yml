@@ -67,9 +67,9 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_types
+      - object_type
     - slot_was_set:
-      - object_types
+      - object_type
     - action: action_find_objects
     - slot_was_set:
       - object_names    
@@ -82,9 +82,9 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_types    
+      - object_type    
     - slot_was_set:
-      - object_types
+      - object_type
     - action: action_find_objects
     - action: utter_none_objects_found
     - action: action_listen
@@ -95,9 +95,9 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_types    
+      - object_type    
     - slot_was_set:
-      - object_types
+      - object_type
     - action: action_find_objects
     - slot_was_set:
       - object_names    
