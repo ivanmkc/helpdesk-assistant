@@ -1,9 +1,6 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
-    Action,
     ActionName,
-    BooleanSlot,
     Intent,
-    TextSlot,
     Utterance,
 )
 import data_generation.common_nlu.parameterized_intents as parameterized_intents
@@ -13,6 +10,7 @@ from data_generation.models.story_models import SlotWasSet, Story
 
 
 import actions.find_objects_action as find_objects_action
+import actions.action_reset_slots_except_object_names as action_reset_slots_except_object_names
 import actions.say_object_intros as say_object_intros
 
 from actions import find_objects_action, get_object_info
@@ -27,11 +25,11 @@ stories = [
             ActionName("action_set_object_attribute_hours"),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     Story(
@@ -40,11 +38,11 @@ stories = [
             ActionName("action_set_object_attribute_hours"),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     Story(
@@ -53,11 +51,11 @@ stories = [
             ActionName("action_set_object_attribute_price"),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     Story(
@@ -66,11 +64,11 @@ stories = [
             ActionName("action_set_object_attribute_details"),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     Story(
@@ -79,11 +77,11 @@ stories = [
             ActionName("action_set_object_attribute_duration"),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     Story(
@@ -92,11 +90,11 @@ stories = [
             ActionName("action_set_object_attribute_directions"),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
 ]
@@ -118,6 +116,7 @@ stories += [
             ),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     # Found case
@@ -139,6 +138,7 @@ stories += [
                 ]
             ),
             ActionName(say_object_intros.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
 ]
@@ -162,6 +162,7 @@ stories += [
             ),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
     # Found case
@@ -183,6 +184,7 @@ stories += [
                 ]
             ),
             ActionName(say_object_intros.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     ),
 ]
@@ -202,6 +204,7 @@ stories.append(
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
+            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
         ]
     )
 )
@@ -235,6 +238,30 @@ for intent_creator in parameterized_intents.intent_creators:
                         ]
                     ),
                     ActionName(get_object_info.ACTION_NAME),
+                    ActionName(
+                        action_reset_slots_except_object_names.ACTION_NAME
+                    ),
                 ]
             )
         )
+
+# stories += [
+#     Story(
+#         elements=[
+#             utter_no_objects_found,
+#             ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+#         ]
+#     ),
+#     Story(
+#         elements=[
+#             ActionName(get_object_info.ACTION_NAME),
+#             ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+#         ]
+#     ),
+#     Story(
+#         elements=[
+#             ActionName(say_object_intros.ACTION_NAME),
+#             ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+#         ]
+#     ),
+# ]

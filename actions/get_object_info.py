@@ -95,7 +95,7 @@ class GetObjectInfo(Action):
                         break
 
         if found_object:
-            attribute_value = object.__getattribute__(object_attribute)
+            attribute_value = found_object.__getattribute__(object_attribute)
 
             # Answer with the first value found
             if attribute_value:

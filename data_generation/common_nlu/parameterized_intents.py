@@ -37,23 +37,23 @@ class ParameterizedIntentCreator:
         all_synonyms = [synonym.strip() for synonym in all_synonyms]
         base_synonyms = all_synonyms[:]
 
-        # # Add "the" to synonyms without it
-        # all_synonyms += [
-        #     f"the {synonym_without_the}"
-        #     for synonym_without_the in [
-        #         synonym
-        #         for synonym in base_synonyms
-        #         if not synonym.startswith("the ")
-        #         and not synonym.startswith("The ")
-        #         and not synonym.startswith("a ")
-        #         and not synonym.startswith("an ")
-        #     ]
-        # ]
+        # Add "the" to synonyms without it
+        all_synonyms += [
+            f"the {synonym_without_the}"
+            for synonym_without_the in [
+                synonym
+                for synonym in base_synonyms
+                if not synonym.startswith("the ")
+                and not synonym.startswith("The ")
+                and not synonym.startswith("a ")
+                and not synonym.startswith("an ")
+            ]
+        ]
 
-        # # Add plurals
-        # all_synonyms += [
-        #     inflect_engine.plural_noun(synonym) for synonym in base_synonyms
-        # ]
+        # Add plurals
+        all_synonyms += [
+            inflect_engine.plural_noun(synonym) for synonym in base_synonyms
+        ]
 
         # # Add singulars
         # all_synonyms += [
@@ -100,18 +100,18 @@ class ParameterizedIntentCreator:
         )
 
 
-intent_what_is_context_creator = ParameterizedIntentCreator(
-    name="intent_what_is_context_with_entities",
-    parameterized_examples=[
-        "What is {context}?",
-        "What's {context}?",
-        "Tell me about {context}.",
-        "Can I hear more about {context}?",
-        "Do you have more details about {context}",
-    ],
-    entity_name=find_objects_action.SLOT_OBJECT_NAMES,
-    object_attribute="details",
-)
+# intent_what_is_context_creator = ParameterizedIntentCreator(
+#     name="intent_what_is_context_with_entities",
+#     parameterized_examples=[
+#         "What is {context}?",
+#         "What's {context}?",
+#         "Tell me about {context}.",
+#         "Can I hear more about {context}?",
+#         "Do you have more details about {context}",
+#     ],
+#     entity_name=find_objects_action.SLOT_OBJECT_NAMES,
+#     object_attribute="details",
+# )
 
 intent_what_about_context_creator = ParameterizedIntentCreator(
     name="intent_what_about_context_with_entities",
@@ -140,6 +140,11 @@ intent_is_there_a_type_creator = ParameterizedIntentCreator(
         "Do you know about a {context}",
         "Tell me about any {context}",
         "Can you point me towards a {context}",
+        "What is {context}?",
+        "What's {context}?",
+        "Tell me about {context}.",
+        "Can I hear more about {context}?",
+        "Do you have more details about {context}",
     ],
     entity_name=find_objects_action.SLOT_OBJECT_TYPE,
 )
@@ -243,7 +248,7 @@ intent_ill_have_context_creator = ParameterizedIntentCreator(
 
 intent_creators = [
     # intent_is_there_a_type_creator,
-    intent_what_is_context_creator,
+    # intent_what_is_context_creator,
     intent_what_about_context_creator,
     intent_directions_creator,
     # intent_is_there_a_place_with_thing_creator,
