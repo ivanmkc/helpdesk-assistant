@@ -32,7 +32,7 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 20
+    epochs: 50
     constrain_similarities: True
     # model_confidence: linear_norm
   - name: FallbackClassifier

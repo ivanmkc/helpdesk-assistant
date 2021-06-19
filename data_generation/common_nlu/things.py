@@ -103,5 +103,6 @@ class Thing:
             "wine",
             "water",
             "orange juice",
+            "eat",
         ],
     )

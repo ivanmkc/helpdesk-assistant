@@ -102,17 +102,14 @@ places += [
         synonyms=[],
         question_intent=IntentWithExamples(
             examples=[
-                "What about restaurants?",
                 "I'm hungry",
                 "I'd like to eat something",
                 "I'd like to drink something",
-                "Any idea where I can get some food?",
                 "What's there to eat?",
                 "I want to eat something",
                 "What is there to eat around here?",
                 "What do you recommend I eat?",
                 "Any food recommendations?",
-                "Is there a restaurant?",
             ]
         ),
         intro="Circle Diner has great prices and excellent food.",

@@ -135,6 +135,31 @@ class FindObjectsAction(Action):
 
             found_objects.append(object)
 
+        if len(found_objects) == 0:
+            all_queries = [
+                object_type,
+                object_activity_provided,
+                object_thing_provided,
+            ] + (object_names if object_names else [])
+
+            all_queries = [query for query in all_queries if query is not None]
+
+            for object in self.objects:
+                # Treat queries as names
+                if object.name in all_queries:
+                    found_objects.append(object)
+
+                # Treat queries as types
+                for type in object.types:
+                    if type in all_queries:
+                        found_objects.append(object)
+                        break
+
+                # # Treat queries as things
+                # for type in object.th:
+                #     if type in all_queries:
+                #         found_objects.append(object)
+
         # if len(found_objects) > 0:
         #     dispatcher.utter_message(text=f"You might try the following:")
 

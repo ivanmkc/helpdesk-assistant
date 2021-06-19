@@ -16,3 +16,10 @@ nlu:
   examples: |
       - I want to [eat]{"entity":"object_thing_provided", "value": "food"}
       - I want to see [art]{"entity":"object_thing_provided", "value": "art"}
+- intent: intent_what_hours_with_entities
+  examples: |
+      - When is the [restaurant]{"entity":"object_type", "value": "restaurant"} open?
+      - Are there any [museums]?
+- intent: intent_is_there_a_type_with_entities
+  examples: |
+      - Is there a [bridge]{"entity":"object_type", "value": "Great Pultaney Bridge"}?

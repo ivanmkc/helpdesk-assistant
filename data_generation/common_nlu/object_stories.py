@@ -216,7 +216,7 @@ for intent_creator in parameterized_intents.intent_creators:
         slot_set_action_name = f"action_set_{get_object_info.SLOT_OBJECT_ATTRIBUTE}_{intent_creator.object_attribute}"
 
         # Create story
-        stories.append(
+        stories += [
             Story(
                 elements=[
                     Intent(
@@ -242,8 +242,35 @@ for intent_creator in parameterized_intents.intent_creators:
                         action_reset_slots_except_object_names.ACTION_NAME
                     ),
                 ]
-            )
-        )
+            ),
+            Story(
+                elements=[
+                    Intent(
+                        name=intent_creator.name,
+                        entities=[find_objects_action.SLOT_OBJECT_TYPE],
+                    ),
+                    SlotWasSet(
+                        [
+                            # intent_creator.entity_name,
+                            find_objects_action.SLOT_OBJECT_TYPE
+                        ]
+                    ),
+                    ActionName(
+                        slot_set_action_name
+                    ),  # Action should be the one created dynamically above
+                    SlotWasSet(
+                        [
+                            intent_creator.entity_name,
+                            get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                        ]
+                    ),
+                    ActionName(get_object_info.ACTION_NAME),
+                    ActionName(
+                        action_reset_slots_except_object_names.ACTION_NAME
+                    ),
+                ]
+            ),
+        ]
 
 # stories += [
 #     Story(
