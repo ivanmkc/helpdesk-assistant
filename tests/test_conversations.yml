@@ -21,30 +21,33 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_what_hours_with_entities
       entities:
-      - object_names    
+      - object_name_or_type    
     - slot_was_set:
-      - object_names
+      - object_name_or_type
     - action: action_set_object_attribute_hours
     - slot_was_set:
       - object_attribute
+    - action: action_find_objects
+    - slot_was_set:
+      - found_object_names        
     - action: action_get_object_info
-    - action: action_reset_slots_except_object_names
+    - action: action_reset_slots_except_found_object_names
     - action: action_listen
     - intent: intent_what_price # Followup
     - action: action_set_object_attribute_price
     - slot_was_set:
       - object_attribute
     - action: action_get_object_info
-    - action: action_reset_slots_except_object_names
+    - action: action_reset_slots_except_found_object_names
     - action: action_listen
-    - intent: intent_what_about_context_with_entities # Followup
-      entities:
-      - object_names    
-    - slot_was_set:
-      - object_names
-    - action: action_get_object_info
-    - action: action_reset_slots_except_object_names
-    - action: action_listen
+    # - intent: intent_what_about_context_with_entities # Followup
+    #   entities:
+    #   - found_object_names    
+    # - slot_was_set:
+    #   - found_object_names
+    # - action: action_get_object_info
+    # - action: action_reset_slots_except_found_object_names
+    # - action: action_listen
         
 - story: what price for place?
   steps:
@@ -52,14 +55,17 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_what_price_with_entities
       entities:
-      - object_names
+      - object_name_or_type
     - slot_was_set:
-      - object_names      
+      - object_name_or_type      
     - action: action_set_object_attribute_price
     - slot_was_set:
       - object_attribute
+    - action: action_find_objects
+    - slot_was_set:
+      - found_object_names          
     - action: action_get_object_info
-    - action: action_reset_slots_except_object_names    
+    - action: action_reset_slots_except_found_object_names    
     - action: action_listen
 
 - story: is there a ruin? Found.
@@ -68,14 +74,14 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_type
+      - object_name_or_type
     - slot_was_set:
-      - object_type
+      - object_name_or_type
     - action: action_find_objects
     - slot_was_set:
-      - object_names    
+      - found_object_names    
     - action: say_object_intros
-    - action: action_reset_slots_except_object_names    
+    - action: action_reset_slots_except_found_object_names    
     - action: action_listen
 
 - story: Is there a church? None found.
@@ -84,12 +90,12 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_type    
+      - object_name_or_type    
     - slot_was_set:
-      - object_type
+      - object_name_or_type
     - action: action_find_objects
     - action: utter_none_objects_found
-    - action: action_reset_slots_except_object_names    
+    - action: action_reset_slots_except_found_object_names    
     - action: action_listen
 
 - story: Is there a church? Something found.
@@ -98,14 +104,14 @@ stories:
     - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you
     - intent: intent_is_there_a_type_with_entities
       entities:
-      - object_type    
+      - object_name_or_type    
     - slot_was_set:
-      - object_type
+      - object_name_or_type
     - action: action_find_objects
     - slot_was_set:
-      - object_names    
+      - found_object_names    
     - action: say_object_intros
-    - action: action_reset_slots_except_object_names    
+    - action: action_reset_slots_except_found_object_names    
     - action: action_listen    
 
 
@@ -120,7 +126,7 @@ stories:
       - object_thing_provided
     - action: action_find_objects
     - action: utter_none_objects_found
-    - action: action_reset_slots_except_object_names    
+    - action: action_reset_slots_except_found_object_names    
     - action: action_listen
 
 - story: Is there a place to eat? Something found.
@@ -134,9 +140,9 @@ stories:
       - object_thing_provided
     - action: action_find_objects
     - slot_was_set:
-      - object_names    
+      - found_object_names    
     - action: say_object_intros
-    - action: action_reset_slots_except_object_names    
+    - action: action_reset_slots_except_found_object_names    
     - action: action_listen    
 
 - story: intent_what_hours_with_entities
@@ -145,15 +151,18 @@ stories:
   - action: utter_welcome_to_the_bath_visitor_center_how_can_i_help_you    
   - intent: intent_what_hours_with_entities
     entities:
-    - object_names
+    - object_name_or_type
   - slot_was_set:
-    - object_names
+    - object_name_or_type
   - action: action_set_object_attribute_hours
   - slot_was_set:
-    - object_names
+    - object_name_or_type
     - object_attribute
+  - action: action_find_objects
+  - slot_was_set:
+    - found_object_names      
   - action: action_get_object_info
-  - action: action_reset_slots_except_object_names  
+  - action: action_reset_slots_except_found_object_names  
 
 #   steps:
 #   - intent: bot_challenge

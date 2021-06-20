@@ -10,7 +10,7 @@ from data_generation.models.story_models import SlotWasSet, Story
 
 
 import actions.find_objects_action as find_objects_action
-import actions.action_reset_slots_except_object_names as action_reset_slots_except_object_names
+import actions.action_reset_slots_except_found_object_names as action_reset_slots_except_found_object_names
 import actions.say_object_intros as say_object_intros
 
 from actions import find_objects_action, get_object_info
@@ -29,7 +29,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     Story(
@@ -42,7 +44,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     Story(
@@ -55,7 +59,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     Story(
@@ -68,7 +74,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     Story(
@@ -81,7 +89,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     Story(
@@ -94,7 +104,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
 ]
@@ -116,7 +128,9 @@ stories += [
             ),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     # Found case
@@ -134,11 +148,13 @@ stories += [
             ActionName(find_objects_action.ACTION_NAME),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
+                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
                 ]
             ),
             ActionName(say_object_intros.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
 ]
@@ -162,7 +178,9 @@ stories += [
             ),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
     # Found case
@@ -180,34 +198,38 @@ stories += [
             ActionName(find_objects_action.ACTION_NAME),
             SlotWasSet(
                 [
-                    find_objects_action.SLOT_OBJECT_NAMES,
+                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
                 ]
             ),
             ActionName(say_object_intros.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+            ActionName(
+                action_reset_slots_except_found_object_names.ACTION_NAME
+            ),
         ]
     ),
 ]
 
 # Handle what about scenarios
-intent_creator = parameterized_intents.intent_what_about_context_creator
-stories.append(
-    Story(
-        elements=[
-            Intent(
-                name=intent_creator.name,
-                entities=[intent_creator.entity_name],
-            ),
-            SlotWasSet(
-                [
-                    intent_creator.entity_name,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            ActionName(action_reset_slots_except_object_names.ACTION_NAME),
-        ]
-    )
-)
+# intent_creator = parameterized_intents.intent_what_about_context_creator
+# stories.append(
+#     Story(
+#         elements=[
+#             Intent(
+#                 name=intent_creator.name,
+#                 entities=[intent_creator.entity_name],
+#             ),
+#             SlotWasSet(
+#                 [
+#                     intent_creator.entity_name,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             ActionName(
+#                 action_reset_slots_except_found_object_names.ACTION_NAME
+#             ),
+#         ]
+#     )
+# )
 
 
 # Get object info stories
@@ -228,18 +250,26 @@ for intent_creator in parameterized_intents.intent_creators:
                             intent_creator.entity_name,
                         ]
                     ),
-                    ActionName(
-                        slot_set_action_name
-                    ),  # Action should be the one created dynamically above
+                    # Set attribute slot
+                    # Action should be the one created dynamically above
+                    ActionName(slot_set_action_name),
                     SlotWasSet(
                         [
-                            intent_creator.entity_name,
+                            # intent_creator.entity_name,
                             get_object_info.SLOT_OBJECT_ATTRIBUTE,
                         ]
                     ),
+                    # Find the objects
+                    ActionName(find_objects_action.ACTION_NAME),
+                    SlotWasSet(
+                        [
+                            find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+                        ]
+                    ),
                     ActionName(get_object_info.ACTION_NAME),
+                    # Reset all irrelevant slots
                     ActionName(
-                        action_reset_slots_except_object_names.ACTION_NAME
+                        action_reset_slots_except_found_object_names.ACTION_NAME
                     ),
                 ]
             ),
@@ -247,26 +277,28 @@ for intent_creator in parameterized_intents.intent_creators:
                 elements=[
                     Intent(
                         name=intent_creator.name,
-                        entities=[find_objects_action.SLOT_OBJECT_TYPE],
+                        entities=[intent_creator.entity_name],
                     ),
-                    SlotWasSet(
-                        [
-                            # intent_creator.entity_name,
-                            find_objects_action.SLOT_OBJECT_TYPE
-                        ]
-                    ),
-                    ActionName(
-                        slot_set_action_name
-                    ),  # Action should be the one created dynamically above
                     SlotWasSet(
                         [
                             intent_creator.entity_name,
+                        ]
+                    ),
+                    # Set attribute slot
+                    # Action should be the one created dynamically above
+                    ActionName(slot_set_action_name),
+                    SlotWasSet(
+                        [
+                            # intent_creator.entity_name,
                             get_object_info.SLOT_OBJECT_ATTRIBUTE,
                         ]
                     ),
-                    ActionName(get_object_info.ACTION_NAME),
+                    # Find the objects
+                    ActionName(find_objects_action.ACTION_NAME),
+                    utter_no_objects_found,
+                    # Reset all irrelevant slots
                     ActionName(
-                        action_reset_slots_except_object_names.ACTION_NAME
+                        action_reset_slots_except_found_object_names.ACTION_NAME
                     ),
                 ]
             ),
@@ -276,19 +308,19 @@ for intent_creator in parameterized_intents.intent_creators:
 #     Story(
 #         elements=[
 #             utter_no_objects_found,
-#             ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+#             ActionName(action_reset_slots_except_found_object_names.ACTION_NAME),
 #         ]
 #     ),
 #     Story(
 #         elements=[
 #             ActionName(get_object_info.ACTION_NAME),
-#             ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+#             ActionName(action_reset_slots_except_found_object_names.ACTION_NAME),
 #         ]
 #     ),
 #     Story(
 #         elements=[
 #             ActionName(say_object_intros.ACTION_NAME),
-#             ActionName(action_reset_slots_except_object_names.ACTION_NAME),
+#             ActionName(action_reset_slots_except_found_object_names.ACTION_NAME),
 #         ]
 #     ),
 # ]

@@ -142,3 +142,13 @@ stories_tours = [
         ],
     ),
 ]
+
+# What time?
+stories_chitchat = [
+    Story(
+        [
+            Intent("greetings"),
+            Utterance("Nice to meet you"),
+        ]
+    ),
+]

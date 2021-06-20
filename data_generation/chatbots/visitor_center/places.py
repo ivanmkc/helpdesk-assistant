@@ -24,8 +24,6 @@ places += [
         types=[
             Type.museum,
             Type.art_gallery,
-            Thing.sightseeing,
-            Thing.history,
         ],
         hours="The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM.",
         details=None,
@@ -43,7 +41,7 @@ places += [
         name="Museum of Bath Architecture",
         synonyms=["museum of architecture", "architecture museum"],
         intro="The Museum of Bath Architecture is great if you love architecture and design!",
-        types=[Type.museum, Thing.sightseeing, Thing.history],
+        types=[Type.museum, Thing.sightseeing],
         hours="The Museum of Bath Architecture is open from 12:00 PM to 6:00 PM on weekdays.",
         details="The Museum of Bath Architecture shows a history of Bath’s buildings.",
         price="Tickets for the Museum of Bath Architecture are 15 euros for adults and children under 12.",
@@ -60,7 +58,7 @@ places += [
         name="Bath Abbey",
         synonyms=["the abbey"],
         intro="The Bath Abbey is a famous medieval church in England.",
-        types=[Type.place_of_worship, Thing.sightseeing, Thing.history],
+        types=[Type.place_of_worship],
         hours="The Bath Abbey is open on Monday to Saturday from 10:00 AM to 3:45 PM.",
         details=None,
         price="The Bath Abbey tickets are 5 euros per person.",
@@ -77,25 +75,25 @@ places += [
         name="Great Pultaney Bridge",
         synonyms=["bridge", "pultaney bridge"],
         intro="The Great Pulteney Bridge is a popular place for tourists.",
-        types=[Thing.sightseeing, Thing.shopping, Thing.history],
+        types=[],
         hours="The Great Pulteney Bridge is open all day.",
         details=None,
         price="It is free to walk on the Great Pulteney Bridge.",
         directions="We are on the left side of the Great Pulteney Bridge. You can go right outside and see the bridge!",
         activities_provided=[],
-        things_provided=[Thing.shopping, Thing.sightseeing],
+        things_provided=[Thing.shopping, Thing.sightseeing, Thing.history],
     ),
     Place(
         name="Roman Baths",
         synonyms=["baths"],
         intro="The Roman Baths are a very old historical monument.",
-        types=[Thing.sightseeing, Thing.history],
+        types=[],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
         details="The Roman Baths are very popular for tourists!",
         price="On weekdays, tickets for the Roman Baths are 10 euros per person and 8 euros per person on weekends.",
         directions="You should walk to the Roman Baths. You can see many cool shops! Walk south along the River Avon and then make a right.",
         activities_provided=[],
-        things_provided=[Thing.history, Thing.sightseeing],
+        things_provided=[Thing.history, Thing.sightseeing, Thing.history],
     ),
     Place(
         name="Circle Diner",
@@ -165,6 +163,15 @@ intents += [
     )
     for place in places
     for thing in place.things_provided
+]
+
+# Write place with intents
+intents += [
+    parameterized_intents.intent_is_there_a_type_creator.create_parameterized_intent(
+        entity_value=place.name,
+        entity_synonyms=place.synonyms,
+    )
+    for place in places
 ]
 
 # Write place with type intents

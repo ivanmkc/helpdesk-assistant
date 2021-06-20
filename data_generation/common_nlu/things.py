@@ -6,11 +6,10 @@ class Thing:
         name="history",
         synonyms=[
             "old thing",
-            "antiques",
-            "mummy",
-            "ruins",
-            "sword",
             "antique",
+            "mummy",
+            "ruin",
+            "sword",
             "historic",
         ],
     )
@@ -19,10 +18,9 @@ class Thing:
         "sightseeing",
         synonyms=[
             "sightsee",
-            "sightseeing",
-            "see the city",
             "tour",
-            "take photos",
+            # "see the city",
+            # "take photos",
             "landmark",
             "attraction",
             "tourist trap",

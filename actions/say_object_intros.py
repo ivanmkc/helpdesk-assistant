@@ -22,8 +22,8 @@ logger.debug(vers)
 
 OBJECTS_FILE_PATH = "context/objects.yaml"
 
-SLOT_OBJECT_TYPE = "object_type"
-SLOT_OBJECT_NAMES = "object_names"
+SLOT_OBJECT_NAME_OR_TYPE = "object_name_or_type"
+SLOT_FOUND_OBJECT_NAMES = "found_object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
 SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
 
@@ -62,17 +62,17 @@ class SayObjectIntrosAction(Action):
 
         """
 
-        object_names = tracker.get_slot(SLOT_OBJECT_NAMES)
+        found_object_names = tracker.get_slot(SLOT_FOUND_OBJECT_NAMES)
 
         # If no parameters were set, then quit
-        if not object_names or len(object_names) == 0:
+        if not found_object_names or len(found_object_names) == 0:
             dispatcher.utter_message(text=f"I don't think I know any.")
             return [FollowupAction(name=ACTION_LISTEN_NAME)]
 
         # Find objects of the given type
         found_objects: List[Object] = []
         for object in self.objects:
-            if object.name in object_names:
+            if object.name in found_object_names:
                 found_objects.append(object)
 
         if len(found_objects) == 1:

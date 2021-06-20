@@ -29,7 +29,7 @@ ACTION_NAME = "action_get_object_info"
 
 class GetObjectInfo(Action):
     """
-    Action that utters intro based on object_names and object_attribute
+    Action that utters intro based on found_object_names and object_attribute
     """
 
     objects: List[Object]
@@ -59,10 +59,12 @@ class GetObjectInfo(Action):
 
         """
 
-        object_names = tracker.get_slot(find_objects_action.SLOT_OBJECT_NAMES)
+        found_object_names = tracker.get_slot(
+            find_objects_action.SLOT_FOUND_OBJECT_NAMES
+        )
         object_attribute = tracker.get_slot(SLOT_OBJECT_ATTRIBUTE)
 
-        if not object_names or not object_attribute:
+        if not found_object_names or not object_attribute:
             dispatcher.utter_message(response="utter_ask_rephrase")
             return []
 
@@ -70,7 +72,7 @@ class GetObjectInfo(Action):
 
         # Find objects of the given name
         for object in self.objects:
-            if object.name in object_names:
+            if object.name in found_object_names:
                 found_object = object
                 break
 
@@ -80,7 +82,7 @@ class GetObjectInfo(Action):
                 if found_object:
                     break
                 for type in object.types:
-                    if type.name in object_names:
+                    if type.name in found_object_names:
                         found_object = object
                         break
 
@@ -90,7 +92,7 @@ class GetObjectInfo(Action):
                 if found_object:
                     break
                 for thing in object.things_provided:
-                    if thing.name in object_names:
+                    if thing.name in found_object_names:
                         found_object = object
                         break
 

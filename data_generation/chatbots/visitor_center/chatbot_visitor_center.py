@@ -20,6 +20,7 @@ stories = (
     stories_visitor_center.stories_tell_me_more
     + stories_book_tour.stories_tours
     + stories_visitor_center.stories_what_time
+    + stories_visitor_center.stories_chitchat
     + object_stories.stories
 )
 
