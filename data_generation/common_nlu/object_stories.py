@@ -29,9 +29,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     Story(
@@ -44,9 +44,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     Story(
@@ -59,9 +59,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     Story(
@@ -74,9 +74,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     Story(
@@ -89,9 +89,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     Story(
@@ -104,9 +104,9 @@ stories = [
                 ]
             ),
             ActionName(get_object_info.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
 ]
@@ -128,9 +128,9 @@ stories += [
             ),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     # Found case
@@ -152,9 +152,9 @@ stories += [
                 ]
             ),
             ActionName(say_object_intros.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
 ]
@@ -178,9 +178,9 @@ stories += [
             ),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
     # Found case
@@ -202,9 +202,9 @@ stories += [
                 ]
             ),
             ActionName(say_object_intros.ACTION_NAME),
-            ActionName(
-                action_reset_slots_except_found_object_names.ACTION_NAME
-            ),
+            # ActionName(
+            #     action_reset_slots_except_found_object_names.ACTION_NAME
+            # ),
         ]
     ),
 ]
@@ -268,9 +268,9 @@ for intent_creator in parameterized_intents.intent_creators:
                     ),
                     ActionName(get_object_info.ACTION_NAME),
                     # Reset all irrelevant slots
-                    ActionName(
-                        action_reset_slots_except_found_object_names.ACTION_NAME
-                    ),
+                    # ActionName(
+                    #     action_reset_slots_except_found_object_names.ACTION_NAME
+                    # ),
                 ]
             ),
             Story(
@@ -297,9 +297,9 @@ for intent_creator in parameterized_intents.intent_creators:
                     ActionName(find_objects_action.ACTION_NAME),
                     utter_no_objects_found,
                     # Reset all irrelevant slots
-                    ActionName(
-                        action_reset_slots_except_found_object_names.ACTION_NAME
-                    ),
+                    # ActionName(
+                    #     action_reset_slots_except_found_object_names.ACTION_NAME
+                    # ),
                 ]
             ),
         ]
