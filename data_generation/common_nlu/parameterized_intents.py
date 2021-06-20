@@ -166,7 +166,7 @@ intent_is_there_a_place_with_thing_creator = ParameterizedIntentCreator(
         "Are there {context}?",
         "Are there {context} around here?",
     ],
-    entity_name=find_objects_action.SLOT_OBJECT_THING_PROVIDED,
+    entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
 )
 
 

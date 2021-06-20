@@ -25,7 +25,6 @@ OBJECTS_FILE_PATH = "context/objects.yaml"
 SLOT_OBJECT_NAME_OR_TYPE = "object_name_or_type"
 SLOT_FOUND_OBJECT_NAMES = "found_object_names"
 SLOT_OBJECT_ACTIVITY_PROVIDED = "object_activity_provided"
-SLOT_OBJECT_THING_PROVIDED = "object_thing_provided"
 
 ACTION_NAME = "say_object_intros"
 

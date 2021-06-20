@@ -14,8 +14,8 @@ nlu:
       - Where is [the Holburne Museum](object_name_or_type)?
 - intent: intent_is_there_a_place_with_context_with_entities
   examples: |
-      - I want to [eat]{"entity":"object_thing_provided", "value": "food"}
-      - I want to see [art]{"entity":"object_thing_provided", "value": "art"}
+      - I want to [eat]{"entity":"object_name_or_type", "value": "food"}
+      - I want to see [art]{"entity":"object_name_or_type", "value": "art"}
 - intent: intent_what_hours_with_entities
   examples: |
       - When is the [restaurant]{"entity":"object_name_or_type", "value": "restaurant"} open?
