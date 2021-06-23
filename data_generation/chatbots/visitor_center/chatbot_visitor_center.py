@@ -6,7 +6,7 @@ import data_generation.chatbots.visitor_center.stories_visitor_center as stories
 import data_generation.common_nlu.object_stories as object_stories
 from data_generation.models.state_machine import StateMachine
 from data_generation.models.chatbot import Chatbot
-import data_generation.chatbots.visitor_center.places as places
+import data_generation.chatbots.visitor_center.places_visitor_center as places
 
 state_machine = StateMachine(
     initial_state=state_visitor_center.start_state,

@@ -102,5 +102,6 @@ class Thing:
             "water",
             "orange juice",
             "eat",
+            "fish and chips",
         ],
     )

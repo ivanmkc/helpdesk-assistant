@@ -1,5 +1,5 @@
 import typing
-from typing import Text, Dict, List, Any, Optional
+from typing import Text, Dict, List, Any
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher, Action
 
@@ -79,10 +79,10 @@ class QuestionAnswerAction(Action):
                 dispatcher.utter_message(text=result.answer)
             else:
                 logger.debug("No answer found for question.")
-                dispatcher.utter_message(template="utter_default")
+                dispatcher.utter_message(response="utter_default")
 
         except Exception as exception:
             logger.error(exception)
-            dispatcher.utter_message(template="utter_default")
+            dispatcher.utter_message(response="utter_default")
 
         return [FollowupAction(name=ACTION_LISTEN_NAME)]

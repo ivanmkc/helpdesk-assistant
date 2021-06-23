@@ -147,7 +147,7 @@ stories_tours = [
 stories_chitchat = [
     Story(
         [
-            Intent("greetings"),
+            Intent("greet"),
             Utterance("Nice to meet you"),
         ]
     ),

@@ -1,71 +1,11 @@
-from enum import Enum, unique
-
-# from transformers import pipeline
-from typing import Text, Dict, List, Any, Optional
-import json
-import requests
-import abc
-import os
+from typing import Text, List
+from services.CustomInferenceAPIModel import CustomInferenceAPIModel
+from services.QuestionAnswerModel import (
+    QuestionAnswerModel,
+    QuestionAnswerResult,
+)
 
 CONFIDENCE_THRESHOLD = 0.3
-
-
-class QuestionAnswerModel(abc.ABC):
-    @abc.abstractmethod
-    def predict(self, question: str, context: str) -> Dict:
-        pass
-
-
-class HuggingFaceInferenceAPIModel(QuestionAnswerModel):
-    API_TOKEN = os.getenv("HUGGING_FACE_API_KEY")
-    MODEL_NAME = "deepset/minilm-uncased-squad2"
-    # MODEL_NAME = "deepset/bert-large-uncased-whole-word-masking-squad2"
-    API_URL = f"https://api-inference.huggingface.co/models/{MODEL_NAME}"
-
-    def predict(self, question: str, context: str) -> Dict:
-        result = self._query(
-            {
-                "inputs": {
-                    "question": question,
-                    "context": context,
-                }
-            }
-        )
-
-        error = result.get("error")
-
-        if error:
-            raise RuntimeError(error)
-        else:
-            return result
-
-    def _query(self, payload):
-        headers = {"Authorization": f"Bearer {self.API_TOKEN}"}
-        data = json.dumps(payload)
-        response = requests.request(
-            "POST", self.API_URL, headers=headers, data=data
-        )
-        return json.loads(response.content.decode("utf-8"))
-
-
-# class TransformersModel(QuestionAnswerModel):
-#     def __init__(self):
-#         self._pipeline = pipeline(
-#             "question-answering",
-#             model="deepset/minilm-uncased-squad2",
-#         )
-
-#     def predict(self, question: str, context: str) -> Dict:
-#         return self._pipeline(question=question, context=context)
-
-
-class QuestionAnswerResult:
-    confidence: float
-    answer: str
-
-    def __init__(self, confidence: float, answer: str):
-        self.confidence = confidence
-        self.answer = answer
 
 
 class QuestionAnswerService:
@@ -76,7 +16,7 @@ class QuestionAnswerService:
     def __init__(
         self,
         file_path: str,
-        model: QuestionAnswerModel = HuggingFaceInferenceAPIModel(),
+        model: QuestionAnswerModel = CustomInferenceAPIModel(),
     ):
 
         self._context = self._read_file(file_path)
@@ -96,14 +36,13 @@ class QuestionAnswerService:
         self._newline_locations.append(len(self._context))
 
     def handle_question(self, question: Text) -> QuestionAnswerResult:
-        return QuestionAnswerResult(confidence=0.8, answer="placeholder")
         result = self._model.predict(question=question, context=self._context)
 
-        confidence = result["score"]
+        confidence = result.score
 
         if confidence > CONFIDENCE_THRESHOLD:
-            start_index = result["start"]
-            end_index = result["end"]
+            start_index = result.start
+            end_index = result.end
             # answer = result["answer"]
 
             # Get entire sentence from start of current sentence to next newline

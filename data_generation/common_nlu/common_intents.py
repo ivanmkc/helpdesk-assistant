@@ -2,6 +2,8 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
 )
 
+from actions import find_objects_action as find_objects_action
+
 intent_where_are_you_from = IntentWithExamples(
     name="where_are_you_from", examples=["Where are you from?"]
 )
@@ -72,6 +74,11 @@ intent_when_is_that = IntentWithExamples(
         "What would be the hours?",
         "What would the hours be?",
         "Do you know when it opens?",
+        "When are they open?",
+        "When do they close?",
+        "When would they be closing?",
+        "What time does are they open?",
+        "Are they open now?",
     ],
     name="intent_when_is_that",
 )

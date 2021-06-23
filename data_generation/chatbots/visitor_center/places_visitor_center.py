@@ -3,12 +3,14 @@ from typing import List
 from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
 )
-
-import data_generation.common_nlu.parameterized_intents as parameterized_intents
+import data_generation.chatbots.visitor_center.concepts_visitor_center as concepts_visitor_center
 
 from data_generation.models.object_models import Place
 from data_generation.common_nlu.things import Thing
 from data_generation.common_nlu.types import Type
+from data_generation.common_nlu import (
+    common_intent_creators,
+)
 
 places: List[Place] = []
 
@@ -22,6 +24,7 @@ places += [
         ],
         intro="The Holburne Museum has a great art collection. It has both modern and antique art.",
         types=[
+            Type.place,
             Type.museum,
             Type.art_gallery,
         ],
@@ -31,6 +34,7 @@ places += [
         directions="The Holburne Museum is on the East side of the River Avon. You can take the A31 bus to get there.",
         activities_provided=[],
         things_provided=[
+            Type.place,
             Thing.art,
             Thing.history,
             Thing.natural_history,
@@ -58,7 +62,7 @@ places += [
         name="Bath Abbey",
         synonyms=["the abbey"],
         intro="The Bath Abbey is a famous medieval church in England.",
-        types=[Type.place_of_worship],
+        types=[Type.place, Type.place_of_worship],
         hours="The Bath Abbey is open on Monday to Saturday from 10:00 AM to 3:45 PM.",
         details=None,
         price="The Bath Abbey tickets are 5 euros per person.",
@@ -75,19 +79,28 @@ places += [
         name="Great Pultaney Bridge",
         synonyms=["bridge", "pultaney bridge"],
         intro="The Great Pulteney Bridge is a popular place for tourists.",
-        types=[],
+        types=[
+            Type.place,
+        ],
         hours="The Great Pulteney Bridge is open all day.",
         details=None,
         price="It is free to walk on the Great Pulteney Bridge.",
         directions="We are on the left side of the Great Pulteney Bridge. You can go right outside and see the bridge!",
         activities_provided=[],
-        things_provided=[Thing.shopping, Thing.sightseeing, Thing.history],
+        things_provided=[
+            Thing.shopping,
+            Thing.sightseeing,
+            Thing.history,
+            concepts_visitor_center.river,
+        ],
     ),
     Place(
         name="Roman Baths",
         synonyms=["baths"],
         intro="The Roman Baths are a very old historical monument.",
-        types=[],
+        types=[
+            Type.place,
+        ],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
         details="The Roman Baths are very popular for tourists!",
         price="On weekdays, tickets for the Roman Baths are 10 euros per person and 8 euros per person on weekends.",
@@ -111,7 +124,7 @@ places += [
             ]
         ),
         intro="Circle Diner has great prices and excellent food.",
-        types=[Type.restaurant],
+        types=[Type.place, Type.restaurant],
         hours="The Circle Diner is open all day!",
         details="Circle Diner is perfect for families.",
         price="Everything on the menu is half off from 2:00 PM to 5:00 PM.",
@@ -147,17 +160,17 @@ places += [
 
 # Write place intents
 intents = [
-    parameterized_intent_creator.create_parameterized_intent(
+    parameterized_intents.create_parameterized_intent(
         entity_value=place.name,
         entity_synonyms=place.synonyms,
     )
     for place in places
-    for parameterized_intent_creator in parameterized_intents.intent_creators
+    for parameterized_intents in common_intent_creators.intent_creators
 ]
 
 # Write place with things intents
 intents += [
-    parameterized_intents.intent_is_there_a_place_with_thing_creator.create_parameterized_intent(
+    common_intent_creators.intent_is_there_a_place_with_thing_creator.create_parameterized_intent(
         entity_value=thing.name,
         entity_synonyms=thing.synonyms,
     )
@@ -167,7 +180,7 @@ intents += [
 
 # Write place with intents
 intents += [
-    parameterized_intents.intent_is_there_a_type_creator.create_parameterized_intent(
+    common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
         entity_value=place.name,
         entity_synonyms=place.synonyms,
     )
@@ -176,7 +189,7 @@ intents += [
 
 # Write place with type intents
 intents += [
-    parameterized_intents.intent_is_there_a_type_creator.create_parameterized_intent(
+    common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
         entity_value=type.name,
         entity_synonyms=type.synonyms,
     )
@@ -187,8 +200,8 @@ intents += [
 # intents: List[IntentWithExamples] = []
 # stories: List[Story] = []
 # for place in places:
-#     for parameterized_intent_creator in parameterized_intent_creators:
-#         IntentWithExamples = parameterized_intent_creator.create_parameterized_intent(
+#     for parameterized_intents in parameterized_intentss:
+#         IntentWithExamples = parameterized_intents.create_parameterized_intent(
 #             entity_name=object_stories.OBJECT_NAME_SLOT_NAME,
 #             entity_value=place.name,
 #             entity_synonyms=place.synonyms,
