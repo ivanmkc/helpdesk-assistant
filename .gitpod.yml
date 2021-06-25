@@ -5,6 +5,7 @@ tasks:
       pyenv local 3.8
       pip install -r requirements-dev.txt
       pip install --use-deprecated=legacy-resolver rasa-x --extra-index-url https://pypi.rasa.com/simple
+      python3 -m spacy download en_core_web_trf
       gp sync-done prepare
   - name: Generate
       gp sync-await prepare # wait for the above 'init' to finish
@@ -21,3 +22,6 @@ tasks:
   - name: Rasa X
     init: gp sync-await train # wait for the above 'init' to finish
     command: python3 -m rasa x --domain=domain
+
+ports:
+  - port: 5002
