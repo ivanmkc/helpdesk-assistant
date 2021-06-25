@@ -6,9 +6,13 @@ tasks:
       pip install -r requirements-dev.txt
       pip install --use-deprecated=legacy-resolver rasa-x --extra-index-url https://pypi.rasa.com/simple
       gp sync-done prepare
+  - name: Generate
+      gp sync-await prepare # wait for the above 'init' to finish
+      python3 -m data_generation.utils.generate_chatbot
+      gp sync-done generate
   - name: Train
     init: |
-      gp sync-await prepare # wait for the above 'init' to finish
+      gp sync-await generate # wait for the above 'init' to finish
       python3 -m rasa train --domain=domain --force
       gp sync-done train
   - name: Action Server
