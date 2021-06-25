@@ -1,6 +1,6 @@
 tasks:
   - name: Install dependencies
-  - init: |
+    init: |
       pyenv install 3.8
       pyenv local 3.8
       pip install -r requirements-dev.txt
