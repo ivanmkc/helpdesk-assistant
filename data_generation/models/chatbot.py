@@ -10,9 +10,7 @@ import os
 import shutil
 import yaml
 
-from rasa.shared.nlu.state_machine.state_machine_models import (
-    Intent,
-)
+from rasa.shared.nlu.state_machine.state_machine_models import Intent
 
 from rasa.shared.core.slots import Slot, TextSlot, ListSlot
 
@@ -30,9 +28,7 @@ class Chatbot:
     @property
     def base_slots(self) -> List[Slot]:
         return [
-            ListSlot(
-                name=find_objects_action.SLOT_FOUND_OBJECT_NAMES,
-            ),
+            ListSlot(name=find_objects_action.SLOT_FOUND_OBJECT_NAMES,),
             TextSlot(name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE),
             TextSlot(name=get_object_info.SLOT_OBJECT_ATTRIBUTE),
         ]
@@ -53,6 +49,11 @@ class Chatbot:
             additional_intents=self.additional_intents,
             slots=self.base_slots,
             use_rules=False,
+        )
+
+        # Create folders
+        os.makedirs(
+            os.path.dirname(get_object_info.OBJECTS_FILE_PATH), exist_ok=True
         )
 
         # Object
