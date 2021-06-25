@@ -16,15 +16,11 @@ tasks:
     init: |
       gp sync-await generate # wait for the above 'init' to finish
       python3 -m rasa train --domain=domain --force
-      gp sync-done train
   - name: Action Server
-    init: gp sync-await train # wait for the above 'init' to finish
     command: python3 -m rasa_sdk --actions actions
   - name: Duckling Server
-    init: gp sync-await train # wait for the above 'init' to finish
     command: docker run -p 8000:8000 rasa/duckling
   - name: Rasa X
-    init: gp sync-await train # wait for the above 'init' to finish
     command: python3 -m rasa x --domain=domain
 
 ports:
