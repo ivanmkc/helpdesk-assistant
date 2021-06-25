@@ -12,7 +12,7 @@ credentials.yml
 rasa.db*
 *.db
 results/
-models/
+/models/
 snow_connector.py
 chatroom/
 .idea/
