@@ -1,0 +1,20 @@
+tasks:
+  - name: Install dependencies
+  - init: |
+      pyenv install 3.8
+      pyenv local 3.8
+      pip install -r requirements-dev.txt
+      pip install --use-deprecated=legacy-resolver rasa-x --extra-index-url https://pypi.rasa.com/simple
+      git checkout master
+      gp sync-done prepare
+  - name: Train
+    init: |
+      gp sync-await prepare # wait for the above 'init' to finish
+      python3 -m rasa train --domain=domain --force
+      gp sync-done train
+  - name: Action Server
+    init: gp sync-await train # wait for the above 'init' to finish
+    command: python3 -m rasa_sdk --actions actions
+  - name: Rasa X
+    init: gp sync-await train # wait for the above 'init' to finish
+    command: python3 -m rasa x --domain=domain
