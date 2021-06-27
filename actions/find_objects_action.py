@@ -78,12 +78,12 @@ class FindObjectsAction(Action):
         #     else None
         # )
 
-        object_activity_provided = (
-            tracker.get_slot(SLOT_OBJECT_ACTIVITY_PROVIDED)
-            if SLOT_OBJECT_ACTIVITY_PROVIDED
-            in slot_names_since_last_user_utterance
-            else None
-        )
+        # object_activity_provided = (
+        #     tracker.get_slot(SLOT_OBJECT_ACTIVITY_PROVIDED)
+        #     if SLOT_OBJECT_ACTIVITY_PROVIDED
+        #     in slot_names_since_last_user_utterance
+        #     else None
+        # )
 
         # If no parameters were set, then quit
         if not any([object_name_or_type]):
@@ -96,6 +96,7 @@ class FindObjectsAction(Action):
         found_objects_by_type: List[Object] = []
         found_objects_by_things_provided: List[Object] = []
 
+        # TODO: Prioritize finding things that were talked about recently (i.e. in 'found_objects')
         for object in self.objects:
             # Find objects by name
             if object_name_or_type == object.name:

@@ -31,8 +31,7 @@ generalResponses: List[Response] = [
         condition=IntentCondition(common.how_are_you_doing_intent),
         actions=[
             Utterance(
-                text="I'm doing great",
-                name="utter_how_are_you_response",
+                text="I'm doing great", name="utter_how_are_you_response",
             )
         ],
     ),
@@ -47,9 +46,7 @@ generalResponses: List[Response] = [
             )
         ),
         actions=[
-            Utterance(
-                text="It's not too busy around here as you can see.",
-            )
+            Utterance(text="It's not too busy around here as you can see.",)
         ],
     ),
 ]
@@ -74,8 +71,7 @@ intent_buy_citypass = IntentWithExamples(
 )
 
 utter_i_can_help = Utterance(
-    text="Sure, I can help you with that.",
-    name="utter_i_can_help_you",
+    text="Sure, I can help you with that.", name="utter_i_can_help_you",
 )
 
 start_state = StateMachineState(
@@ -105,7 +101,8 @@ start_state = StateMachineState(
             condition=OnEntryCondition(),
             actions=[
                 Utterance(
-                    "Welcome to the Bath Visitor Center! How can I help you?"
+                    text="Welcome to the Bath Visitor Center! How can I help you?",
+                    name="utter_intro",
                 ),
             ],
         ),

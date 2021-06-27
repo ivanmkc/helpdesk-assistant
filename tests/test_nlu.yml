@@ -18,8 +18,12 @@ nlu:
       - I want to see [art]{"entity":"object_name_or_type", "value": "art"}
 - intent: intent_what_hours_with_entities
   examples: |
-      - When is the [restaurant]{"entity":"object_name_or_type", "value": "restaurant"} open?
-      - Are there any [museums]?
+      - When is [the restaurant]{"entity":"object_name_or_type", "value": "restaurant"} open?
+      - Are there any [museums]{"entity":"object_name_or_type", "value": "museum"}?
 - intent: intent_is_there_a_type_with_entities
   examples: |
       - Is there a [bridge]{"entity":"object_name_or_type", "value": "Great Pultaney Bridge"}?
+- intent: intent_is_there_a_place_with_context_with_entities
+  examples: |
+      - Where are some good [places]{"entity":"object_name_or_type", "value": "place"} around here?
+      - Do you know where is the good fish and chips's [restaurant]{"entity":"object_name_or_type", "value": "restaurant"}?
