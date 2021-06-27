@@ -3,10 +3,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     Utterance,
 )
-from data_generation.common_nlu import (
-    common_intents,
-    common_intent_creators,
-)
+from data_generation.common_nlu import common_intent_creators
 from data_generation.models.story_models import SlotWasSet, Story
 
 
@@ -18,98 +15,99 @@ from actions import find_objects_action, get_object_info
 utter_no_objects_found = Utterance("None objects found")
 
 # Stories for returning attribute given existing context
-stories = [
-    Story(
-        [
-            common_intents.intent_when_is_that,
-            ActionName("action_set_object_attribute_hours"),
-            SlotWasSet(
-                [
-                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            # ActionName(
-            #     action_reset_slots_except_found_object_names.ACTION_NAME
-            # ),
-        ]
-    ),
-    Story(
-        [
-            common_intents.intent_when_is_that,
-            ActionName("action_set_object_attribute_hours"),
-            SlotWasSet(
-                [
-                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            # ActionName(
-            #     action_reset_slots_except_found_object_names.ACTION_NAME
-            # ),
-        ]
-    ),
-    Story(
-        [
-            common_intents.intent_what_price,
-            ActionName("action_set_object_attribute_price"),
-            SlotWasSet(
-                [
-                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            # ActionName(
-            #     action_reset_slots_except_found_object_names.ACTION_NAME
-            # ),
-        ]
-    ),
-    Story(
-        [
-            common_intents.intent_what_is_that,
-            ActionName("action_set_object_attribute_details"),
-            SlotWasSet(
-                [
-                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            # ActionName(
-            #     action_reset_slots_except_found_object_names.ACTION_NAME
-            # ),
-        ]
-    ),
-    Story(
-        [
-            common_intents.intent_duration,
-            ActionName("action_set_object_attribute_duration"),
-            SlotWasSet(
-                [
-                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            # ActionName(
-            #     action_reset_slots_except_found_object_names.ACTION_NAME
-            # ),
-        ]
-    ),
-    Story(
-        [
-            common_intents.intent_directions,
-            ActionName("action_set_object_attribute_directions"),
-            SlotWasSet(
-                [
-                    get_object_info.SLOT_OBJECT_ATTRIBUTE,
-                ]
-            ),
-            ActionName(get_object_info.ACTION_NAME),
-            # ActionName(
-            #     action_reset_slots_except_found_object_names.ACTION_NAME
-            # ),
-        ]
-    ),
-]
+stories = []
+# stories = [
+#     Story(
+#         [
+#             common_intents.intent_when_is_that,
+#             ActionName("action_set_object_attribute_hours"),
+#             SlotWasSet(
+#                 [
+#                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             # ActionName(
+#             #     action_reset_slots_except_found_object_names.ACTION_NAME
+#             # ),
+#         ]
+#     ),
+#     Story(
+#         [
+#             common_intents.intent_when_is_that,
+#             ActionName("action_set_object_attribute_hours"),
+#             SlotWasSet(
+#                 [
+#                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             # ActionName(
+#             #     action_reset_slots_except_found_object_names.ACTION_NAME
+#             # ),
+#         ]
+#     ),
+#     Story(
+#         [
+#             common_intents.intent_what_price,
+#             ActionName("action_set_object_attribute_price"),
+#             SlotWasSet(
+#                 [
+#                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             # ActionName(
+#             #     action_reset_slots_except_found_object_names.ACTION_NAME
+#             # ),
+#         ]
+#     ),
+#     Story(
+#         [
+#             common_intents.intent_what_is_that,
+#             ActionName("action_set_object_attribute_details"),
+#             SlotWasSet(
+#                 [
+#                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             # ActionName(
+#             #     action_reset_slots_except_found_object_names.ACTION_NAME
+#             # ),
+#         ]
+#     ),
+#     Story(
+#         [
+#             common_intents.intent_duration,
+#             ActionName("action_set_object_attribute_duration"),
+#             SlotWasSet(
+#                 [
+#                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             # ActionName(
+#             #     action_reset_slots_except_found_object_names.ACTION_NAME
+#             # ),
+#         ]
+#     ),
+#     Story(
+#         [
+#             common_intents.intent_directions,
+#             ActionName("action_set_object_attribute_directions"),
+#             SlotWasSet(
+#                 [
+#                     get_object_info.SLOT_OBJECT_ATTRIBUTE,
+#                 ]
+#             ),
+#             ActionName(get_object_info.ACTION_NAME),
+#             # ActionName(
+#             #     action_reset_slots_except_found_object_names.ACTION_NAME
+#             # ),
+#         ]
+#     ),
+# ]
 
 # Find object with type stories
 intent_creator = common_intent_creators.intent_is_there_a_type_creator
@@ -121,11 +119,7 @@ stories += [
                 name=intent_creator.name,
                 entities=[intent_creator.entity_name],
             ),
-            SlotWasSet(
-                [
-                    intent_creator.entity_name,
-                ]
-            ),
+            SlotWasSet([intent_creator.entity_name,]),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
             # ActionName(
@@ -140,17 +134,9 @@ stories += [
                 name=intent_creator.name,
                 entities=[intent_creator.entity_name],
             ),
-            SlotWasSet(
-                [
-                    intent_creator.entity_name,
-                ]
-            ),
+            SlotWasSet([intent_creator.entity_name,]),
             ActionName(find_objects_action.ACTION_NAME),
-            SlotWasSet(
-                [
-                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
-                ]
-            ),
+            SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
             ActionName(say_object_intros.ACTION_NAME),
             # ActionName(
             #     action_reset_slots_except_found_object_names.ACTION_NAME
@@ -171,11 +157,7 @@ stories += [
                 name=intent_creator.name,
                 entities=[intent_creator.entity_name],
             ),
-            SlotWasSet(
-                [
-                    intent_creator.entity_name,
-                ]
-            ),
+            SlotWasSet([intent_creator.entity_name,]),
             ActionName(find_objects_action.ACTION_NAME),
             utter_no_objects_found,
             # ActionName(
@@ -190,17 +172,9 @@ stories += [
                 name=intent_creator.name,
                 entities=[intent_creator.entity_name],
             ),
-            SlotWasSet(
-                [
-                    intent_creator.entity_name,
-                ]
-            ),
+            SlotWasSet([intent_creator.entity_name,]),
             ActionName(find_objects_action.ACTION_NAME),
-            SlotWasSet(
-                [
-                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
-                ]
-            ),
+            SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
             ActionName(say_object_intros.ACTION_NAME),
             # ActionName(
             #     action_reset_slots_except_found_object_names.ACTION_NAME
@@ -239,17 +213,14 @@ for intent_creator in common_intent_creators.intent_creators:
 
         # Create story
         stories += [
+            # Objects found
             Story(
                 elements=[
                     Intent(
                         name=intent_creator.name,
                         entities=[intent_creator.entity_name],
                     ),
-                    SlotWasSet(
-                        [
-                            intent_creator.entity_name,
-                        ]
-                    ),
+                    SlotWasSet([intent_creator.entity_name,]),
                     # Set attribute slot
                     # Action should be the one created dynamically above
                     ActionName(slot_set_action_name),
@@ -261,11 +232,7 @@ for intent_creator in common_intent_creators.intent_creators:
                     ),
                     # Find the objects
                     ActionName(find_objects_action.ACTION_NAME),
-                    SlotWasSet(
-                        [
-                            find_objects_action.SLOT_FOUND_OBJECT_NAMES,
-                        ]
-                    ),
+                    SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
                     ActionName(get_object_info.ACTION_NAME),
                     # Reset all irrelevant slots
                     # ActionName(
@@ -273,17 +240,14 @@ for intent_creator in common_intent_creators.intent_creators:
                     # ),
                 ]
             ),
+            # None found
             Story(
                 elements=[
                     Intent(
                         name=intent_creator.name,
                         entities=[intent_creator.entity_name],
                     ),
-                    SlotWasSet(
-                        [
-                            intent_creator.entity_name,
-                        ]
-                    ),
+                    SlotWasSet([intent_creator.entity_name,]),
                     # Set attribute slot
                     # Action should be the one created dynamically above
                     ActionName(slot_set_action_name),
@@ -296,6 +260,29 @@ for intent_creator in common_intent_creators.intent_creators:
                     # Find the objects
                     ActionName(find_objects_action.ACTION_NAME),
                     utter_no_objects_found,
+                    # Reset all irrelevant slots
+                    # ActionName(
+                    #     action_reset_slots_except_found_object_names.ACTION_NAME
+                    # ),
+                ]
+            ),
+            # No entities found
+            Story(
+                elements=[
+                    Intent(name=intent_creator.name,),
+                    # SlotWasSet([intent_creator.entity_name,]),
+                    # Set attribute slot
+                    # Action should be the one created dynamically above
+                    ActionName(slot_set_action_name),
+                    SlotWasSet(
+                        [
+                            # intent_creator.entity_name,
+                            get_object_info.SLOT_OBJECT_ATTRIBUTE,
+                        ]
+                    ),
+                    # Find the objects
+                    # ActionName(find_objects_action.ACTION_NAME),
+                    ActionName(get_object_info.ACTION_NAME),
                     # Reset all irrelevant slots
                     # ActionName(
                     #     action_reset_slots_except_found_object_names.ACTION_NAME

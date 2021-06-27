@@ -10,24 +10,6 @@ import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as st
 import data_generation.chatbots.visitor_center.state_visitor_center as state_visitor_center
 from data_generation.models.story_models import Fork, Intent, Or, Story
 
-# Personal
-stories_personal = [
-    Story(
-        [
-            IntentWithExamples(examples=["Who are you?", "What's your name?"]),
-            Utterance("I'm called Patrick"),
-            Utterance("I help visitors to Bath, like yourself."),
-        ]
-    ),
-    Story(
-        [
-            IntentWithExamples(examples=["Who are you?", "What's your name?"]),
-            Utterance("I'm called Patrick"),
-            Utterance("I help visitors to Bath, like yourself."),
-        ]
-    ),
-]
-
 # Tell me more
 stories_tell_me_more = [
     Story(
@@ -60,6 +42,14 @@ stories_tell_me_more = [
             ),
             Utterance(
                 "We have a bus tour and a boat tour. You can book them here."
+            ),
+        ]
+    ),
+    Story(
+        [
+            common.intent_ask_weather,
+            Utterance(
+                "It's a fine day in Bath. We don't get too much rain here so you nothing to worry about."
             ),
         ]
     ),
@@ -131,10 +121,7 @@ stories_tours = [
                             ),
                             # TODO: StateMachineTransition
                         ],
-                        [
-                            Intent("deny"),
-                            Utterance("It's up to you."),
-                        ],
+                        [Intent("deny"), Utterance("It's up to you."),],
                         # TODO: Handle "nothing" condition
                     ),
                 ],
@@ -147,8 +134,11 @@ stories_tours = [
 stories_chitchat = [
     Story(
         [
-            Intent("greet"),
-            Utterance("Nice to meet you"),
+            Or(Intent("greet"), Intent("intent_ask_name")),
+            Utterance(
+                "Nice to meet you, I'm Patrick. I help visitors with questions about Bath.",
+                name="utter_nice_to_meet_you",
+            ),
         ]
     ),
 ]

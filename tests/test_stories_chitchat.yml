@@ -1,0 +1,9 @@
+version: "2.0"
+stories:
+
+- story: How may I help you?
+  steps:
+    - intent: greet
+    - action: utter_intro # From state_machine_policy
+    - intent: greet
+    - action: utter_nice_to_meet_you  # From memoization_policy

@@ -27,3 +27,14 @@ nlu:
   examples: |
       - Where are some good [places]{"entity":"object_name_or_type", "value": "place"} around here?
       - Do you know where is the good fish and chips's [restaurant]{"entity":"object_name_or_type", "value": "restaurant"}?
+- intent: intent_ask_weather
+  examples: |
+      - What's the weather like?
+      - Will it rain?
+      - Does it snow here?
+      - How's the weather?
+      - What's the weather report?
+      - It's really hot
+      - Is it raining?
+      - Is it windy?
+      

@@ -9,10 +9,7 @@ intent_where_are_you_from = IntentWithExamples(
 )
 
 intent_let_me_think = IntentWithExamples(
-    examples=[
-        "Give me time",
-        "Let me think",
-    ]
+    examples=["Give me time", "Let me think",]
 )
 
 intent_what_do_you_do = IntentWithExamples(
@@ -47,55 +44,73 @@ intent_what_is_that = IntentWithExamples(
     name="intent_what_is_this",
 )
 
-intent_directions = IntentWithExamples(
+intent_ask_weather = IntentWithExamples(
     examples=[
-        "How do you get there?",
-        "What's the way there?",
-        "How do I go there?",
-        "What are the directions there?",
-        "Where is that?",
+        "What's the weather like?",
+        "Will it rain?",
+        "Does it snow here?",
+        "How's the weather?",
+        "What's the weather report?",
+        "It's really hot",
+        "Is it raining?",
+        "Is it windy?",
     ],
-    name="intent_directions",
+    name="intent_ask_weather",
 )
 
-intent_when_is_that = IntentWithExamples(
-    examples=[
-        "When is that?",
-        "What are the hours?",
-        "What time does that happpen?",
-        "When does it open?",
-        "When does it close?",
-        "What are the hours?",
-        "When does it close?",
-        "What time does it open?",
-        "What time does it open until?",
-        "What time does it close?",
-        "Is it still open?",
-        "What would be the hours?",
-        "What would the hours be?",
-        "Do you know when it opens?",
-        "When are they open?",
-        "When do they close?",
-        "When would they be closing?",
-        "What time does are they open?",
-        "Are they open now?",
-    ],
-    name="intent_when_is_that",
+intent_ask_name = IntentWithExamples(
+    examples=["Who are you?", "What's your name",], name="intent_ask_name",
 )
 
-intent_what_price = IntentWithExamples(
-    examples=[
-        "How much is it?",
-        "Is it expensive?",
-        "How much does it cost?",
-        "What's the cost?",
-        "What's the price?",
-        "How much?",
-        "What price?",
-        "What cost?",
-    ],
-    name="intent_what_price",
-)
+# intent_directions = IntentWithExamples(
+#     examples=[
+#         "How do you get there?",
+#         "What's the way there?",
+#         "How do I go there?",
+#         "What are the directions there?",
+#         "Where is that?",
+#     ],
+#     name="intent_directions",
+# )
+
+# intent_when_is_that = IntentWithExamples(
+#     examples=[
+#         "When is that?",
+#         "What are the hours?",
+#         "What time does that happpen?",
+#         "When does it open?",
+#         "When does it close?",
+#         "What are the hours?",
+#         "When does it close?",
+#         "What time does it open?",
+#         "What time does it open until?",
+#         "What time does it close?",
+#         "Is it still open?",
+#         "What would be the hours?",
+#         "What would the hours be?",
+#         "Do you know when it opens?",
+#         "When are they open?",
+#         "When do they close?",
+#         "When would they be closing?",
+#         "What time does are they open?",
+#         "Are they open now?",
+#     ],
+#     name="intent_when_is_that",
+# )
+
+# intent_what_price = IntentWithExamples(
+#     examples=[
+#         "How much is it?",
+#         "Is it expensive?",
+#         "How much does it cost?",
+#         "What's the cost?",
+#         "What's the price?",
+#         "How much?",
+#         "What price?",
+#         "What cost?",
+#     ],
+#     name="intent_what_price",
+# )
 
 intent_not_sure = IntentWithExamples(
     examples=[
@@ -108,15 +123,15 @@ intent_not_sure = IntentWithExamples(
     name="intent_not_sure",
 )
 
-intent_duration = IntentWithExamples(
-    examples=[
-        "How long?",
-        "How long is it?",
-        "What's the length?",
-        "How much time does it take?",
-    ],
-    name="intent_how_long",
-)
+# intent_duration = IntentWithExamples(
+#     examples=[
+#         "How long?",
+#         "How long is it?",
+#         "What's the length?",
+#         "How much time does it take?",
+#     ],
+#     name="intent_how_long",
+# )
 
 intent_what_do_you_recommend = IntentWithExamples(
     examples=[

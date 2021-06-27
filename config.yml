@@ -2,7 +2,7 @@ language: en
 pipeline:
   - name: "SpacyNLP"
     # language model to load
-    model: "en_core_web_trf"
+    model: "en_core_web_md"
     # model: "en_core_web_md"
     # when retrieving word vectors, this will decide if the casing
     # of the word is relevant. E.g. `hello` and `Hello` will
@@ -32,7 +32,7 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 20
+    epochs: 1
     constrain_similarities: True
     # model_confidence: linear_norm
   - name: FallbackClassifier
