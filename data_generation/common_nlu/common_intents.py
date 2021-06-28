@@ -54,6 +54,10 @@ intent_ask_weather = IntentWithExamples(
         "It's really hot",
         "Is it raining?",
         "Is it windy?",
+        "how about the forecast",
+        "what is the weather today",
+        "I want to know the weather",
+        "what is the weather",
     ],
     name="intent_ask_weather",
 )

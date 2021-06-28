@@ -192,7 +192,6 @@ nlu:
 - intent: out_of_scope
   examples: |
     - what is the square root of 5
-    - I want to know the weather
     - what is the meaning of life.
     - Fridge Isn't Running
     - my tv isn't working
@@ -201,14 +200,11 @@ nlu:
     - what year is it
     - order a pizza
     - I want to order a pizza
-    - what is the weather today
-    - what is the weather
     - how old are you?
     - add two plus two
     - Hdjejene
     - asd
     - title
-    - how about the forecast
     - foolish
     - joke
     - Can I get a hamburger?

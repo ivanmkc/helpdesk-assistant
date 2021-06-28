@@ -183,9 +183,7 @@ stories:
     - found_object_names
   - action: action_get_object_info
   - action: action_listen
-  - user: |
-     What about the other abbey?
-    intent: intent_what_about_name_or_type
+  - intent: intent_is_there_a_type_with_entities # Check same attribute but for another place
     entities:
     - object_name_or_type
   - slot_was_set:
@@ -193,6 +191,9 @@ stories:
   - action: action_find_objects
   - slot_was_set:
     - found_object_names
+  - action: say_object_intros 
+  - slot_was_set:
+    - object_attribute  
   - action: action_get_object_info
   - action: action_listen    
   

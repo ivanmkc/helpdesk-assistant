@@ -37,12 +37,12 @@ pipeline:
     # model_confidence: linear_norm
   - name: FallbackClassifier
     threshold: 0.1
-  - name: DucklingEntityExtractor
-    url: http://localhost:8000
-    dimensions:
-    # - email
-    - time
-    - number
+  # - name: DucklingEntityExtractor
+  #   url: http://localhost:8000
+  #   dimensions:
+  #   # - email
+  #   - time
+  #   - number
   - name: EntitySynonymMapper
 policies:
   - name: StateMachinePolicy
