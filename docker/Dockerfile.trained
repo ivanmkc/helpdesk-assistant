@@ -1,0 +1,12 @@
+FROM gcr.io/chatbot-299615/base
+
+# Download spacy again because the next step doesn't work otherwise
+RUN pip install spacy
+# Download trained spacy pipeline
+RUN python -m spacy download en_core_web_trf
+
+# Generate NLU
+RUN python -m data_generation.utils.generate_chatbot
+
+# Train
+RUN python -m rasa train --domain=domain

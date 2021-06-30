@@ -1,0 +1,5 @@
+steps:
+# Build the alpine and debian versions.
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-f', 'docker/Dockerfile.base', '--tag=gcr.io/$PROJECT_ID/base', '.']
+images: ['gcr.io/$PROJECT_ID/base']

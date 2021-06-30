@@ -18,7 +18,9 @@ __pycache__/
 # Ignored by the build system
 /setup.cfg
 /env
+/env2
 /.vscode
 /__pycache__
-/model
+/models
+/results
 .gitpod.yml
