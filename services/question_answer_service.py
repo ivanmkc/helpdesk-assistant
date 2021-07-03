@@ -1,11 +1,13 @@
 from typing import Text, List
+from services.HuggingFaceInferenceAPIModel import HuggingFaceInferenceAPIModel
 from services.CustomInferenceAPIModel import CustomInferenceAPIModel
 from services.QuestionAnswerModel import (
     QuestionAnswerModel,
     QuestionAnswerResult,
 )
+from typing import Optional
 
-CONFIDENCE_THRESHOLD = 0.3
+CONFIDENCE_THRESHOLD = 0.1
 
 
 class QuestionAnswerService:
@@ -18,7 +20,6 @@ class QuestionAnswerService:
         file_path: str,
         model: QuestionAnswerModel = CustomInferenceAPIModel(),
     ):
-
         self._context = self._read_file(file_path)
         self._model = model
 
@@ -35,7 +36,9 @@ class QuestionAnswerService:
         # Add one for the end
         self._newline_locations.append(len(self._context))
 
-    def handle_question(self, question: Text) -> QuestionAnswerResult:
+    def handle_question(
+        self, question: Text
+    ) -> Optional[QuestionAnswerResult]:
         result = self._model.predict(question=question, context=self._context)
 
         confidence = result.score

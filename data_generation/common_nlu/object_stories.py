@@ -10,9 +10,15 @@ from data_generation.models.story_models import SlotWasSet, Story
 import actions.find_objects_action as find_objects_action
 import actions.say_object_intros as say_object_intros
 
-from actions import find_objects_action, get_object_info
+from actions import (
+    find_objects_action,
+    get_object_info,
+    question_answer_action,
+)
 
-utter_no_objects_found = Utterance("None objects found")
+utter_no_objects_found = ActionName(
+    question_answer_action.ACTION_NAME
+)  # Utterance("None objects found")
 
 # Stories for returning attribute given existing context
 stories = []

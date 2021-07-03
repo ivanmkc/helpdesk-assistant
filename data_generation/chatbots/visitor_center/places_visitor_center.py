@@ -8,26 +8,16 @@ import data_generation.chatbots.visitor_center.concepts_visitor_center as concep
 from data_generation.models.object_models import Place
 from data_generation.common_nlu.things import Thing
 from data_generation.common_nlu.types import Type
-from data_generation.common_nlu import (
-    common_intent_creators,
-)
+from data_generation.common_nlu import common_intent_creators
 
 places: List[Place] = []
 
 places += [
     Place(
         name="Holburne Museum",
-        synonyms=[
-            "Holburne Museum",
-            "Holburn Museum",
-            "Holburn",
-        ],
+        synonyms=["Holburne Museum", "Holburn Museum", "Holburn",],
         intro="The Holburne Museum has a great art collection. It has both modern and antique art.",
-        types=[
-            Type.place,
-            Type.museum,
-            Type.art_gallery,
-        ],
+        types=[Type.place, Type.museum, Type.art_gallery,],
         hours="The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM.",
         details=None,
         price="Tickets for the Holburne Museum cost 12.50 euros for adults and 7.50 euros for children under 12.",
@@ -79,9 +69,7 @@ places += [
         name="Great Pultaney Bridge",
         synonyms=["bridge", "pultaney bridge"],
         intro="The Great Pulteney Bridge is a popular place for tourists.",
-        types=[
-            Type.place,
-        ],
+        types=[Type.place,],
         hours="The Great Pulteney Bridge is open all day.",
         details=None,
         price="It is free to walk on the Great Pulteney Bridge.",
@@ -98,9 +86,7 @@ places += [
         name="Roman Baths",
         synonyms=["baths"],
         intro="The Roman Baths are a very old historical monument.",
-        types=[
-            Type.place,
-        ],
+        types=[Type.place,],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
         details="The Roman Baths are very popular for tourists!",
         price="On weekdays, tickets for the Roman Baths are 10 euros per person and 8 euros per person on weekends.",
@@ -114,6 +100,7 @@ places += [
         question_intent=IntentWithExamples(
             examples=[
                 "I'm hungry",
+                "I'm very hungry",
                 "I'd like to eat something",
                 "I'd like to drink something",
                 "What's there to eat?",
@@ -121,7 +108,8 @@ places += [
                 "What is there to eat around here?",
                 "What do you recommend I eat?",
                 "Any food recommendations?",
-            ]
+            ],
+            name="intent_ask_restaurant",
         ),
         intro="Circle Diner has great prices and excellent food.",
         types=[Type.place, Type.restaurant],
@@ -161,8 +149,7 @@ places += [
 # Write place intents
 intents = [
     parameterized_intents.create_parameterized_intent(
-        entity_value=place.name,
-        entity_synonyms=place.synonyms,
+        entity_value=place.name, entity_synonyms=place.synonyms,
     )
     for place in places
     for parameterized_intents in common_intent_creators.intent_creators
@@ -171,8 +158,7 @@ intents = [
 # Write place with things intents
 intents += [
     common_intent_creators.intent_is_there_a_place_with_thing_creator.create_parameterized_intent(
-        entity_value=thing.name,
-        entity_synonyms=thing.synonyms,
+        entity_value=thing.name, entity_synonyms=thing.synonyms,
     )
     for place in places
     for thing in place.things_provided
@@ -181,8 +167,7 @@ intents += [
 # Write place with intents
 intents += [
     common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
-        entity_value=place.name,
-        entity_synonyms=place.synonyms,
+        entity_value=place.name, entity_synonyms=place.synonyms,
     )
     for place in places
 ]
@@ -190,8 +175,7 @@ intents += [
 # Write place with type intents
 intents += [
     common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
-        entity_value=type.name,
-        entity_synonyms=type.synonyms,
+        entity_value=type.name, entity_synonyms=type.synonyms,
     )
     for place in places
     for type in place.types

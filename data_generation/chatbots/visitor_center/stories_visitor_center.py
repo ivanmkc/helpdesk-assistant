@@ -134,7 +134,7 @@ stories_tours = [
 stories_chitchat = [
     Story(
         [
-            Or(Intent("greet"), Intent("intent_ask_name")),
+            Or(Intent("greet"), common.intent_ask_name),
             Utterance(
                 "Nice to meet you, I'm Patrick. I help visitors with questions about Bath.",
                 name="utter_nice_to_meet_you",

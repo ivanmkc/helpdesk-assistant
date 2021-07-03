@@ -9,18 +9,13 @@ from services.QuestionAnswerModel import (
 
 class HuggingFaceInferenceAPIModel(QuestionAnswerModel):
     API_TOKEN = os.getenv("HUGGING_FACE_API_KEY")
-    MODEL_NAME = "deepset/minilm-uncased-squad2"
+    MODEL_NAME = "bert-large-uncased-whole-word-masking-finetuned-squad"
     # MODEL_NAME = "deepset/bert-large-uncased-whole-word-masking-squad2"
     API_URL = f"https://api-inference.huggingface.co/models/{MODEL_NAME}"
 
     def predict(self, question: str, context: str) -> QuestionAnswerResponse:
         result = self._query(
-            {
-                "inputs": {
-                    "question": question,
-                    "context": context,
-                }
-            }
+            {"inputs": {"question": question, "context": context,}}
         )
 
         error = result.get("error")

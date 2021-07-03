@@ -37,4 +37,8 @@ nlu:
       - It's really hot
       - Is it raining?
       - Is it windy?
-      
+- intent: intent_ask_restaurant
+  examples: |
+      - I'm so hungry
+      - I'm very hungry
+      - Is there food?
