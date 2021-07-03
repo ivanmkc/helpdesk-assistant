@@ -1,0 +1,10 @@
+FROM gcr.io/chatbot-299615/trained
+
+COPY ./supervisor /app/supervisor
+
+# Install supervisor
+RUN apt-get update && apt-get install -y supervisor
+
+# Install rasa-x
+RUN pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
+CMD ["supervisord", "-c", "supervisor/rasa-x.conf"]

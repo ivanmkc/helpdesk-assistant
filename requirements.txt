@@ -3,3 +3,6 @@ rasa-sdk>=2.5.0  # if you change this, make sure to change the Dockerfile to mat
 spacy
 pyyaml
 -r actions/requirements-actions.txt
+
+# data generation
+inflect

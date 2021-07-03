@@ -1,0 +1,8 @@
+FROM gcr.io/chatbot-299615/trained
+
+COPY ./supervisor /app/supervisor
+
+# Install supervisor
+RUN apt-get update && apt-get install -y supervisor
+
+CMD ["supervisord", "-c", "supervisor/rasa-run.conf"]
