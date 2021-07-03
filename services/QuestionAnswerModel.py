@@ -13,9 +13,3 @@ class QuestionAnswerModel(abc.ABC):
     @abc.abstractmethod
     def predict(self, question: str, context: str) -> QuestionAnswerResponse:
         pass
-
-
-@dataclass
-class QuestionAnswerResult:
-    confidence: float
-    answer: str

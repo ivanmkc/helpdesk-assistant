@@ -1,16 +1,17 @@
 from typing import Text, List
 from services.HuggingFaceInferenceAPIModel import HuggingFaceInferenceAPIModel
 from services.CustomInferenceAPIModel import CustomInferenceAPIModel
-from services.QuestionAnswerModel import (
-    QuestionAnswerModel,
-    QuestionAnswerResult,
+from services.QuestionAnswerModel import QuestionAnswerModel
+from services.QuestionAnswerResult import QuestionAnswerResult
+from services.QuestionAnswerServiceInterface import (
+    QuestionAnswerServiceInterface,
 )
 from typing import Optional
 
 CONFIDENCE_THRESHOLD = 0.1
 
 
-class QuestionAnswerService:
+class QuestionAnswerService(QuestionAnswerServiceInterface):
     """
     QuestionAnswerService
     """

@@ -6,8 +6,12 @@ from rasa_sdk.executor import CollectingDispatcher, Action
 if typing.TYPE_CHECKING:  # pragma: no cover
     from rasa_sdk.types import DomainDict
 
-from services.question_answer_service import (
-    QuestionAnswerService,
+from services.QuestionAnswerServiceInterface import (
+    QuestionAnswerServiceInterface,
+)
+from services.question_answer_service import QuestionAnswerService
+from services.question_answer_contextless_service import (
+    QuestionAnswerContextlessService,
 )
 
 from rasa.shared.core.constants import ACTION_LISTEN_NAME
@@ -28,10 +32,10 @@ class QuestionAnswerAction(Action):
     Action that uses question answer extraction to get the relevant sentence
     """
 
+    _question_service: QuestionAnswerServiceInterface
+
     def __init__(self) -> None:
-        self._question_service = QuestionAnswerService(
-            file_path=CONTEXT_FILE_PATH
-        )
+        self._question_service = QuestionAnswerContextlessService()
 
     def name(self) -> Text:
         return ACTION_NAME
@@ -57,9 +61,7 @@ class QuestionAnswerAction(Action):
         question = tracker.latest_message["text"]
 
         return await self._ask_question(
-            dispatcher=dispatcher,
-            question=question,
-            tracker=tracker,
+            dispatcher=dispatcher, question=question, tracker=tracker,
         )
 
     async def _ask_question(
