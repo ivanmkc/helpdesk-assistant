@@ -17,11 +17,11 @@ class QuestionAnswerContextlessService(QuestionAnswerServiceInterface):
 
     def __init__(
         self,
+        tag: Optional[str] = None,
         model: QuestionAnswerContextlessModel = HaystackInferenceAPIModel(),
     ):
         self._model = model
+        self._tag = tag
 
-    def handle_question(
-        self, question: Text
-    ) -> Optional[QuestionAnswerResult]:
-        return self._model.predict(question=question)
+    def handle_question(self, question: str) -> Optional[QuestionAnswerResult]:
+        return self._model.predict(question=question, tag=self._tag)

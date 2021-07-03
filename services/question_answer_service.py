@@ -37,9 +37,7 @@ class QuestionAnswerService(QuestionAnswerServiceInterface):
         # Add one for the end
         self._newline_locations.append(len(self._context))
 
-    def handle_question(
-        self, question: Text
-    ) -> Optional[QuestionAnswerResult]:
+    def handle_question(self, question: str) -> Optional[QuestionAnswerResult]:
         result = self._model.predict(question=question, context=self._context)
 
         confidence = result.score

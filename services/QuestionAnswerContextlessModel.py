@@ -5,5 +5,7 @@ from typing import Optional
 
 class QuestionAnswerContextlessModel(abc.ABC):
     @abc.abstractmethod
-    def predict(self, question: str) -> Optional[QuestionAnswerResult]:
+    def predict(
+        self, question: str, tag: Optional[str]
+    ) -> Optional[QuestionAnswerResult]:
         pass

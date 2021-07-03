@@ -11,11 +11,14 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
     API_URL = f"http://localhost:8000/query"
     PROBABILITY_THRESHOLD = 0.1
 
-    def predict(self, question: str) -> Optional[QuestionAnswerResult]:
+    def predict(
+        self, question: str, tag: Optional[str] = None
+    ) -> Optional[QuestionAnswerResult]:
+        filters = {"tag": [tag]} if tag else {}
         result = self._query(
             {
                 "query": question,
-                "filters": {},
+                "filters": filters,
                 "top_k_retriever": 1,
                 "top_k_reader": 1,
             }

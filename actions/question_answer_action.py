@@ -2,6 +2,7 @@ import typing
 from typing import Text, Dict, List, Any
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher, Action
+import os
 
 if typing.TYPE_CHECKING:  # pragma: no cover
     from rasa_sdk.types import DomainDict
@@ -26,6 +27,9 @@ logger.debug(vers)
 CONTEXT_FILE_PATH = "context/context.txt"
 ACTION_NAME = "question_answer_action"
 
+# tag = os.getenv("CHATBOT_ID")
+TAG = "visitor_center"
+
 
 class QuestionAnswerAction(Action):
     """
@@ -35,7 +39,7 @@ class QuestionAnswerAction(Action):
     _question_service: QuestionAnswerServiceInterface
 
     def __init__(self) -> None:
-        self._question_service = QuestionAnswerContextlessService()
+        self._question_service = QuestionAnswerContextlessService(tag=TAG)
 
     def name(self) -> Text:
         return ACTION_NAME
