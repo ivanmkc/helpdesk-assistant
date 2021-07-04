@@ -9,7 +9,7 @@ from services.QuestionAnswerResult import QuestionAnswerResult
 
 class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
     API_URL = f"http://localhost:8000/query"
-    PROBABILITY_THRESHOLD = 0.1
+    PROBABILITY_THRESHOLD = 0.2
 
     def predict(
         self, question: str, tag: Optional[str] = None

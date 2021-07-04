@@ -141,4 +141,20 @@ stories_chitchat = [
             ),
         ]
     ),
+    # Story(
+    #     [
+    #         IntentWithExamples(
+    #             examples=[
+    #                 "Do you like it here?",
+    #                 "Do you like Bath?",
+    #                 "What do you think about the city?",
+    #                 "What's your opinion of Bath?",
+    #             ]
+    #         ),
+    #         Utterance(
+    #             "Nice to meet you, I'm Patrick. I help visitors with questions about Bath.",
+    #             name="utter_nice_to_meet_you",
+    #         ),
+    #     ]
+    # ),
 ]

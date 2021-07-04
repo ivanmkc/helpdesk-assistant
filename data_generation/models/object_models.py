@@ -27,11 +27,11 @@ class Place(Object):
     intro: str
     question_intent: Optional[Intent] = None
     types: List[Concept] = field(default_factory=list)
-    activities_provided: List[Concept] = field(default_factory=list)
     things_provided: List[Concept] = field(default_factory=list)
     hours: Optional[str] = None
     details: Optional[str] = None
     price: Optional[str] = None
     duration: Optional[str] = None
     directions: Optional[str] = None
+    opinion: Optional[str] = None
     related_actions: List[str] = field(default_factory=list)

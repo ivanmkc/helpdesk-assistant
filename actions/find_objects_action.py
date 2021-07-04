@@ -99,16 +99,18 @@ class FindObjectsAction(Action):
         # TODO: Prioritize finding things that were talked about recently (i.e. in 'found_objects')
         for object in self.objects:
             # Find objects by name
-            if object_name_or_type == object.name:
+            if object_name_or_type.casefold() == object.name.casefold():
                 found_objects_by_name.append(object)
 
             # Find objects by type
-            if object_name_or_type in [type.name for type in object.types]:
+            if object_name_or_type in [
+                type.name.casefold() for type in object.types
+            ]:
                 found_objects_by_type.append(object)
 
             # Find objects by things provided
             if object_name_or_type in [
-                thing.name for thing in object.things_provided
+                thing.name.casefold() for thing in object.things_provided
             ]:
                 found_objects_by_things_provided.append(object)
 

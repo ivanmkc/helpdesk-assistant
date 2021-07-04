@@ -94,6 +94,9 @@ def persist(
     rasa.shared.utils.validation.validate_yaml_schema(
         domain.as_yaml(), rasa.shared.constants.DOMAIN_SCHEMA_FILE
     )
+
+    # Delete domain_filename
+    os.remove(domain_filename)
     domain.persist(domain_filename)
 
     # Persist NLU
@@ -103,4 +106,6 @@ def persist(
     )
     RasaYAMLReader().validate(nlu_data_yaml)
     Path(nlu_filename).parent.mkdir(parents=True, exist_ok=True)
+
+    os.remove(nlu_filename)
     write_text_file(nlu_data_yaml, nlu_filename)

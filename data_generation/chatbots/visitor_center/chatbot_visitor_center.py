@@ -4,6 +4,7 @@ import data_generation.chatbots.visitor_center.buy_citypass.state_buy_citypass a
 import data_generation.chatbots.visitor_center.state_visitor_center as state_visitor_center
 import data_generation.chatbots.visitor_center.stories_visitor_center as stories_visitor_center
 import data_generation.common_nlu.object_stories as object_stories
+import data_generation.common_nlu.common_stories as common_stories
 from data_generation.models.state_machine import StateMachine
 from data_generation.models.chatbot import Chatbot
 import data_generation.chatbots.visitor_center.places_visitor_center as places
@@ -22,6 +23,7 @@ stories = (
     + stories_visitor_center.stories_what_time
     + stories_visitor_center.stories_chitchat
     + object_stories.stories
+    + common_stories.stories_chitchat
 )
 
 chatbot = Chatbot(

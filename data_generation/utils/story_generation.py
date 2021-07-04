@@ -1,12 +1,10 @@
-import uuid
+import os
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import rasa.shared.constants
 import rasa.shared.utils.validation
 from rasa.shared.core.domain import Domain
-from rasa.shared.core.slots import (
-    Slot,
-)
+from rasa.shared.core.slots import Slot
 from rasa.shared.nlu.state_machine.state_machine_models import (
     Intent,
     IntentWithExamples,
@@ -102,6 +100,7 @@ def persist(
     )
 
     # Write domain
+    os.remove(domain_filename)
     all_domain.persist(domain_filename)
 
     # Write NLU
@@ -123,4 +122,5 @@ def persist(
 
     # TODO: Create folders if not existent
 
+    os.remove(nlu_filename)
     write_text_file(nlu_data_yaml, nlu_filename)

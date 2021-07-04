@@ -1,8 +1,27 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
+    Intent,
     IntentWithExamples,
 )
 
 from actions import find_objects_action as find_objects_action
+
+intent_reaction_positive = IntentWithExamples(
+    name="intent_reaction_positive",
+    examples=[
+        "That's great!",
+        "Awesome",
+        "That's cool",
+        "Cool",
+        "Great",
+        "Good",
+    ],
+)
+
+intent_reaction_negative = IntentWithExamples(
+    name="intent_reaction_negative",
+    examples=["That's not good", "Too bad", "I don't like that", "I hate it"],
+)
+
 
 intent_where_are_you_from = IntentWithExamples(
     name="where_are_you_from", examples=["Where are you from?"]

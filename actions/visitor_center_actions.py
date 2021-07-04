@@ -51,3 +51,8 @@ class ActionSetObjectAttributeDirections(ActionSetObjectAttribute):
 class ActionSetObjectAttributeDetails(ActionSetObjectAttribute):
     action_name = "action_set_object_attribute_details"
     slot_value = "details"
+
+
+class ActionSetObjectAttributeOpinion(ActionSetObjectAttribute):
+    action_name = "action_set_object_attribute_opinion"
+    slot_value = "opinion"
