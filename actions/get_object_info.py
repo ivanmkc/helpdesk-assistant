@@ -65,8 +65,8 @@ class GetObjectInfo(Action):
         object_attribute = tracker.get_slot(SLOT_OBJECT_ATTRIBUTE)
 
         if not found_object_names or not object_attribute:
-            dispatcher.utter_message(response="utter_ask_rephrase")
-            return []
+            # dispatcher.utter_message(response="utter_default")
+            FollowupAction(name=question_answer_action.ACTION_NAME)
 
         found_object: Optional[Concept] = None
 

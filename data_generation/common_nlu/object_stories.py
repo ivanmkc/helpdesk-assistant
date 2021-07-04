@@ -46,7 +46,7 @@ for intent_creator in find_object_creators:
                 # ),
             ]
         ),
-        # Found case, attribute exists
+        # Found case
         Story(
             elements=[
                 Intent(
@@ -56,32 +56,7 @@ for intent_creator in find_object_creators:
                 SlotWasSet([intent_creator.entity_name,]),
                 ActionName(find_objects_action.ACTION_NAME),
                 SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
-                ActionName(say_object_intros.ACTION_NAME),
-                SlotWasSet(
-                    [get_object_info.SLOT_OBJECT_ATTRIBUTE]
-                ),  # Get info if an attribute is set
-                ActionName(get_object_info.ACTION_NAME),
-                # ActionName(
-                #     action_reset_slots_except_found_object_names.ACTION_NAME
-                # ),
-            ]
-        ),
-        # Found case, attribute missing
-        Story(
-            elements=[
-                Intent(
-                    name=intent_creator.name,
-                    entities=[intent_creator.entity_name],
-                ),
-                SlotWasSet([intent_creator.entity_name,]),
-                ActionName(find_objects_action.ACTION_NAME),
-                SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
-                ActionName(say_object_intros.ACTION_NAME),
-                # SlotWasSet(
-                #     [get_object_info.SLOT_OBJECT_ATTRIBUTE]
-                # ),  # Get info if an attribute is set
-                # ActionName(get_object_info.ACTION_NAME),
-                # ActionName(
+                ActionName(say_object_intros.ACTION_NAME),  # ActionName(
                 #     action_reset_slots_except_found_object_names.ACTION_NAME
                 # ),
             ]

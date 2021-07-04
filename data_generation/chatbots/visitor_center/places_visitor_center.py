@@ -14,6 +14,16 @@ places: List[Place] = []
 
 places += [
     Place(
+        name="Visitor Center",
+        synonyms=["you", "your center"],
+        intro="Bath is the city we're in right now.",
+        types=[],
+        hours="We're open from 11am to 9pm, every day.",
+        details=None,
+        opinion="I love working here and introducing people to this beautiful city.",
+        things_provided=[],
+    ),
+    Place(
         name="Bath",
         synonyms=["The city of Bath", "Bath city"],
         intro="Bath is the city we're in right now.",
@@ -31,7 +41,7 @@ places += [
         types=[Type.place, Type.museum, Type.art_gallery,],
         hours="The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM.",
         details=None,
-        price="Tickets for the Holburne Museum cost 12.50 euros for adults and 7.50 euros for children under 12.",
+        price="Tickets for the Holburne Museum cost 12.50 pounds for adults and 7.50 pounds for children under 12.",
         directions="The Holburne Museum is on the East side of the River Avon. You can take the A31 bus to get there.",
         opinion="I love it, it's one of my favorite attractions in the city.",
         things_provided=[
@@ -49,7 +59,7 @@ places += [
         types=[Type.museum, Thing.sightseeing],
         hours="The Museum of Bath Architecture is open from 12:00 PM to 6:00 PM on weekdays.",
         details="The Museum of Bath Architecture shows a history of Bath’s buildings.",
-        price="Tickets for the Museum of Bath Architecture are 15 euros for adults and children under 12.",
+        price="Tickets for the Museum of Bath Architecture are 15 pounds for adults and children under 12.",
         directions="The Museum of Bath Architecture is along the River Avon. From here, it takes ten minutes on foot to get to the Museum of Bath Architecture.",
         opinion="I love it, it's one of my favorite attractions in the city.",
         things_provided=[
@@ -66,7 +76,7 @@ places += [
         types=[Type.place, Type.place_of_worship],
         hours="The Bath Abbey is open on Monday to Saturday from 10:00 AM to 3:45 PM.",
         details=None,
-        price="The Bath Abbey tickets are 5 euros per person.",
+        price="The Bath Abbey tickets are 5 pounds per person.",
         directions="The Bath Abbey is a five minute walk from here. Go straight into the center of town. The Bath Abbey is on the left!",
         opinion="The Bath Abbey is a great place to see some stellar historical architecture.",
         things_provided=[
@@ -100,7 +110,7 @@ places += [
         types=[Type.place,],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
         details="The Roman Baths are very popular for tourists!",
-        price="On weekdays, tickets for the Roman Baths are 10 euros per person and 8 euros per person on weekends.",
+        price="On weekdays, tickets for the Roman Baths are 10 pounds per person and 8 pounds per person on weekends.",
         directions="You should walk to the Roman Baths. You can see many cool shops! Walk south along the River Avon and then make a right.",
         opinion="I wish I had a chance to bathe here back when it was in use.",
         things_provided=[Thing.history, Thing.sightseeing, Thing.history],
@@ -137,7 +147,7 @@ places += [
         intro="The boat tour is the most popular tour we have.",
         hours="The city boat tour is available from 9:00 AM to 5:00 PM. The first city boat tour starts at 9:00 AM. The last city boat tour starts at 4:30 PM.",
         details=None,
-        price="The city boat tour costs 12 euros per person.",
+        price="The city boat tour costs 12 pounds per person.",
         directions="The pickup location for the city boat tour is right outside the Visitor’s Center.",
         opinion="I think it's the best way to see the city.",
         things_provided=[Thing.sightseeing],
@@ -148,11 +158,23 @@ places += [
         intro="The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge.",
         hours="The city bus tour is available from 10:00 AM to 9:00 PM. The first city bus tour starts at 10:00 AM. Then, it starts every 30 minutes. The last city bus tour starts at 8:00 PM.",
         details=None,
-        price="The city bus tour costs 20 euros per person.",
+        price="The city bus tour costs 20 pounds per person.",
         duration="The city bus tour takes one hour.",
         directions="The pickup location for the city bus tour is right outside the Visitor’s Center.",
         opinion="Not a bad way to spend an hour.",
         things_provided=[Thing.sightseeing],
+    ),
+    Place(
+        name="CityPass",
+        synonyms=["City Pass"],
+        intro="The CityPass let's you see all of the city's attractions, including museums and galleries over 3 days. There are over 10 locations.",
+        hours="You can use the CityPass over the course of 3 days. Your time begins when you use it at the first attraction.",
+        details=None,
+        price="You can buy the CityPass here for 50 pounds per person.",
+        duration="You can use the CityPass over the course of 3 days. Your time begins when you use it at the first attraction.",
+        directions="You can buy the CityPass right here!",
+        opinion="It's a great deal if you plan to see several attractions.",
+        things_provided=[],
     ),
 ]
 

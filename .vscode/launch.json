@@ -145,7 +145,7 @@
         {
             "name": "Duckling: Start server",
             "request": "launch",
-            "command": "docker run -p 8000:8000 rasa/duckling",
+            "command": "docker run -p 1234:8000 rasa/duckling",
             "type": "node-terminal",
         },
         {

@@ -49,6 +49,11 @@ intent_changed_my_mind = IntentWithExamples(
         "Cancel that",
         "Never mind",
         "I don't need it anymore",
+        "Nevermind, I don't want it",
+        "I don't want it",
+        "I'll pass",
+        "Actually, I'll skip it",
+        "I'm leaving",
     ]
 )
 

@@ -1,6 +1,6 @@
 from rasa_sdk.interfaces import ACTION_LISTEN_NAME
 import typing
-from typing import Text, Dict, List, Any, Optional
+from typing import Text, Dict, List, Any
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher, Action
 
@@ -14,6 +14,7 @@ import yaml
 from rasa_sdk.events import FollowupAction
 
 from data_generation.models.object_models import Object
+import actions.get_object_info as get_object_info
 
 logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: May 18, 2021"
@@ -62,6 +63,9 @@ class SayObjectIntrosAction(Action):
         """
 
         found_object_names = tracker.get_slot(SLOT_FOUND_OBJECT_NAMES)
+        object_attribute = tracker.get_slot(
+            get_object_info.SLOT_OBJECT_ATTRIBUTE
+        )
 
         # If no parameters were set, then quit
         if not found_object_names or len(found_object_names) == 0:
@@ -75,7 +79,17 @@ class SayObjectIntrosAction(Action):
                 found_objects.append(object)
 
         if len(found_objects) == 1:
-            dispatcher.utter_message(text=found_objects[0].intro)
+            found_object = found_objects[0]
+            dispatcher.utter_message(text=found_object.intro)
+
+            if object_attribute:
+                attribute_value = found_object.__getattribute__(
+                    object_attribute
+                )
+
+                if attribute_value:
+                    dispatcher.utter_message(text=attribute_value)
+
         elif len(found_objects) > 0:
             dispatcher.utter_message(text=f"You have a few options.")
 

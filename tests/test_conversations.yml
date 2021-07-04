@@ -191,10 +191,7 @@ stories:
   - action: action_find_objects
   - slot_was_set:
     - found_object_names
-  - action: say_object_intros 
-  - slot_was_set:
-    - object_attribute  
-  - action: action_get_object_info
+  - action: say_object_intros
   - action: action_listen    
   
 #   steps:
