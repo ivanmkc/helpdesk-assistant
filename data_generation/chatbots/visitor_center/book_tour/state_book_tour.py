@@ -28,38 +28,38 @@ from data_generation.models.story_models import Intent
 #     def name(self) -> str:
 #         return self.value
 
-intent_select_boat_tour = IntentWithExamples(
-    examples=[
-        "The boat tour",
-        "The city tour",
-        "The first one",
-        "The former",
-        "First",
-        "boat",
-        "I would prefer the boat one",
-        "The 3pm",
-        "The one at 3 o clock",
-        "The tour at 3",
-        "3 sounds good",
-    ]
-)
+# intent_select_boat_tour = IntentWithExamples(
+#     examples=[
+#         "The boat tour",
+#         "The city tour",
+#         "The first one",
+#         "The former",
+#         "First",
+#         "boat",
+#         "I would prefer the boat one",
+#         "The 3pm",
+#         "The one at 3 o clock",
+#         "The tour at 3",
+#         "3 sounds good",
+#     ]
+# )
 
-intent_select_bus_tour = IntentWithExamples(
-    examples=[
-        "The bus tour",
-        "bus",
-        "I would prefer the bus one",
-        "The last one",
-        "The latter",
-        "The second",
-        "The second one",
-        "The 4pm",
-        "The one at 4 o clock",
-        "The tour at 4",
-        "4 sounds good",
-        "Four",
-    ]
-)
+# intent_select_bus_tour = IntentWithExamples(
+#     examples=[
+#         "The bus tour",
+#         "bus",
+#         "I would prefer the bus one",
+#         "The last one",
+#         "The latter",
+#         "The second",
+#         "The second one",
+#         "The 4pm",
+#         "The one at 4 o clock",
+#         "The tour at 4",
+#         "4 sounds good",
+#         "Four",
+#     ]
+# )
 
 action_ask_tour = Utterance(
     "We have a boat tour of Bath on the River Anon at 3:00 PM. The last city boat tour starts at 4:30 PM. We also have a bus tour of Bath at 4:00 PM. Which one would you prefer?"
@@ -67,13 +67,8 @@ action_ask_tour = Utterance(
 
 slot_tour = TextSlot(
     name="tour_type",
-    intents={
-        intent_select_bus_tour: "bus",
-        intent_select_boat_tour: "boat",
-    },
-    prompt_actions=[
-        action_ask_tour,
-    ],
+    # intents={intent_select_bus_tour: "bus", intent_select_boat_tour: "boat",},
+    prompt_actions=[action_ask_tour,],
 )
 
 slot_number_tickets = TextSlot(
@@ -92,10 +87,7 @@ slot_number_tickets = TextSlot(
 
 slot_tour_confirmed = BooleanSlot(
     name="tour_confirmed",
-    intents={
-        "affirm": True,
-        "deny": False,
-    },
+    intents={"affirm": True, "deny": False,},
     prompt_actions=[
         Utterance(
             "Okay, just to confirm. I've booked you for the {tour_type} tour for {tour_num_tickets} people. Is that correct?"
@@ -120,11 +112,7 @@ book_tour_state = StateMachineState(
     transitions=[
         Transition(
             condition=IntentCondition(common.intent_changed_my_mind),
-            transition_utterances=[
-                Utterance(
-                    text="Sure, not a problem.",
-                )
-            ],
+            transition_utterances=[Utterance(text="Sure, not a problem.",)],
             destination_state_name=None,
         ),
         Transition(
@@ -136,9 +124,7 @@ book_tour_state = StateMachineState(
     responses=[
         Response(
             condition=OnEntryCondition(),
-            actions=[
-                Utterance("I'll need some info to book your tour."),
-            ],
+            actions=[Utterance("I'll need some info to book your tour."),],
         ),
         Response(
             condition=SlotEqualsCondition(

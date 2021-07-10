@@ -5,12 +5,68 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 )
 import data_generation.chatbots.visitor_center.concepts_visitor_center as concepts_visitor_center
 
-from data_generation.models.object_models import Place
+from data_generation.models.object_models import Place, BuyInfo
 from data_generation.common_nlu.things import Thing
 from data_generation.common_nlu.types import Type
 from data_generation.common_nlu import common_intent_creators
 
 places: List[Place] = []
+
+city_boat_tour = Place(
+    name="City Boat Tour",
+    synonyms=["boat tour", "river tour"],
+    intro="The boat tour is the most popular tour we have.",
+    types=[Type.ticket, Type.tour],
+    buy_info=BuyInfo(
+        slot_name="tour_type",
+        number_slot_name="tour_num_tickets",
+        trigger_name="action_trigger_book_tour",
+    ),
+    hours="The city boat tour is available from 9:00 AM to 5:00 PM. The first city boat tour starts at 9:00 AM. The last city boat tour starts at 4:30 PM.",
+    details=None,
+    price="The city boat tour costs 12 pounds per person.",
+    directions="The pickup location for the city boat tour is right outside the Visitor’s Center.",
+    opinion="I think it's the best way to see the city.",
+    things_provided=[Thing.sightseeing],
+)
+
+city_bus_tour = Place(
+    name="City Bus Tour",
+    synonyms=["bus tour"],
+    intro="The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge.",
+    types=[Type.ticket, Type.tour],
+    buy_info=BuyInfo(
+        slot_name="tour_type",
+        number_slot_name="tour_num_tickets",
+        trigger_name="action_trigger_book_tour",
+    ),
+    hours="The city bus tour is available from 10:00 AM to 9:00 PM. The first city bus tour starts at 10:00 AM. Then, it starts every 30 minutes. The last city bus tour starts at 8:00 PM.",
+    details=None,
+    price="The city bus tour costs 20 pounds per person.",
+    duration="The city bus tour takes one hour.",
+    directions="The pickup location for the city bus tour is right outside the Visitor’s Center.",
+    opinion="Not a bad way to spend an hour.",
+    things_provided=[Thing.sightseeing],
+)
+
+city_pass = Place(
+    name="CityPass",
+    synonyms=["City Pass"],
+    intro="The CityPass let's you see all of the city's attractions, including museums and galleries over 3 days. There are over 10 locations.",
+    types=[Type.ticket],
+    buy_info=BuyInfo(
+        slot_name="tour_type",
+        number_slot_name="citypass_num_tickets",
+        trigger_name="action_trigger_buy_citypass",
+    ),
+    hours="You can use the CityPass over the course of 3 days. Your time begins when you use it at the first attraction.",
+    details=None,
+    price="You can buy the CityPass here for 50 pounds per person.",
+    duration="You can use the CityPass over the course of 3 days. Your time begins when you use it at the first attraction.",
+    directions="You can buy the CityPass right here!",
+    opinion="It's a great deal if you plan to see several attractions.",
+    things_provided=[],
+)
 
 places += [
     Place(
@@ -141,41 +197,9 @@ places += [
         opinion="Food is great and prices are fair. What's not to love?",
         things_provided=[Thing.food, Thing.sightseeing],
     ),
-    Place(
-        name="City Boat Tour",
-        synonyms=["boat tour", "river tour"],
-        intro="The boat tour is the most popular tour we have.",
-        hours="The city boat tour is available from 9:00 AM to 5:00 PM. The first city boat tour starts at 9:00 AM. The last city boat tour starts at 4:30 PM.",
-        details=None,
-        price="The city boat tour costs 12 pounds per person.",
-        directions="The pickup location for the city boat tour is right outside the Visitor’s Center.",
-        opinion="I think it's the best way to see the city.",
-        things_provided=[Thing.sightseeing],
-    ),
-    Place(
-        name="City Bus Tour",
-        synonyms=["bus tour"],
-        intro="The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge.",
-        hours="The city bus tour is available from 10:00 AM to 9:00 PM. The first city bus tour starts at 10:00 AM. Then, it starts every 30 minutes. The last city bus tour starts at 8:00 PM.",
-        details=None,
-        price="The city bus tour costs 20 pounds per person.",
-        duration="The city bus tour takes one hour.",
-        directions="The pickup location for the city bus tour is right outside the Visitor’s Center.",
-        opinion="Not a bad way to spend an hour.",
-        things_provided=[Thing.sightseeing],
-    ),
-    Place(
-        name="CityPass",
-        synonyms=["City Pass"],
-        intro="The CityPass let's you see all of the city's attractions, including museums and galleries over 3 days. There are over 10 locations.",
-        hours="You can use the CityPass over the course of 3 days. Your time begins when you use it at the first attraction.",
-        details=None,
-        price="You can buy the CityPass here for 50 pounds per person.",
-        duration="You can use the CityPass over the course of 3 days. Your time begins when you use it at the first attraction.",
-        directions="You can buy the CityPass right here!",
-        opinion="It's a great deal if you plan to see several attractions.",
-        things_provided=[],
-    ),
+    city_boat_tour,
+    city_bus_tour,
+    city_pass,
 ]
 
 
@@ -212,6 +236,14 @@ intents += [
     )
     for place in places
     for type in place.types
+]
+
+# Write things to buy
+intents += [
+    common_intent_creators.intent_i_want_to_buy_creator.create_parameterized_intent(
+        entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
+    )
+    for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]
 ]
 
 # intents: List[IntentWithExamples] = []

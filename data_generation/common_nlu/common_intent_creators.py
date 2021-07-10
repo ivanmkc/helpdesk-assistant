@@ -175,16 +175,43 @@ intent_opinion_creator = ParameterizedIntentCreator(
     object_attribute="opinion",
 )
 
-intent_ill_have_context_creator = ParameterizedIntentCreator(
-    name="intent_i_will_have_with_entities",
+# intent_ill_have_context_creator = ParameterizedIntentCreator(
+#     name="intent_i_will_have_with_entities",
+#     parameterized_examples=[
+#         "Sure, I'll get {context}",
+#         "I'll have {context} then",
+#         "{context} sounds great",
+#         "Yes, I'll get {context}",
+#         "I'll have {context}",
+#         "I'll take {context}",
+#         "Ya, {context} sounds good",
+#     ],
+#     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
+# )
+
+intent_i_want_to_buy_creator = ParameterizedIntentCreator(
+    name="intent_i_want_to_buy_with_entities",
     parameterized_examples=[
-        "Sure, I'll get {context}",
-        "I'll have {context} then",
-        "{context} sounds great",
-        "Yes, I'll get {context}",
-        "I'll have {context}",
-        "I'll take {context}",
+        "I want to buy {number} {context}",
+        "Can I buy {number} {context}?",
+        "I'll get {number} {context}?",
+        "I'll have the {context}?",
+        "Give me {number} {context}?",
+        "I need {number} {context}?",
+        "We want get {number} {context}",
+        "Let me have {number} {context}",
+        "I want {number} {context}",
+        "Sure, I'll get {number} {context}",
+        "I'll have {number} {context} then",
+        "{number} {context} sounds great",
+        "Yes, I'll get {number} {context}",
+        "I'll have {number} {context}",
+        "I'll take {number} {context}",
         "Ya, {context} sounds good",
+        "I'll take {number_only}",
+        "I'll get it",
+        "Can I get {number_only}?",
+        "Give us {number} please",
     ],
     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
 )

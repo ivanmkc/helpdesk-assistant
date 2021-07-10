@@ -56,3 +56,4 @@ class ActionSetObjectAttributeDetails(ActionSetObjectAttribute):
 class ActionSetObjectAttributeOpinion(ActionSetObjectAttribute):
     action_name = "action_set_object_attribute_opinion"
     slot_value = "opinion"
+

@@ -10,6 +10,14 @@ from rasa.shared.nlu.state_machine.state_machine_state import Action
 from rasa.shared.nlu.state_machine.yaml_convertible import StoryYAMLConvertable
 
 
+class Checkpoint(StoryYAMLConvertable):
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    def as_story_yaml(self) -> Dict:
+        return {"checkpoint": self.name}
+
+
 class SlotWasSet(StoryYAMLConvertable):
     def __init__(
         self, slots_and_values: List[Union[Dict[str, Any], str]]
@@ -175,7 +183,7 @@ class Story:
 
         # Persist domain
         domain = Domain(
-            intents=[intent.name for intent in all_intents],
+            intents=list({intent.name for intent in all_intents}),
             entities=[
                 entity for intent in all_intents for entity in intent.entities
             ],  # List of entity names

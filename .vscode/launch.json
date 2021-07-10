@@ -46,7 +46,6 @@
             "args": [
                 "train",
                 "--domain=domain",
-                "--force"
             ]
         },
         {

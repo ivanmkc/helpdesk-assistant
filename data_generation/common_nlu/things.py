@@ -18,7 +18,6 @@ class Thing:
         "sightseeing",
         synonyms=[
             "sightsee",
-            "tour",
             # "see the city",
             # "take photos",
             "landmark",
@@ -29,33 +28,16 @@ class Thing:
     )
 
     natural_history = Concept(
-        "natural history",
-        synonyms=[
-            "fossils",
-            "dinosaur",
-        ],
+        "natural history", synonyms=["fossils", "dinosaur",],
     )
 
     religion = Concept(
-        "religion",
-        synonyms=[
-            "cross",
-            "cruxifix",
-            "altar",
-            "mass",
-            "god",
-        ],
+        "religion", synonyms=["cross", "cruxifix", "altar", "mass", "god",],
     )
 
     art = Concept(
         name="art",
-        synonyms=[
-            "art",
-            "culture",
-            "painting",
-            "artwork",
-            "statue",
-        ],
+        synonyms=["art", "culture", "painting", "artwork", "statue",],
     )
 
     shopping = Concept(

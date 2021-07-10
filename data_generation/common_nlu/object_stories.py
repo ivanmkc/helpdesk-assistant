@@ -4,7 +4,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     Utterance,
 )
 from data_generation.common_nlu import common_intent_creators
-from data_generation.models.story_models import SlotWasSet, Story
+from data_generation.models.story_models import SlotWasSet, Story, Checkpoint
 
 
 import actions.find_objects_action as find_objects_action
@@ -93,7 +93,7 @@ for intent_creator in common_intent_creators.intent_creators:
 
         # Create story
         stories += [
-            # Objects found
+            # Entities found, objects found
             Story(
                 elements=[
                     Intent(
@@ -120,7 +120,7 @@ for intent_creator in common_intent_creators.intent_creators:
                     # ),
                 ]
             ),
-            # None found
+            # Entities, no objects found
             Story(
                 elements=[
                     Intent(
@@ -139,7 +139,7 @@ for intent_creator in common_intent_creators.intent_creators:
                     ),
                     # Find the objects
                     ActionName(find_objects_action.ACTION_NAME),
-                    utter_no_objects_found,
+                    ActionName(get_object_info.ACTION_NAME),
                     # Reset all irrelevant slots
                     # ActionName(
                     #     action_reset_slots_except_found_object_names.ACTION_NAME
@@ -170,6 +170,76 @@ for intent_creator in common_intent_creators.intent_creators:
                 ]
             ),
         ]
+
+# I want to buy
+intent_creator = common_intent_creators.intent_i_want_to_buy_creator
+stories += [
+    # Entities with number, objects found
+    Story(
+        elements=[
+            Intent(
+                name=intent_creator.name,
+                entities=[intent_creator.entity_name, "number"],
+            ),
+            SlotWasSet([intent_creator.entity_name, "number"]),
+            # Find the objects
+            ActionName(find_objects_action.ACTION_NAME),
+            # Found
+            SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
+            ActionName("action_buy_object"),
+        ]
+    ),
+    # Entities with number, no objects found
+    Story(
+        elements=[
+            Intent(
+                name=intent_creator.name,
+                entities=[intent_creator.entity_name, "number"],
+            ),
+            SlotWasSet([intent_creator.entity_name, "number"]),
+            # Find the objects
+            ActionName(find_objects_action.ACTION_NAME),
+            # TODO: Call a common buy action, it checks 'purchasability' and redirects to the appropriate trigger action
+            ActionName("action_buy_object"),
+        ]
+    ),
+    # Entities, objects found
+    Story(
+        elements=[
+            Intent(
+                name=intent_creator.name,
+                entities=[intent_creator.entity_name],
+            ),
+            SlotWasSet([intent_creator.entity_name,]),
+            # Find the objects
+            ActionName(find_objects_action.ACTION_NAME),
+            # Found
+            SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
+            ActionName("action_buy_object"),
+        ]
+    ),
+    # Entities, no objects found
+    Story(
+        elements=[
+            Intent(
+                name=intent_creator.name,
+                entities=[intent_creator.entity_name],
+            ),
+            SlotWasSet([intent_creator.entity_name,]),
+            # Find the objects
+            ActionName(find_objects_action.ACTION_NAME),
+            # TODO: Call a common buy action, it checks 'purchasability' and redirects to the appropriate trigger action
+            ActionName("action_buy_object"),
+        ]
+    ),
+    # No entities found
+    Story(
+        elements=[
+            Intent(name=intent_creator.name,),
+            ActionName("action_buy_object"),
+        ]
+    ),
+]
 
 # stories += [
 #     Story(

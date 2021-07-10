@@ -66,7 +66,7 @@ class GetObjectInfo(Action):
 
         if not found_object_names or not object_attribute:
             # dispatcher.utter_message(response="utter_default")
-            FollowupAction(name=question_answer_action.ACTION_NAME)
+            return [FollowupAction(name=question_answer_action.ACTION_NAME)]
 
         found_object: Optional[Concept] = None
 

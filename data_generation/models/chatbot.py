@@ -12,7 +12,7 @@ import yaml
 
 from rasa.shared.nlu.state_machine.state_machine_models import Intent
 
-from rasa.shared.core.slots import Slot, TextSlot, ListSlot
+from rasa.shared.core.slots import FloatSlot, Slot, TextSlot, ListSlot
 
 
 @dataclass
@@ -31,6 +31,9 @@ class Chatbot:
             ListSlot(name=find_objects_action.SLOT_FOUND_OBJECT_NAMES,),
             TextSlot(name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE),
             TextSlot(name=get_object_info.SLOT_OBJECT_ATTRIBUTE),
+            FloatSlot(
+                name="number", max_value=100, influence_conversation=False
+            ),
         ]
 
     def persist(self, domain_folder: str, nlu_folder: str):

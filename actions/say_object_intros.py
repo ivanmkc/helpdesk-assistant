@@ -93,8 +93,8 @@ class SayObjectIntrosAction(Action):
         elif len(found_objects) > 0:
             dispatcher.utter_message(text=f"You have a few options.")
 
-            for i, obj in enumerate(found_objects, 1):
-                dispatcher.utter_message(text=f"{obj.intro}")
+            for object in found_objects:
+                dispatcher.utter_message(text=f"{object.intro}")
         else:
             dispatcher.utter_message(text=f"I don't think I know any.")
 

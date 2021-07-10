@@ -12,11 +12,17 @@ class Concept:
     name: str
     synonyms: List[str]
 
+@dataclass
+class BuyInfo:
+    slot_name: str
+    number_slot_name: str
+    trigger_name: str
 
 @dataclass
 class Object(abc.ABC, Concept):
     intro: str
     question_intent: Optional[Intent] = None
+    buy_info: Optional[BuyInfo] = None,
     types: List[Concept] = field(default_factory=list)
     activities_provided: List[Concept] = field(default_factory=list)
     things_provided: List[Concept] = field(default_factory=list)
@@ -26,6 +32,7 @@ class Object(abc.ABC, Concept):
 class Place(Object):
     intro: str
     question_intent: Optional[Intent] = None
+    buy_info: Optional[BuyInfo] = None,
     types: List[Concept] = field(default_factory=list)
     things_provided: List[Concept] = field(default_factory=list)
     hours: Optional[str] = None

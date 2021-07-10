@@ -2,12 +2,7 @@ from data_generation.models.object_models import Concept
 
 
 class Type:
-    place = Concept(
-        name="place",
-        synonyms=[
-            "location",
-        ],
-    )
+    place = Concept(name="place", synonyms=["location",],)
 
     place_of_worship = Concept(
         name="place of worship",
@@ -21,21 +16,10 @@ class Type:
         ],
     )
 
-    museum = Concept(
-        "museum",
-        synonyms=[
-            "museum",
-            "menagerie",
-        ],
-    )
+    museum = Concept("museum", synonyms=["museum", "menagerie",],)
 
     art_gallery = Concept(
-        "art gallery",
-        synonyms=[
-            "gallery",
-            "art show",
-            "art museum",
-        ],
+        "art gallery", synonyms=["gallery", "art show", "art museum",],
     )
 
     restaurant = Concept(
@@ -56,3 +40,7 @@ class Type:
             "coffee shop",
         ],
     )
+
+    ticket = Concept(name="ticket", synonyms=["token", "coupon"],)
+
+    tour = Concept(name="tour", synonyms=["trip", "safari"],)
