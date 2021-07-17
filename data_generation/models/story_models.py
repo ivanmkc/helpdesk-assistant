@@ -184,9 +184,13 @@ class Story:
         # Persist domain
         domain = Domain(
             intents=list({intent.name for intent in all_intents}),
-            entities=[
-                entity for intent in all_intents for entity in intent.entities
-            ],  # List of entity names
+            entities=list(
+                {
+                    entity
+                    for intent in all_intents
+                    for entity in intent.entities
+                }
+            ),  # List of entity names
             slots=[],
             responses={
                 utterance.name: [{"text": utterance.text}]

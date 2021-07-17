@@ -14,6 +14,7 @@ from data_generation.models.object_models import Object
 import actions.find_objects_action as find_objects_action
 import actions.question_answer_action as question_answer_action
 from data_generation.models.object_models import Concept
+from itertools import groupby
 
 logger = logging.getLogger(__name__)
 vers = "vers: 0.1.0, date: May 18, 2021"
@@ -68,53 +69,72 @@ class GetObjectInfo(Action):
             # dispatcher.utter_message(response="utter_default")
             return [FollowupAction(name=question_answer_action.ACTION_NAME)]
 
-        found_object: Optional[Concept] = None
-
         # Find objects of the given name
-        for object in self.objects:
-            if object.name in found_object_names:
-                found_object = object
-                break
+        name_to_object_map = {object.name: object for object in self.objects}
 
-        # Find objects of the given type
-        if not found_object:
-            for object in self.objects:
-                if found_object:
-                    break
-                for type in object.types:
-                    if type.name in found_object_names:
-                        found_object = object
-                        break
+        found_objects: List[Concept] = [
+            name_to_object_map[object_name]
+            for object_name in found_object_names
+        ]
 
-        # Find objects with the given thing
-        if not found_object:
-            for object in self.objects:
-                if found_object:
-                    break
-                for thing in object.things_provided:
-                    if thing.name in found_object_names:
-                        found_object = object
-                        break
+        # for object in self.objects:
+        #     if object.name in found_object_names:
+        #         found_object = object
+        #         break
 
-        if found_object:
-            attribute_value = found_object.__getattribute__(object_attribute)
+        # # Find objects of the given type
+        # if not found_object:
+        #     for object in self.objects:
+        #         if found_object:
+        #             break
+        #         for type in object.types:
+        #             if type.name in found_object_names:
+        #                 found_object = object
+        #                 break
 
-            # Answer with the first value found
-            if attribute_value:
-                dispatcher.utter_message(text=attribute_value)
-                return []
-            else:
-                # dispatcher.utter_message(
-                #     text="Sorry, I don't have the answer to that."
-                # )
-                return [
-                    FollowupAction(name=question_answer_action.ACTION_NAME),
-                ]
+        # # Find objects with the given thing
+        # if not found_object:
+        #     for object in self.objects:
+        #         if found_object:
+        #             break
+        #         for thing in object.things_provided:
+        #             if thing.name in found_object_names:
+        #                 found_object = object
+        #                 break
+
+        found_object = found_objects[0]
+
+        if len(found_objects) == 0:
+            logging.warning(
+                "No objects found despite the name being found. This is a bug."
+            )
+
+            return [
+                FollowupAction(name=question_answer_action.ACTION_NAME),
+            ]
+        elif len(found_objects) > 1:
+            dispatcher.utter_message(
+                text=f"Do you mean the {found_object.name}?"
+            )
+
+        attribute_value = found_object.__getattribute__(object_attribute)
+
+        # Answer with the first value found
+        if attribute_value:
+            dispatcher.utter_message(text=attribute_value)
+            return []
+        else:
+            # dispatcher.utter_message(
+            #     text="Sorry, I don't have the answer to that."
+            # )
+            return [
+                FollowupAction(name=question_answer_action.ACTION_NAME),
+            ]
 
         # dispatcher.utter_message(
         #     text="Sorry, I don't have the answer to that."
         # )
 
-        return [
-            FollowupAction(name=question_answer_action.ACTION_NAME),
-        ]
+        # return [
+        #     FollowupAction(name=question_answer_action.ACTION_NAME),
+        # ]

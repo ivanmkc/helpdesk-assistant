@@ -88,7 +88,7 @@ class ActionBuyObject(Action):
             dispatcher.utter_message(text=f"You have a few options.")
 
             for object in found_objects:
-                dispatcher.utter_message(text=f"{object.name}")
+                dispatcher.utter_message(text=f"{object.intro}")
         else:
             dispatcher.utter_message(
                 text="Hm, I couldn't find anything like that you can buy."

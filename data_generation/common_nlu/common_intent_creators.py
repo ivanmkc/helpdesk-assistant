@@ -193,7 +193,7 @@ intent_i_want_to_buy_creator = ParameterizedIntentCreator(
     name="intent_i_want_to_buy_with_entities",
     parameterized_examples=[
         "I want to buy {number} {context}",
-        "Can I buy {number} {context}?",
+        "Can I order {number} {context}?",
         "I'll get {number} {context}?",
         "I'll have the {context}?",
         "Give me {number} {context}?",
@@ -202,7 +202,7 @@ intent_i_want_to_buy_creator = ParameterizedIntentCreator(
         "Let me have {number} {context}",
         "I want {number} {context}",
         "Sure, I'll get {number} {context}",
-        "I'll have {number} {context} then",
+        "I'll book {number} {context} then",
         "{number} {context} sounds great",
         "Yes, I'll get {number} {context}",
         "I'll have {number} {context}",
@@ -212,7 +212,17 @@ intent_i_want_to_buy_creator = ParameterizedIntentCreator(
         "I'll get it",
         "Can I get {number_only}?",
         "Give us {number} please",
+        "I'll order {number} {context}",
+        "I want to book {number} {context}",
+        "Can I order {context}",
+        "Can I book {context}",
     ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
+)
+
+intent_context_only_creator = ParameterizedIntentCreator(
+    name="intent_context_only",
+    parameterized_examples=["{number} {context}",],
     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
 )
 

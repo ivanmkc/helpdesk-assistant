@@ -134,9 +134,7 @@ slot_appetizer = TextSlot(
         select_soup: "soup",
         select_tatare: "tatare",
     },
-    prompt_actions=[
-        action_ask_appetizer,
-    ],
+    prompt_actions=[action_ask_appetizer,],
 )
 
 slot_entree = TextSlot(
@@ -172,17 +170,12 @@ slot_steak_doneness = TextSlot(
         steak_doneness_medium: "medium",
         steak_doneness_welldone: "well-done",
     },
-    prompt_actions=[
-        Utterance("How would you like your steak?"),
-    ],
+    prompt_actions=[Utterance("How would you like your steak?"),],
 )
 
 slot_order_confirmed = BooleanSlot(
     name="order_confirmed",
-    intents={
-        "affirm": True,
-        "deny": False,
-    },
+    intents={"affirm": True, "deny": False,},
     prompt_actions=[
         Utterance(
             "Okay, just to confirm. For your appetizer, you'll have the {appetizer} and for your entree, you'll have the {entree}. Is that correct?"
@@ -203,8 +196,7 @@ generalResponses: List[Response] = [
         condition=IntentCondition(how_are_you_doing_intent),
         actions=[
             Utterance(
-                text="I'm doing great",
-                name="utter_how_are_you_response",
+                text="I'm doing great", name="utter_how_are_you_response",
             )
         ],
     ),
@@ -239,9 +231,7 @@ generalResponses: List[Response] = [
             )
         ),
         actions=[
-            Utterance(
-                text="It's not too busy around here as you can see.",
-            )
+            Utterance(text="It's not too busy around here as you can see.",)
         ],
     ),
 ]

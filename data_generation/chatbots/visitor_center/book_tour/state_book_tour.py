@@ -62,7 +62,7 @@ from data_generation.models.story_models import Intent
 # )
 
 action_ask_tour = Utterance(
-    "We have a boat tour of Bath on the River Anon at 3:00 PM. The last city boat tour starts at 4:30 PM. We also have a bus tour of Bath at 4:00 PM. Which one would you prefer?"
+    "We have a boat tour of Bath on the River Anon at 3:00 PM. The last City Boat Tour starts at 4:30 PM. We also have a bus tour of Bath at 4:00 PM. Which one would you prefer?"
 )
 
 slot_tour = TextSlot(
@@ -78,16 +78,14 @@ slot_number_tickets = TextSlot(
         IntentWithExamples(examples=["Just me", "Myself", "Just the one"]): 1
     },
     prompt_actions=[
-        Utterance(
-            "That’s a great choice. How many people need tickets for the {tour_type} tour?"
-        )
+        Utterance("How many people need tickets for the {tour_type} tour?")
     ],
     only_fill_when_prompted=True,
 )
 
 slot_tour_confirmed = BooleanSlot(
     name="tour_confirmed",
-    intents={"affirm": True, "deny": False,},
+    intents={common.intent_affirm.name: True, common.intent_deny.name: False,},
     prompt_actions=[
         Utterance(
             "Okay, just to confirm. I've booked you for the {tour_type} tour for {tour_num_tickets} people. Is that correct?"

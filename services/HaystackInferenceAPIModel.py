@@ -8,7 +8,7 @@ from services.QuestionAnswerResult import QuestionAnswerResult
 
 
 class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
-    API_URL = f"http://localhost:8000/query"
+    API_URL = f"http://localhost:4444/query"
     PROBABILITY_THRESHOLD = 0.2
 
     def predict(
@@ -81,8 +81,8 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
                         f"Regarding {answer_topic}. {answer_substring}"
                     )
 
-                if not answer_complete.endswith("."):
-                    answer_complete += "."
+                # if not answer_complete.endswith("."):
+                #     answer_complete += "."
 
                 return QuestionAnswerResult(
                     confidence=answer["probability"],

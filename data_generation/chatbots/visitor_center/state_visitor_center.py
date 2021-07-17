@@ -20,37 +20,6 @@ import data_generation.common_nlu.common_intents as common
 import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
 import data_generation.chatbots.visitor_center.buy_citypass.state_buy_citypass as buy_citypass
 
-generalResponses: List[Response] = [
-    Response(
-        condition=IntentCondition(common.intent_where_are_you_from),
-        actions=[
-            Utterance(text="I'm from Canada", name="utter_where_from_response")
-        ],
-    ),
-    Response(
-        condition=IntentCondition(common.how_are_you_doing_intent),
-        actions=[
-            Utterance(
-                text="I'm doing great", name="utter_how_are_you_response",
-            )
-        ],
-    ),
-    Response(
-        condition=IntentCondition(
-            IntentWithExamples(
-                examples=[
-                    "Are you busy?",
-                    "How busy are you?",
-                    "Do you have a lot of work?",
-                ],
-            )
-        ),
-        actions=[
-            Utterance(text="It's not too busy around here as you can see.",)
-        ],
-    ),
-]
-
 # intent_book_tour = IntentWithExamples(
 #     examples=[
 #         "I’d like to book a tour",
@@ -104,6 +73,5 @@ start_state = StateMachineState(
                 ),
             ],
         ),
-    ]
-    + generalResponses,
+    ],
 )

@@ -15,17 +15,17 @@ places: List[Place] = []
 city_boat_tour = Place(
     name="City Boat Tour",
     synonyms=["boat tour", "river tour"],
-    intro="The boat tour is the most popular tour we have.",
+    intro="We have a boat tour of Bath on the River Avon at 3:00 PM.",
     types=[Type.ticket, Type.tour],
     buy_info=BuyInfo(
         slot_name="tour_type",
         number_slot_name="tour_num_tickets",
         trigger_name="action_trigger_book_tour",
     ),
-    hours="The city boat tour is available from 9:00 AM to 5:00 PM. The first city boat tour starts at 9:00 AM. The last city boat tour starts at 4:30 PM.",
+    hours="The City Boat Tour is available from 9:00 AM to 5:00 PM. The first City Boat Tour starts at 9:00 AM. The last City Boat Tour starts at 4:30 PM.",
     details=None,
-    price="The city boat tour costs 12 pounds per person.",
-    directions="The pickup location for the city boat tour is right outside the Visitor’s Center.",
+    price="The City Boat Tour costs 12 pounds per person.",
+    directions="The pickup location for the City Boat Tour is right outside the Visitor’s Center.",
     opinion="I think it's the best way to see the city.",
     things_provided=[Thing.sightseeing],
 )
@@ -33,18 +33,18 @@ city_boat_tour = Place(
 city_bus_tour = Place(
     name="City Bus Tour",
     synonyms=["bus tour"],
-    intro="The city bus tour stops at famous historical monuments, such as the bath Abbey, the River Avon and the Great Pulteney Bridge.",
+    intro="The City Bus Tour stops at famous historical monuments, such as the Bath Abbey, the River Avon and the Great Pulteney Bridge.",
     types=[Type.ticket, Type.tour],
     buy_info=BuyInfo(
         slot_name="tour_type",
         number_slot_name="tour_num_tickets",
         trigger_name="action_trigger_book_tour",
     ),
-    hours="The city bus tour is available from 10:00 AM to 9:00 PM. The first city bus tour starts at 10:00 AM. Then, it starts every 30 minutes. The last city bus tour starts at 8:00 PM.",
+    hours="The City Bus Tour is available from 10:00 AM to 9:00 PM. The first City Bus Tour starts at 10:00 AM. Then, it starts every 30 minutes. The last City Bus Tour starts at 8:00 PM.",
     details=None,
-    price="The city bus tour costs 20 pounds per person.",
-    duration="The city bus tour takes one hour.",
-    directions="The pickup location for the city bus tour is right outside the Visitor’s Center.",
+    price="The City Bus Tour costs 20 pounds per person.",
+    duration="The City Bus Tour takes one hour.",
+    directions="The pickup location for the City Bus Tour is right outside the Visitor’s Center.",
     opinion="Not a bad way to spend an hour.",
     things_provided=[Thing.sightseeing],
 )
@@ -168,7 +168,7 @@ places += [
         details="The Roman Baths are very popular for tourists!",
         price="On weekdays, tickets for the Roman Baths are 10 pounds per person and 8 pounds per person on weekends.",
         directions="You should walk to the Roman Baths. You can see many cool shops! Walk south along the River Avon and then make a right.",
-        opinion="I wish I had a chance to bathe here back when it was in use.",
+        opinion="I wish I had a chance to bathe there back when it was in use.",
         things_provided=[Thing.history, Thing.sightseeing, Thing.history],
     ),
     Place(
@@ -241,6 +241,14 @@ intents += [
 # Write things to buy
 intents += [
     common_intent_creators.intent_i_want_to_buy_creator.create_parameterized_intent(
+        entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
+    )
+    for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]
+]
+
+# Write disambiguations
+intents += [
+    common_intent_creators.intent_context_only_creator.create_parameterized_intent(
         entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
     )
     for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]

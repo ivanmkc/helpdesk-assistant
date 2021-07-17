@@ -171,6 +171,18 @@
             "type": "node-terminal"
         },
         {
+            "name": "Cloud Build: Push duckling to gcr.io",
+            "request": "launch",
+            "command": "docker tag rasa/duckling gcr.io/chatbot-299615/duckling && docker push gcr.io/chatbot-299615/duckling",
+            "type": "node-terminal"
+        },
+        {
+            "name": "Cloud Run: Deploy duckling",
+            "request": "launch",
+            "command": "gcloud run deploy duckling --image=gcr.io/chatbot-299615/duckling --platform=managed --cpu=2 --memory=4G --port=8000 --allow-unauthenticated",
+            "type": "node-terminal"
+        },
+        {
             "name": "Show logs",
             "request": "launch",
             "command": "gcloud app logs tail -s default",

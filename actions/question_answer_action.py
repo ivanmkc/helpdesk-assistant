@@ -64,6 +64,8 @@ class QuestionAnswerAction(Action):
 
         question = tracker.latest_message["text"]
 
+        # Check if subject is present
+
         return await self._ask_question(
             dispatcher=dispatcher, question=question, tracker=tracker,
         )
@@ -90,5 +92,7 @@ class QuestionAnswerAction(Action):
         except Exception as exception:
             logger.error(exception)
             dispatcher.utter_message(response="utter_default")
+
+        # TODO: Extract the subject and set found_object_names
 
         return [FollowupAction(name=ACTION_LISTEN_NAME)]

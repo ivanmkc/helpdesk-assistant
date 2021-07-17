@@ -63,23 +63,23 @@ stories_tell_me_more = [
 ]
 
 # What time?
-stories_what_time = [
-    Story(
-        [
-            IntentWithExamples(
-                examples=[
-                    "What are your hours?",
-                    "When do you open?",
-                    "When do you close?",
-                    "What time do you open until?",
-                    "What time do you close?",
-                    "Are you still open?",
-                ]
-            ),
-            Utterance("We're open from 11am to 9pm, every day except Sunday."),
-        ]
-    ),
-]
+# stories_what_time = [
+#     Story(
+#         [
+#             IntentWithExamples(
+#                 examples=[
+#                     "What are your hours?",
+#                     "When do you open?",
+#                     "When do you close?",
+#                     "What time do you open until?",
+#                     "What time do you close?",
+#                     "Are you still open?",
+#                 ]
+#             ),
+#             Utterance("We're open from 11am to 9pm, every day."),
+#         ]
+#     ),
+# ]
 
 intent_select_boat_tour = IntentWithExamples(
     examples=[

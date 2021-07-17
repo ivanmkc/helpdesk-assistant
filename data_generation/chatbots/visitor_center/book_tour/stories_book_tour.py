@@ -70,7 +70,7 @@ stories_tours = [
                         [
                             Or(
                                 common.intent_sure_ill_get_that,
-                                Intent("affirm"),
+                                common.intent_affirm,
                             ),
                             Utterance("Great, the boat tour then."),
                             # TODO: Set slot
