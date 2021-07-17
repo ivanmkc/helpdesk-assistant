@@ -78,7 +78,7 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
                 else:
                     # TODO: Tailor response based on if a user is trying to find something or an attribute of something.
                     answer_complete = (
-                        f"Regarding {answer_topic}. {answer_substring}"
+                        f"About {answer_topic}. {answer_substring}"
                     )
 
                 # if not answer_complete.endswith("."):

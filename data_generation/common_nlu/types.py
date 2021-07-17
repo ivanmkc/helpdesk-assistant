@@ -4,6 +4,8 @@ from data_generation.models.object_models import Concept
 class Type:
     place = Concept(name="place", synonyms=["location",],)
 
+    event = Concept(name="event", synonyms=["activity", "festival"],)
+
     place_of_worship = Concept(
         name="place of worship",
         synonyms=[

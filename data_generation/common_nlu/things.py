@@ -45,6 +45,8 @@ class Thing:
         synonyms=[
             "shopping",
             "shop",
+            "plaza",
+            "mall",
             "buy clothes",
             "buy",
             "clothes",
@@ -55,6 +57,11 @@ class Thing:
             "convenience store",
             "store",
         ],
+    )
+
+    entertainment = Concept(
+        name="entertainment",
+        synonyms=["a night out", "pleasure", "relaxation", "amusement", "fun"],
     )
 
     food = Concept(

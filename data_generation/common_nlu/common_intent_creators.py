@@ -24,6 +24,8 @@ intent_is_there_a_type_creator = ParameterizedIntentCreator(
         "What's {context}?",
         "Tell me about {context}.",
         "I want to learn more about {context}",
+        "What about other {context}",
+        "What about {context}",
     ],
     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
 )
