@@ -159,15 +159,27 @@
             ]
         },
         {
-            "name": "Cloud Build: Build docker image",
+            "name": "Cloud Build: Build base",
             "request": "launch",
-            "command": "gcloud builds submit --tag=${config:DOCKER_IMAGE_TAG} --timeout=3600",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml --timeout=3600",
             "type": "node-terminal",
         },
         {
-            "name": "Cloud Run: Deploy docker image",
+            "name": "Cloud Build: Build trained",
             "request": "launch",
-            "command": "gcloud run deploy ${config:DOCKER_CONTAINER_NAME} --image=${config:DOCKER_IMAGE_TAG} --platform=managed --cpu=2 --memory=4G --port=8080 --allow-unauthenticated",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --timeout=3600",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Build: Build rasa-run",
+            "request": "launch",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml --timeout=3600",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Run: Deploy rasa-run",
+            "request": "launch",
+            "command": "gcloud run deploy rasa-run --image=gcr.io/chatbot-299615/rasa-run --platform=managed --cpu=2 --memory=4G --port=5005 --allow-unauthenticated",
             "type": "node-terminal"
         },
         {
@@ -188,29 +200,29 @@
             "command": "gcloud app logs tail -s default",
             "type": "node-terminal",
         },
-        {
-            "name": "Docker: Pull container from cloud",
-            "request": "launch",
-            "command": "docker pull ${config:DOCKER_IMAGE_TAG}",
-            "type": "node-terminal",
-        },
-        {
-            "name": "Docker: Build container locally",
-            "request": "launch",
-            "command": "docker build -t ${config:DOCKER_CONTAINER_NAME} .",
-            "type": "node-terminal",
-        },
-        {
-            "name": "Docker: Run bash in container",
-            "request": "launch",
-            "command": "docker pull ${config:DOCKER_IMAGE_TAG} && docker run -it ${config:DOCKER_IMAGE_TAG} bash",
-            "type": "node-terminal",
-        },
-        {
-            "name": "Docker: Run container locally",
-            "request": "launch",
-            "command": "docker pull ${config:DOCKER_IMAGE_TAG} && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --memory=2g --cpus=2 ${config:DOCKER_IMAGE_TAG}",
-            "type": "node-terminal",
-        }
+        // {
+        //     "name": "Docker: Pull container from cloud",
+        //     "request": "launch",
+        //     "command": "docker pull ${config:DOCKER_IMAGE_TAG}",
+        //     "type": "node-terminal",
+        // },
+        // {
+        //     "name": "Docker: Build container locally",
+        //     "request": "launch",
+        //     "command": "docker build -t ${config:DOCKER_CONTAINER_NAME} .",
+        //     "type": "node-terminal",
+        // },
+        // {
+        //     "name": "Docker: Run bash in container",
+        //     "request": "launch",
+        //     "command": "docker pull ${config:DOCKER_IMAGE_TAG} && docker run -it ${config:DOCKER_IMAGE_TAG} bash",
+        //     "type": "node-terminal",
+        // },
+        // {
+        //     "name": "Docker: Run container locally",
+        //     "request": "launch",
+        //     "command": "docker pull ${config:DOCKER_IMAGE_TAG} && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --memory=2g --cpus=2 ${config:DOCKER_IMAGE_TAG}",
+        //     "type": "node-terminal",
+        // }
     ]
 }
