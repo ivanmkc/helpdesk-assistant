@@ -161,7 +161,7 @@ places += [
     ),
     Place(
         name="Roman Baths",
-        synonyms=["baths"],
+        synonyms=[],
         intro="The Roman Baths are a very old historical monument.",
         types=[Type.place,],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
@@ -169,7 +169,7 @@ places += [
         price="On weekdays, tickets for the Roman Baths are 10 pounds per person and 8 pounds per person on weekends.",
         directions="You should walk to the Roman Baths. You can see many cool shops! Walk south along the River Avon and then make a right.",
         opinion="I wish I had a chance to bathe there back when it was in use.",
-        things_provided=[Thing.history, Thing.sightseeing, Thing.history],
+        things_provided=[Thing.history, Thing.sightseeing],
     ),
     Place(
         name="Circle Diner",
