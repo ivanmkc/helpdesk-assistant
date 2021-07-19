@@ -23,28 +23,31 @@ class OpenConversationOutputChannel(CollectingOutputChannel):
         if message.get("text"):
             await self.send_text_message(
                 recipient_id,
-                message.pop("text"),
-                message.pop("utter_action"),  # Include the utter_action
-                **message,
+                message.get("text"),
+                message.get("utter_action"),  # Include the utter_action
             )
         else:
             super().send_response(recipient_id, message)
 
     async def send_text_message(
-        self, recipient_id: Text, text: Text, utter_action: Text, **kwargs: Any
+        self,
+        recipient_id: Text,
+        text: Text,
+        utter_action: Optional[Text],
+        **kwargs: Any
     ) -> None:
         for message_part in text.strip().split("\n\n"):
+            custom = None
+
+            if utter_action:
+                custom = {
+                    "utter_action": utter_action,
+                    "intent": ActionRetrieveResponse.intent_name_from_action(
+                        utter_action
+                    ),
+                }
             await self._persist_message(
-                self._message(
-                    recipient_id,
-                    text=message_part,
-                    custom={
-                        "utter_action": utter_action,
-                        "intent": ActionRetrieveResponse.intent_name_from_action(
-                            utter_action
-                        ),
-                    },
-                )
+                self._message(recipient_id, text=message_part, custom=custom)
             )
 
 

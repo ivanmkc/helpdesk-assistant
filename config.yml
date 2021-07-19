@@ -13,7 +13,7 @@ pipeline:
   - name: SpacyTokenizer
   - name: SpacyFeaturizer
   - name: SpacyEntityExtractor
-    dimensions: ["PERSON", "LOC", "GPE"]
+    dimensions: ["PERSON"]
   # - name: ConveRTTokenizer
   #   # Flag to check whether to split intents
   #   "intent_tokenization_flag": False

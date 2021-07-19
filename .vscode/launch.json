@@ -138,7 +138,8 @@
             "module": "rasa",
             "justMyCode": false,
             "args": [
-                "run"
+                "run",
+                "-vv"
             ]
         },
         {
@@ -185,7 +186,7 @@
         {
             "name": "Cloud Run: Deploy rasa-run",
             "request": "launch",
-            "command": "gcloud run deploy rasa-run --image=gcr.io/chatbot-299615/rasa-run --platform=managed --cpu=2 --memory=4G --port=8080 --allow-unauthenticated",
+            "command": "gcloud run deploy rasa-run --image=gcr.io/chatbot-299615/rasa-run --platform=managed --cpu=2 --memory=4G --port=8080 --region=us-central1 --update-env-vars HAYSTACK_HOST=${config:HAYSTACK_HOST} --allow-unauthenticated",
             "type": "node-terminal"
         },
         {

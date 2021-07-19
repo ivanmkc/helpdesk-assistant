@@ -5,10 +5,13 @@ from services.QuestionAnswerContextlessModel import (
     QuestionAnswerContextlessModel,
 )
 from services.QuestionAnswerResult import QuestionAnswerResult
+import os
+
+HAYSTACK_HOST = os.getenv("HAYSTACK_HOST")
 
 
 class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
-    API_URL = f"http://localhost:4444/query"
+    API_URL = f"{HAYSTACK_HOST}/query"
     PROBABILITY_THRESHOLD = 0.2
 
     def predict(

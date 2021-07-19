@@ -13,8 +13,6 @@ import yaml
 
 from data_generation.models.object_models import Object
 import actions.find_objects_action as find_objects_action
-import actions.question_answer_action as question_answer_action
-from data_generation.models.object_models import Concept
 from actions.find_objects_action import OBJECTS_FILE_PATH
 
 
