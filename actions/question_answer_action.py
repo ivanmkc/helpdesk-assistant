@@ -14,9 +14,10 @@ from services.question_answer_service import QuestionAnswerService
 from services.question_answer_contextless_service import (
     QuestionAnswerContextlessService,
 )
+from rasa.core.actions.action import create_bot_utterance
 
 from rasa.shared.core.constants import ACTION_LISTEN_NAME
-from rasa_sdk.events import FollowupAction
+from rasa_sdk.events import BotUttered, FollowupAction
 import logging
 
 logger = logging.getLogger(__name__)
@@ -77,6 +78,7 @@ class QuestionAnswerAction(Action):
         tracker: Tracker,
     ) -> List[Dict]:
 
+        message_text: str
         try:
             result = self._question_service.handle_question(question=question)
 
@@ -84,15 +86,22 @@ class QuestionAnswerAction(Action):
                 logger.debug(
                     f"Found answer '{result.answer}' for question with confidence {result.confidence}"
                 )
-                dispatcher.utter_message(text=result.answer)
+                message_text = result.answer
             else:
                 logger.debug("No answer found for question.")
-                dispatcher.utter_message(response="utter_default")
+                # dispatcher.utter_message(response="utter_default")
+                message_text = "No idea"
 
         except Exception as exception:
             logger.error(exception)
-            dispatcher.utter_message(response="utter_default")
+            # dispatcher.utter_message(response="utter_default")
+            message_text = "There's a problem. No idea."
 
         # TODO: Extract the subject and set found_object_names
 
-        return [FollowupAction(name=ACTION_LISTEN_NAME)]
+        return [
+            BotUttered(
+                text=message_text, metadata={"utter_action": "utter_asdf"},
+            ),
+            FollowupAction(name=ACTION_LISTEN_NAME),
+        ]
