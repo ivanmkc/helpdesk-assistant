@@ -38,7 +38,7 @@ pipeline:
   - name: FallbackClassifier
     threshold: 0.1
   - name: DucklingEntityExtractor
-    url: https://duckling-xvtglwhs5q-uc.a.run.app:443
+    url: ${DUCKLING_HOST}
     dimensions:
     # - email
     - time
