@@ -92,9 +92,17 @@ places += [
     ),
     Place(
         name="Holburne Museum",
-        synonyms=["Holburne Museum", "Holburn Museum", "Holburn",],
+        synonyms=[
+            "Holburne Museum",
+            "Holburn Museum",
+            "Holburn",
+        ],
         intro="The Holburne Museum has a great art collection. It has both modern and antique art.",
-        types=[Type.place, Type.museum, Type.art_gallery,],
+        types=[
+            Type.place,
+            Type.museum,
+            Type.art_gallery,
+        ],
         hours="The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM.",
         details=None,
         price="Tickets for the Holburne Museum cost 12.50 pounds for adults and 7.50 pounds for children under 12.",
@@ -146,7 +154,9 @@ places += [
         name="Great Pultaney Bridge",
         synonyms=["bridge", "pultaney bridge"],
         intro="The Great Pulteney Bridge is a popular place for tourists.",
-        types=[Type.place,],
+        types=[
+            Type.place,
+        ],
         hours="The Great Pulteney Bridge is open all day.",
         details=None,
         price="It is free to walk on the Great Pulteney Bridge.",
@@ -163,7 +173,9 @@ places += [
         name="Roman Baths",
         synonyms=[],
         intro="The Roman Baths are a very old historical monument.",
-        types=[Type.place,],
+        types=[
+            Type.place,
+        ],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
         details="The Roman Baths are very popular for tourists!",
         price="On weekdays, tickets for the Roman Baths are 10 pounds per person and 8 pounds per person on weekends.",
@@ -244,7 +256,8 @@ places += [
 # Write place intents
 intents = [
     parameterized_intents.create_parameterized_intent(
-        entity_value=place.name, entity_synonyms=place.synonyms,
+        entity_value=place.name,
+        entity_synonyms=place.synonyms,
     )
     for place in places
     for parameterized_intents in common_intent_creators.intent_creators
@@ -253,7 +266,8 @@ intents = [
 # Write place with things intents
 intents += [
     common_intent_creators.intent_is_there_a_place_with_thing_creator.create_parameterized_intent(
-        entity_value=thing.name, entity_synonyms=thing.synonyms,
+        entity_value=thing.name,
+        entity_synonyms=thing.synonyms,
     )
     for place in places
     for thing in place.things_provided
@@ -262,7 +276,8 @@ intents += [
 # Write place with intents
 intents += [
     common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
-        entity_value=place.name, entity_synonyms=place.synonyms,
+        entity_value=place.name,
+        entity_synonyms=place.synonyms,
     )
     for place in places
 ]
@@ -270,7 +285,8 @@ intents += [
 # Write place with type intents
 intents += [
     common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
-        entity_value=type.name, entity_synonyms=type.synonyms,
+        entity_value=type.name,
+        entity_synonyms=type.synonyms,
     )
     for place in places
     for type in place.types
@@ -279,7 +295,8 @@ intents += [
 # Write things to buy
 intents += [
     common_intent_creators.intent_i_want_to_buy_creator.create_parameterized_intent(
-        entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
+        entity_value=thing_to_buy.name,
+        entity_synonyms=thing_to_buy.synonyms,
     )
     for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]
 ]
@@ -287,7 +304,8 @@ intents += [
 # Write disambiguations
 intents += [
     common_intent_creators.intent_context_only_creator.create_parameterized_intent(
-        entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
+        entity_value=thing_to_buy.name,
+        entity_synonyms=thing_to_buy.synonyms,
     )
     for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]
 ]

@@ -121,20 +121,9 @@ class GetObjectInfo(Action):
 
         # Answer with the first value found
         if attribute_value:
-            dispatcher.utter_message(text=attribute_value)
+            dispatcher.utter_message(response=attribute_value.name)
             return []
         else:
-            # dispatcher.utter_message(
-            #     text="Sorry, I don't have the answer to that."
-            # )
             return [
                 FollowupAction(name=question_answer_action.ACTION_NAME),
             ]
-
-        # dispatcher.utter_message(
-        #     text="Sorry, I don't have the answer to that."
-        # )
-
-        # return [
-        #     FollowupAction(name=question_answer_action.ACTION_NAME),
-        # ]

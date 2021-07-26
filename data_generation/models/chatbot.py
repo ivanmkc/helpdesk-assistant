@@ -28,7 +28,9 @@ class Chatbot:
     @property
     def base_slots(self) -> List[Slot]:
         return [
-            ListSlot(name=find_objects_action.SLOT_FOUND_OBJECT_NAMES,),
+            ListSlot(
+                name=find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+            ),
             TextSlot(name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE),
             TextSlot(name=get_object_info.SLOT_OBJECT_ATTRIBUTE),
             FloatSlot(
@@ -50,6 +52,11 @@ class Chatbot:
             domain_filename=domain_filename,
             nlu_filename=nlu_filename,
             additional_intents=self.additional_intents,
+            additional_utterances=[
+                utterance
+                for object in self.objects
+                for utterance in object.utterances
+            ],
             slots=self.base_slots,
             use_rules=False,
         )
