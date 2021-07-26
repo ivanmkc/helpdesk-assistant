@@ -63,12 +63,13 @@ class ActionBuyObject(Action):
 
         # Find objects of the given type
         found_objects: List[Object] = []
-        for object in self.objects:
-            if (
-                object.name in found_object_names
-                and object.buy_info is not None
-            ):
-                found_objects.append(object)
+        if found_object_names is not None:
+            for object in self.objects:
+                if (
+                    object.name in found_object_names
+                    and object.buy_info is not None
+                ):
+                    found_objects.append(object)
 
         # Disambiguate
         if len(found_objects) == 1:
@@ -86,7 +87,7 @@ class ActionBuyObject(Action):
             dispatcher.utter_message(text=f"You have a few options.")
 
             for object in found_objects:
-                dispatcher.utter_message(text=f"{object.intro}")
+                dispatcher.utter_message(response=object.intro.name)
         else:
             dispatcher.utter_message(
                 text="Hm, I couldn't find anything like that you can buy."

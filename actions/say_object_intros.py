@@ -80,7 +80,7 @@ class SayObjectIntrosAction(Action):
 
         if len(found_objects) == 1:
             found_object = found_objects[0]
-            dispatcher.utter_message(text=found_object.intro)
+            dispatcher.utter_message(response=found_object.intro.name)
 
             if object_attribute:
                 attribute_value = found_object.__getattribute__(
@@ -88,13 +88,13 @@ class SayObjectIntrosAction(Action):
                 )
 
                 if attribute_value:
-                    dispatcher.utter_message(text=attribute_value)
+                    dispatcher.utter_message(response=attribute_value.name)
 
         elif len(found_objects) > 0:
             dispatcher.utter_message(text=f"You have a few options.")
 
             for object in found_objects:
-                dispatcher.utter_message(text=f"{object.intro}")
+                dispatcher.utter_message(response=object.intro.name)
         else:
             dispatcher.utter_message(text=f"I don't think I know any.")
 
