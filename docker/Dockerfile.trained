@@ -9,4 +9,5 @@ RUN python -m spacy download en_core_web_md
 RUN python -m data_generation.utils.generate_chatbot
 
 # Train
+ARG DUCKLING_HOST
 RUN python -m rasa train --domain=domain
