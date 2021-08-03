@@ -7,12 +7,19 @@ from services.QuestionAnswerContextlessModel import (
 from services.QuestionAnswerResult import QuestionAnswerResult
 import os
 
-HAYSTACK_HOST = os.getenv("HAYSTACK_HOST")
-
 
 class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
-    API_URL = f"{HAYSTACK_HOST}/query"
     PROBABILITY_THRESHOLD = 0.2
+
+    def __init__(self) -> None:
+        haystack_host = os.getenv("HAYSTACK_HOST")
+
+        if haystack_host is None:
+            raise ValueError(
+                "No haystack host provided as HAYSTACK_HOST environment variable is not set"
+            )
+
+        self.api_url = f"{haystack_host}/query"
 
     def predict(
         self, question: str, tag: Optional[str] = None
@@ -101,5 +108,5 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
             "Content-Type": "application/json",
         }
 
-        response = requests.post(self.API_URL, headers=headers, data=data)
+        response = requests.post(self.api_url, headers=headers, data=data)
         return json.loads(response.content.decode("utf-8"))
