@@ -92,19 +92,11 @@ places += [
     ),
     Place(
         name="Holburne Museum",
-        synonyms=[
-            "Holburne Museum",
-            "Holburn Museum",
-            "Holburn",
-        ],
+        synonyms=["Holburne Museum", "Holburn Museum", "Holburn",],
         intro="The Holburne Museum has a great art collection. It has both modern and antique art.",
-        types=[
-            Type.place,
-            Type.museum,
-            Type.art_gallery,
-        ],
+        types=[Type.place, Type.museum, Type.art_gallery,],
         hours="The Holburne museum is open right now. It's open from 10:00 AM to 5:00 PM on weekdays. On weekends, it's open from 11:00 AM to 7:00 PM.",
-        details=None,
+        details="The Holburne Museum has both modern and antique art.",
         price="Tickets for the Holburne Museum cost 12.50 pounds for adults and 7.50 pounds for children under 12.",
         directions="The Holburne Museum is on the East side of the River Avon. You can take the A31 bus to get there.",
         opinion="I love it, it's one of my favorite attractions in the city.",
@@ -139,7 +131,7 @@ places += [
         intro="The Bath Abbey is a famous medieval church in England.",
         types=[Type.place, Type.place_of_worship],
         hours="The Bath Abbey is open on Monday to Saturday from 10:00 AM to 3:45 PM.",
-        details=None,
+        details="The Parade Gardens are right across from the Bath Abbey.",
         price="The Bath Abbey tickets are 5 pounds per person.",
         directions="The Bath Abbey is a five minute walk from here. Go straight into the center of town. The Bath Abbey is on the left!",
         opinion="The Bath Abbey is a great place to see some stellar historical architecture.",
@@ -154,11 +146,9 @@ places += [
         name="Great Pultaney Bridge",
         synonyms=["bridge", "pultaney bridge"],
         intro="The Great Pulteney Bridge is a popular place for tourists.",
-        types=[
-            Type.place,
-        ],
+        types=[Type.place,],
         hours="The Great Pulteney Bridge is open all day.",
-        details=None,
+        details="Try the excellent coffee shop at the entrance. It’s called Bridge Coffee Shop. If you like French food, there is a great restaurant called Chez Dominique at the end of the bridge.",
         price="It is free to walk on the Great Pulteney Bridge.",
         directions="We are on the left side of the Great Pulteney Bridge. You can go right outside and see the bridge!",
         opinion="The shops here are a little expensive but you can take some really nice photos!",
@@ -173,9 +163,7 @@ places += [
         name="Roman Baths",
         synonyms=[],
         intro="The Roman Baths are a very old historical monument.",
-        types=[
-            Type.place,
-        ],
+        types=[Type.place,],
         hours="The Roman Baths are open from 10:00 AM to 6:00 PM everyday.",
         details="The Roman Baths are very popular for tourists!",
         price="On weekdays, tickets for the Roman Baths are 10 pounds per person and 8 pounds per person on weekends.",
@@ -256,8 +244,7 @@ places += [
 # Write place intents
 intents = [
     parameterized_intents.create_parameterized_intent(
-        entity_value=place.name,
-        entity_synonyms=place.synonyms,
+        entity_value=place.name, entity_synonyms=place.synonyms,
     )
     for place in places
     for parameterized_intents in common_intent_creators.intent_creators
@@ -266,8 +253,7 @@ intents = [
 # Write place with things intents
 intents += [
     common_intent_creators.intent_is_there_a_place_with_thing_creator.create_parameterized_intent(
-        entity_value=thing.name,
-        entity_synonyms=thing.synonyms,
+        entity_value=thing.name, entity_synonyms=thing.synonyms,
     )
     for place in places
     for thing in place.things_provided
@@ -276,8 +262,7 @@ intents += [
 # Write place with intents
 intents += [
     common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
-        entity_value=place.name,
-        entity_synonyms=place.synonyms,
+        entity_value=place.name, entity_synonyms=place.synonyms,
     )
     for place in places
 ]
@@ -285,8 +270,7 @@ intents += [
 # Write place with type intents
 intents += [
     common_intent_creators.intent_is_there_a_type_creator.create_parameterized_intent(
-        entity_value=type.name,
-        entity_synonyms=type.synonyms,
+        entity_value=type.name, entity_synonyms=type.synonyms,
     )
     for place in places
     for type in place.types
@@ -295,8 +279,7 @@ intents += [
 # Write things to buy
 intents += [
     common_intent_creators.intent_i_want_to_buy_creator.create_parameterized_intent(
-        entity_value=thing_to_buy.name,
-        entity_synonyms=thing_to_buy.synonyms,
+        entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
     )
     for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]
 ]
@@ -304,8 +287,7 @@ intents += [
 # Write disambiguations
 intents += [
     common_intent_creators.intent_context_only_creator.create_parameterized_intent(
-        entity_value=thing_to_buy.name,
-        entity_synonyms=thing_to_buy.synonyms,
+        entity_value=thing_to_buy.name, entity_synonyms=thing_to_buy.synonyms,
     )
     for thing_to_buy in [city_boat_tour, city_bus_tour, city_pass]
 ]

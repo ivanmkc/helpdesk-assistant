@@ -177,6 +177,28 @@ intent_opinion_creator = ParameterizedIntentCreator(
     object_attribute="opinion",
 )
 
+intent_details_creator = ParameterizedIntentCreator(
+    name="intent_details",
+    parameterized_examples=[
+        "What's there to do at {context}?",
+        "What's in {context}",
+        "What things do you do at {context}?",
+        "Tell me more about the {context}",
+        "What's there to know about {context}",
+        "What's there to do?",
+        "What do you do here?",
+        "What can you do there",
+        "Is there anything to do?",
+        "What's there to do?",
+        "What activities are there?",
+        "What kind of things do you do at {context}",
+        "What's there to do around here",
+        "Tell me more about this place",        
+    ],
+    entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
+    object_attribute="details",
+)
+
 # intent_ill_have_context_creator = ParameterizedIntentCreator(
 #     name="intent_i_will_have_with_entities",
 #     parameterized_examples=[
@@ -234,6 +256,7 @@ intent_creators = [
     # intent_what_about_context_creator,
     intent_directions_creator,
     intent_opinion_creator,
+    intent_details_creator,
     # intent_is_there_a_place_with_thing_creator,
     intent_when_is_that_creator,
     intent_what_price_creator,

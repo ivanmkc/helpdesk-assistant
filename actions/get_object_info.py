@@ -102,8 +102,6 @@ class GetObjectInfo(Action):
         #                 found_object = object
         #                 break
 
-        found_object = found_objects[0]
-
         if len(found_objects) == 0:
             logging.warning(
                 "No objects found despite the name being found. This is a bug."
@@ -112,14 +110,17 @@ class GetObjectInfo(Action):
             return [
                 FollowupAction(name=question_answer_action.ACTION_NAME),
             ]
-        elif len(found_objects) > 1:
+        else:
+            found_object = found_objects[0]
             attribute_value = found_object.__getattribute__(object_attribute)
 
             # Answer with the first value found
             if attribute_value:
-                dispatcher.utter_message(
-                    text=f"Do you mean the {found_object.name}?"
-                )
+                if len(found_objects) > 1:
+                    dispatcher.utter_message(
+                        text=f"Do you mean the {found_object.name}?"
+                    )
+
                 dispatcher.utter_message(response=attribute_value.name)
                 return []
 
