@@ -1,8 +1,7 @@
 import typing
-from typing import Text, Dict, List, Any
+from typing import Text, Dict, Optional, List, Any
 from rasa_sdk import Tracker
 from rasa_sdk.executor import CollectingDispatcher, Action
-import os
 
 if typing.TYPE_CHECKING:  # pragma: no cover
     from rasa_sdk.types import DomainDict
@@ -10,10 +9,10 @@ if typing.TYPE_CHECKING:  # pragma: no cover
 from services.QuestionAnswerServiceInterface import (
     QuestionAnswerServiceInterface,
 )
-from services.question_answer_service import QuestionAnswerService
 from services.question_answer_contextless_service import (
     QuestionAnswerContextlessService,
 )
+from services.coreference.coreference_service import CoreferenceService
 
 from rasa.shared.core.constants import ACTION_LISTEN_NAME
 from rasa_sdk.events import FollowupAction
@@ -26,6 +25,7 @@ logger.debug(vers)
 
 CONTEXT_FILE_PATH = "context/context.txt"
 ACTION_NAME = "question_answer_action"
+SHOULD_USE_COREFERENCE = False
 
 # tag = os.getenv("CHATBOT_ID")
 TAG = "visitor_center"
@@ -39,6 +39,7 @@ class QuestionAnswerAction(Action):
     _question_service: QuestionAnswerServiceInterface
 
     def __init__(self) -> None:
+        self._coreference_service = CoreferenceService()
         self._question_service = QuestionAnswerContextlessService(tag=TAG)
 
     def name(self) -> Text:
@@ -65,10 +66,38 @@ class QuestionAnswerAction(Action):
         question = tracker.latest_message["text"]
 
         # Check if subject is present
+        if SHOULD_USE_COREFERENCE:
+            pronouns = ["it", "this", "that", "there"]
+            if any([pronoun in question for pronoun in pronouns]):
+                last_bot_utterance = self.get_last_bot_utterance(tracker)
+                question = self._coreference_service.resolve(
+                    last_bot_utterance + " " + question
+                )
+
+                # Remove the last_bot_utterance
+                if question.startswith(last_bot_utterance):
+                    question = question[len(last_bot_utterance) :]
 
         return await self._ask_question(
-            dispatcher=dispatcher, question=question, tracker=tracker,
+            dispatcher=dispatcher,
+            question=question,
+            tracker=tracker,
         )
+
+    def get_last_bot_utterance(self, tracker) -> Optional[str]:
+        utterance: Optional[str] = None
+
+        for event in reversed(tracker.events):
+            event_type = event["event"]
+            if event_type == "bot":
+                utterance = event["text"]
+                break
+
+        if utterance is not None:
+            if utterance[-1].isalpha():
+                utterance = utterance + "."
+
+        return utterance
 
     async def _ask_question(
         self,
