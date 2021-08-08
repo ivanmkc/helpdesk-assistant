@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from services.QuestionAnswerModel import (
     QuestionAnswerModel,
@@ -7,7 +8,15 @@ from services.QuestionAnswerModel import (
 
 
 class CustomInferenceAPIModel(QuestionAnswerModel):
-    API_URL = f"https://qa-xvtglwhs5q-uc.a.run.app/predict/qa/single"
+    def __init__(self) -> None:
+        qa_host = os.getenv("QA_HOST")
+
+        if qa_host is None:
+            raise ValueError(
+                "No QA host provided as QA_HOST environment variable is not set"
+            )
+
+        self.api_url = f"{qa_host}/predict/qa/single"
 
     def predict(self, question: str, context: str) -> QuestionAnswerResponse:
         result = self._query(
@@ -28,5 +37,5 @@ class CustomInferenceAPIModel(QuestionAnswerModel):
 
     def _query(self, payload):
         data = json.dumps(payload)
-        response = requests.request("POST", self.API_URL, data=data)
+        response = requests.request("POST", self.api_url, data=data)
         return json.loads(response.content.decode("utf-8"))
