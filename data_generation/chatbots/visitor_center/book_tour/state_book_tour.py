@@ -1,4 +1,6 @@
 from rasa.shared.nlu.state_machine.conditions import (
+    AndCondition,
+    OrCondition,
     IntentCondition,
     OnEntryCondition,
     SlotEqualsCondition,
@@ -68,7 +70,9 @@ action_ask_tour = Utterance(
 slot_tour = TextSlot(
     name="tour_type",
     # intents={intent_select_bus_tour: "bus", intent_select_boat_tour: "boat",},
-    prompt_actions=[action_ask_tour,],
+    prompt_actions=[
+        action_ask_tour,
+    ],
 )
 
 slot_number_tickets = TextSlot(
@@ -85,10 +89,13 @@ slot_number_tickets = TextSlot(
 
 slot_tour_confirmed = BooleanSlot(
     name="tour_confirmed",
-    intents={common.intent_affirm.name: True, common.intent_deny.name: False,},
+    intents={
+        common.intent_affirm.name: True,
+        common.intent_deny.name: False,
+    },
     prompt_actions=[
         Utterance(
-            "Okay, just to confirm. I've booked you for the {tour_type} tour for {tour_num_tickets} people. Is that correct?"
+            "Okay, just to confirm. I've booked you for the {tour_type} for {tour_num_tickets} people. Is that correct?"
         ),
     ],
     only_fill_when_prompted=True,
@@ -110,7 +117,11 @@ book_tour_state = StateMachineState(
     transitions=[
         Transition(
             condition=IntentCondition(common.intent_changed_my_mind),
-            transition_utterances=[Utterance(text="Sure, not a problem.",)],
+            transition_utterances=[
+                Utterance(
+                    text="Sure, not a problem.",
+                )
+            ],
             destination_state_name=None,
         ),
         Transition(
@@ -121,8 +132,22 @@ book_tour_state = StateMachineState(
     ],
     responses=[
         Response(
-            condition=OnEntryCondition(),
-            actions=[Utterance("I'll need some info to book your tour."),],
+            condition=AndCondition(
+                [
+                    OnEntryCondition(),
+                    OrCondition(
+                        [
+                            SlotEqualsCondition(slot_tour, value=None),
+                            SlotEqualsCondition(
+                                slot_number_tickets, value=None
+                            ),
+                        ]
+                    ),
+                ]
+            ),
+            actions=[
+                Utterance("I'll need some info to book your tour."),
+            ],
         ),
         Response(
             condition=SlotEqualsCondition(

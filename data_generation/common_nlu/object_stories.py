@@ -43,7 +43,11 @@ for intent_creator in find_object_creators:
                     name=intent_creator.name,
                     entities=[intent_creator.entity_name],
                 ),
-                SlotWasSet([intent_creator.entity_name,]),
+                SlotWasSet(
+                    [
+                        intent_creator.entity_name,
+                    ]
+                ),
                 ActionName(find_objects_action.ACTION_NAME),
                 utter_no_objects_found,
                 # ActionName(
@@ -58,9 +62,17 @@ for intent_creator in find_object_creators:
                     name=intent_creator.name,
                     entities=[intent_creator.entity_name],
                 ),
-                SlotWasSet([intent_creator.entity_name,]),
+                SlotWasSet(
+                    [
+                        intent_creator.entity_name,
+                    ]
+                ),
                 ActionName(find_objects_action.ACTION_NAME),
-                SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
+                SlotWasSet(
+                    [
+                        find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+                    ]
+                ),
                 ActionName(say_object_intros.ACTION_NAME),  # ActionName(
                 #     action_reset_slots_except_found_object_names.ACTION_NAME
                 # ),
@@ -105,7 +117,11 @@ for intent_creator in common_intent_creators.intent_creators:
                         name=intent_creator.name,
                         entities=[intent_creator.entity_name],
                     ),
-                    SlotWasSet([intent_creator.entity_name,]),
+                    SlotWasSet(
+                        [
+                            intent_creator.entity_name,
+                        ]
+                    ),
                     # Set attribute slot
                     # Action should be the one created dynamically above
                     ActionName(slot_set_action_name),
@@ -117,7 +133,11 @@ for intent_creator in common_intent_creators.intent_creators:
                     ),
                     # Find the objects
                     ActionName(find_objects_action.ACTION_NAME),
-                    SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
+                    SlotWasSet(
+                        [
+                            find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+                        ]
+                    ),
                     ActionName(get_object_info.ACTION_NAME),
                     # Reset all irrelevant slots
                     # ActionName(
@@ -132,7 +152,11 @@ for intent_creator in common_intent_creators.intent_creators:
                         name=intent_creator.name,
                         entities=[intent_creator.entity_name],
                     ),
-                    SlotWasSet([intent_creator.entity_name,]),
+                    SlotWasSet(
+                        [
+                            intent_creator.entity_name,
+                        ]
+                    ),
                     # Set attribute slot
                     # Action should be the one created dynamically above
                     ActionName(slot_set_action_name),
@@ -154,7 +178,9 @@ for intent_creator in common_intent_creators.intent_creators:
             # No entities found
             Story(
                 elements=[
-                    Intent(name=intent_creator.name,),
+                    Intent(
+                        name=intent_creator.name,
+                    ),
                     # SlotWasSet([intent_creator.entity_name,]),
                     # Set attribute slot
                     # Action should be the one created dynamically above
@@ -196,7 +222,11 @@ stories += [
             # Find the objects
             ActionName(find_objects_action.ACTION_NAME),
             # Found
-            SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+                ]
+            ),
             ActionName("action_buy_object"),
         ]
     ),
@@ -220,6 +250,51 @@ stories += [
             ActionName("action_buy_object"),
         ]
     ),
+    # Entities with number only, objects found
+    Story(
+        elements=[
+            Or(
+                Intent(
+                    name=intent_creator.name,
+                    entities=["number"],
+                ),
+                Intent(
+                    name=common_intent_creators.intent_context_only_creator.name,
+                    entities=["number"],
+                ),
+            ),
+            SlotWasSet([intent_creator.entity_name, "number"]),
+            # Find the objects
+            ActionName(find_objects_action.ACTION_NAME),
+            # Found
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+                ]
+            ),
+            ActionName("action_buy_object"),
+        ]
+    ),
+    # Entities with number only, no objects found
+    Story(
+        elements=[
+            Or(
+                Intent(
+                    name=intent_creator.name,
+                    entities=["number"],
+                ),
+                Intent(
+                    name=common_intent_creators.intent_context_only_creator.name,
+                    entities=["number"],
+                ),
+            ),
+            SlotWasSet([intent_creator.entity_name, "number"]),
+            # Find the objects
+            ActionName(find_objects_action.ACTION_NAME),
+            # TODO: Call a common buy action, it checks 'purchasability' and redirects to the appropriate trigger action
+            ActionName("action_buy_object"),
+        ]
+    ),
     # Entities, objects found
     Story(
         elements=[
@@ -233,11 +308,19 @@ stories += [
                     entities=[intent_creator.entity_name],
                 ),
             ),
-            SlotWasSet([intent_creator.entity_name,]),
+            SlotWasSet(
+                [
+                    intent_creator.entity_name,
+                ]
+            ),
             # Find the objects
             ActionName(find_objects_action.ACTION_NAME),
             # Found
-            SlotWasSet([find_objects_action.SLOT_FOUND_OBJECT_NAMES,]),
+            SlotWasSet(
+                [
+                    find_objects_action.SLOT_FOUND_OBJECT_NAMES,
+                ]
+            ),
             ActionName("action_buy_object"),
         ]
     ),
@@ -254,7 +337,11 @@ stories += [
                     entities=[intent_creator.entity_name],
                 ),
             ),
-            SlotWasSet([intent_creator.entity_name,]),
+            SlotWasSet(
+                [
+                    intent_creator.entity_name,
+                ]
+            ),
             # Find the objects
             ActionName(find_objects_action.ACTION_NAME),
             # TODO: Call a common buy action, it checks 'purchasability' and redirects to the appropriate trigger action

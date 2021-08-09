@@ -193,7 +193,7 @@ intent_details_creator = ParameterizedIntentCreator(
         "What activities are there?",
         "What kind of things do you do at {context}",
         "What's there to do around here",
-        "Tell me more about this place",        
+        "Tell me more about this place",
     ],
     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
     object_attribute="details",
@@ -216,7 +216,7 @@ intent_details_creator = ParameterizedIntentCreator(
 intent_i_want_to_buy_creator = ParameterizedIntentCreator(
     name="intent_i_want_to_buy_with_entities",
     parameterized_examples=[
-        "I want to buy {number} {context}",
+        "I want to [buy|order|get] {number} {context}",
         "Can I order {number} {context}?",
         "I'll get {number} {context}?",
         "I'll have the {context}?",
@@ -240,13 +240,19 @@ intent_i_want_to_buy_creator = ParameterizedIntentCreator(
         "I want to book {number} {context}",
         "Can I order {context}",
         "Can I book {context}",
+        "Can I book for {number} people",
+        "I want {number_only}",
+        "Ok... I want to do the {context}",
+        "Sure thing... I want the {context}",
     ],
     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
 )
 
 intent_context_only_creator = ParameterizedIntentCreator(
     name="intent_context_only",
-    parameterized_examples=["{number} {context}",],
+    parameterized_examples=[
+        "{number} {context}",
+    ],
     entity_name=find_objects_action.SLOT_OBJECT_NAME_OR_TYPE,
 )
 
