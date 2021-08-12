@@ -6,3 +6,5 @@ pyyaml
 
 # data generation
 inflect
+pandas
+gspread

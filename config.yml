@@ -45,11 +45,11 @@ pipeline:
     - number
   - name: EntitySynonymMapper
 policies:
-  - name: StateMachinePolicy
-    intent_threshold_for_slot_fill: 0.8
-    next_slot_action_confidence: 0.8
-    enable_fallback_prediction: True
-    priority: 7
+  # - name: StateMachinePolicy
+  #   intent_threshold_for_slot_fill: 0.8
+  #   next_slot_action_confidence: 0.8
+  #   enable_fallback_prediction: True
+  #   priority: 7
   - name: AugmentedMemoizationPolicy
     max_history: 4
   # - name: TEDPolicy

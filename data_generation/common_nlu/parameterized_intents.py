@@ -142,19 +142,19 @@ class ParameterizedIntentCreator:
 
         examples_replaced = [
             example.replace(
-                "{context}",
+                "<context>",
                 f'[{synonym}]{{"entity":"{self.entity_name}", "value": "{entity_value}"}}',
             )
             for synonym in all_synonyms
             for example in sample(
-                self.parameterized_examples,
+                self.parameterized_examples_resolved,
                 min(3, len(self.parameterized_examples_resolved)),
             )
         ]
 
         # examples_replaced_with_the = [
         #     example.replace(
-        #         "{context}",
+        #         "<context>",
         #         f'[{synonym}]{{"entity":"{self.entity_name}", "value": "{entity_value}"}}',
         #     )
         #     for synonym in list(set(synonyms_with_the))
@@ -162,12 +162,12 @@ class ParameterizedIntentCreator:
         #         self.parameterized_examples,
         #         min(3, len(self.parameterized_examples)),
         #     )
-        #     if "{number}" not in example and "{number_only}" not in example
+        #     if "<number>" not in example and "<number_only>" not in example
         # ]
 
         fixed_examples = []
         for example in [example for example in examples_replaced]:
-            if "{number}" in example:
+            if "<number>" in example:
                 for number in sample(NUMBERS, 2):
                     number_value = (
                         inflect_engine.number_to_words(number)
@@ -175,17 +175,17 @@ class ParameterizedIntentCreator:
                         else number
                     )
                     fixed_examples.append(
-                        example.replace("{number}", str(number_value))
+                        example.replace("<number>", str(number_value))
                     )
 
                 # Add case with no number
                 fixed_examples.append(
                     example.replace(
-                        " {number}",
+                        " <number>",
                         "",
                     )
                 )
-            elif "{number_only}" in example:
+            elif "<number_only>" in example:
                 for number in sample(NUMBERS, 2):
                     number_value = (
                         inflect_engine.number_to_words(number)
@@ -193,7 +193,7 @@ class ParameterizedIntentCreator:
                         else number
                     )
                     fixed_examples.append(
-                        example.replace("{number_only}", str(number_value))
+                        example.replace("<number_only>", str(number_value))
                     )
             else:
                 fixed_examples.append(example)

@@ -1,16 +1,9 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
-    ActionName,
     IntentWithExamples,
     Utterance,
 )
 
-from actions import find_objects_action
 import data_generation.common_nlu.common_intents as common
-from data_generation.chatbots.visitor_center import places_visitor_center
-import data_generation.common_nlu.common_intent_creators as common_creators
-import data_generation.chatbots.visitor_center.book_tour.state_book_tour as book_tour
-import data_generation.chatbots.visitor_center.book_tour.stories_book_tour as stories_book_tour
-import data_generation.chatbots.visitor_center.state_visitor_center as state_visitor_center
 from data_generation.models.story_models import (
     Intent,
     Or,
