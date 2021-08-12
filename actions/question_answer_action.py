@@ -13,7 +13,7 @@ from services.question_answer_contextless_service import (
     QuestionAnswerContextlessService,
 )
 from services.coreference.coreference_service import CoreferenceService
-
+from services.HaystackInferenceAPIModel import HaystackInferenceAPIModel
 from rasa.shared.core.constants import ACTION_LISTEN_NAME
 from rasa_sdk.events import FollowupAction
 import logging
@@ -39,7 +39,9 @@ class QuestionAnswerAction(Action):
 
     def __init__(self) -> None:
         self._coreference_service = CoreferenceService()
-        self._question_service = QuestionAnswerContextlessService(tag=TAG)
+        self._question_service = QuestionAnswerContextlessService(
+            model=HaystackInferenceAPIModel(), tag=TAG
+        )
 
     def name(self) -> Text:
         return ACTION_NAME

@@ -163,25 +163,25 @@
         {
             "name": "Cloud Build: Build base",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml --timeout=3600",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Build: Build trained",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --timeout=3600",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST}",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Build: Build rasa-run",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml --timeout=3600",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Build: Build all",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml --timeout=3600 && gcloud builds submit --config=docker/cloud-build.trained.yaml --timeout=3600 && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml --timeout=3600",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml && gcloud builds submit --config=docker/cloud-build.trained.yaml && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml",
             "type": "node-terminal",
         },
         {

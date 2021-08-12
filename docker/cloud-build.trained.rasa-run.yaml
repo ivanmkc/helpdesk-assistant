@@ -3,3 +3,4 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'docker/Dockerfile.trained.rasa-run', '--tag=gcr.io/$PROJECT_ID/rasa-run', '.']
 images: ['gcr.io/$PROJECT_ID/rasa-run']
+timeout: 3600s

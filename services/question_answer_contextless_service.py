@@ -1,5 +1,3 @@
-from typing import Text, List
-from services.HaystackInferenceAPIModel import HaystackInferenceAPIModel
 from services.QuestionAnswerServiceInterface import (
     QuestionAnswerServiceInterface,
 )
@@ -17,8 +15,8 @@ class QuestionAnswerContextlessService(QuestionAnswerServiceInterface):
 
     def __init__(
         self,
+        model: QuestionAnswerContextlessModel,
         tag: Optional[str] = None,
-        model: QuestionAnswerContextlessModel = HaystackInferenceAPIModel(),
     ):
         self._model = model
         self._tag = tag

@@ -8,7 +8,11 @@ from data_generation.models import input_response_service
 from data_generation.models.state_machine import StateMachine
 from data_generation.models.chatbot import Chatbot
 import data_generation.chatbots.visitor_center.places_visitor_center as places
-
+from data_generation.models.story_models import Intent, Story
+from rasa.shared.nlu.state_machine.state_machine_models import (
+    ActionName,
+    Utterance,
+)
 
 state_machine = StateMachine(
     initial_state=state_visitor_center.start_state,
@@ -18,6 +22,22 @@ state_machine = StateMachine(
     ],
 )
 
+sold_out_stories = [
+    Story(
+        [
+            ActionName("action_trigger_buy_citypass"),
+            Utterance("Sorry, we are sold out at the moment."),
+        ]
+    ),
+    Story(
+        [
+            ActionName("action_trigger_book_tour"),
+            Utterance("Sorry, we are sold out of the tours at the moment."),
+        ]
+    ),
+]
+
+
 stories = (
     stories_visitor_center.stories_tell_me_more
     # + stories_book_tour.stories_tours
@@ -26,6 +46,7 @@ stories = (
     + object_stories.stories
     + common_stories.stories_chitchat
     + input_response_service.get_stories(worksheet_filter=["visitor_center"])
+    + sold_out_stories
 )
 
 chatbot = Chatbot(
