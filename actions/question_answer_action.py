@@ -23,7 +23,6 @@ vers = "vers: 0.1.0, date: May 18, 2021"
 logger.debug(vers)
 
 
-CONTEXT_FILE_PATH = "context/context.txt"
 ACTION_NAME = "question_answer_action"
 SHOULD_USE_COREFERENCE = False
 

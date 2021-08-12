@@ -33,5 +33,4 @@ chatbot = Chatbot(
     stories=stories,
     objects=places.places,
     additional_intents=places.intents,
-    question_answer_context_file_path="./data_generation/chatbots/visitor_center/context.txt",
 )

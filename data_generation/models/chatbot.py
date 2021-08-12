@@ -23,7 +23,6 @@ class Chatbot:
     stories: List[Story]
     objects: List[Object]
     additional_intents: List[Intent]
-    question_answer_context_file_path: str
 
     @property
     def base_slots(self) -> List[Slot]:
@@ -69,8 +68,3 @@ class Chatbot:
         # Object
         with open(get_object_info.OBJECTS_FILE_PATH, "w") as file:
             yaml.dump(self.objects, file)
-
-        shutil.copy(
-            self.question_answer_context_file_path,
-            question_answer_action.CONTEXT_FILE_PATH,
-        )
