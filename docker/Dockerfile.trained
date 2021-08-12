@@ -1,5 +1,8 @@
 FROM gcr.io/chatbot-299615/base
 
+ARG DUCKLING_HOST_ARG
+ENV DUCKLING_HOST=${DUCKLING_HOST_ARG}
+
 # Download spacy again because the next step doesn't work otherwise
 RUN pip install spacy
 # Download trained spacy pipeline

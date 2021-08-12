@@ -95,24 +95,11 @@ intent_reaction_negative = IntentWithExamples(
     examples=["That's not good", "Too bad", "I don't like that", "I hate it"],
 )
 
-
-intent_where_are_you_from = IntentWithExamples(
-    name="where_are_you_from", examples=["Where are you from?"]
-)
-
 intent_let_me_think = IntentWithExamples(
-    examples=["Give me time", "Let me think",]
-)
-
-intent_what_do_you_do = IntentWithExamples(
     examples=[
-        "What do you do here?",
-        "How can you help?",
-        "What's your job?",
-        "What can you do to help me?",
-        "Do you have more details",
-    ],
-    name="intent_what_do_you_do",
+        "Give me time",
+        "Let me think",
+    ]
 )
 
 intent_changed_my_mind = IntentWithExamples(
@@ -140,78 +127,6 @@ intent_what_is_that = IntentWithExamples(
     ],
     name="intent_what_is_this",
 )
-
-intent_ask_weather = IntentWithExamples(
-    examples=[
-        "What's the weather like?",
-        "Will it rain?",
-        "Does it snow here?",
-        "How's the weather?",
-        "What's the weather report?",
-        "It's really hot",
-        "Is it raining?",
-        "Is it windy?",
-        "how about the forecast",
-        "what is the weather today",
-        "I want to know the weather",
-        "what is the weather",
-    ],
-    name="intent_ask_weather",
-)
-
-intent_ask_name = IntentWithExamples(
-    examples=["Who are you?", "What's your name",], name="intent_ask_name",
-)
-
-# intent_directions = IntentWithExamples(
-#     examples=[
-#         "How do you get there?",
-#         "What's the way there?",
-#         "How do I go there?",
-#         "What are the directions there?",
-#         "Where is that?",
-#     ],
-#     name="intent_directions",
-# )
-
-# intent_when_is_that = IntentWithExamples(
-#     examples=[
-#         "When is that?",
-#         "What are the hours?",
-#         "What time does that happpen?",
-#         "When does it open?",
-#         "When does it close?",
-#         "What are the hours?",
-#         "When does it close?",
-#         "What time does it open?",
-#         "What time does it open until?",
-#         "What time does it close?",
-#         "Is it still open?",
-#         "What would be the hours?",
-#         "What would the hours be?",
-#         "Do you know when it opens?",
-#         "When are they open?",
-#         "When do they close?",
-#         "When would they be closing?",
-#         "What time does are they open?",
-#         "Are they open now?",
-#     ],
-#     name="intent_when_is_that",
-# )
-
-# intent_what_price = IntentWithExamples(
-#     examples=[
-#         "How much is it?",
-#         "Is it expensive?",
-#         "How much does it cost?",
-#         "What's the cost?",
-#         "What's the price?",
-#         "How much?",
-#         "What price?",
-#         "What cost?",
-#     ],
-#     name="intent_what_price",
-# )
 
 intent_not_sure = IntentWithExamples(
     examples=[
@@ -269,16 +184,5 @@ want_to_leave_intent = IntentWithExamples(
         "I've got to go.",
         "Sorry, something came up and I have to go.",
         "Can I leave?",
-    ],
-)
-
-
-how_are_you_doing_intent = IntentWithExamples(
-    name="how_are_you_doing",
-    examples=[
-        "How are you doing?",
-        "How's it going?",
-        "How are you?",
-        "How is your day going?",
     ],
 )
