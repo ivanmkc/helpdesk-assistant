@@ -40,7 +40,9 @@ sold_out_stories = [
 stories = (
     object_stories.stories
     + common_stories.stories_chitchat
-    + input_response_service.get_stories(worksheet_filter=["visitor_center"])
+    + input_response_service.get_stories(
+        scenario_filter=["visitor_center", "patrick", "common"]
+    )
     + sold_out_stories
 )
 
