@@ -8,9 +8,12 @@ RUN pip install spacy
 # Download trained spacy pipeline
 RUN python -m spacy download en_core_web_md
 
-# Generate NLU
-RUN python -m data_generation.utils.generate_chatbot
+COPY data /app/data
+COPY domain /app/domain
+COPY context /app/context
+
+# # Generate NLU
+# RUN python -m data_generation.utils.generate_chatbot
 
 # Train
-ARG DUCKLING_HOST
 RUN python -m rasa train --domain=domain

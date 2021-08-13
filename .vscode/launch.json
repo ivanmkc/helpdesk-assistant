@@ -181,7 +181,7 @@
         {
             "name": "Cloud Build: Build all",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml && gcloud builds submit --config=docker/cloud-build.trained.yaml && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml && gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST} && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml",
             "type": "node-terminal",
         },
         {
@@ -229,7 +229,7 @@
         {
             "name": "Docker: Run container locally",
             "request": "launch",
-            "command": "docker pull gcr.io/chatbot-299615/rasa-run && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --memory=2g --cpus=2 gcr.io/chatbot-299615/rasa-run",
+            "command": "docker pull gcr.io/chatbot-299615/rasa-run && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --env DUCKLING_HOST=${config:DUCKLING_HOST} --env HAYSTACK_HOST=${config:HAYSTACK_HOST} --env QA_HOST=${config:QA_HOST} --env COREFERENCE_HOST=${config:COREFERENCE_HOST} --memory=2g --cpus=2 gcr.io/chatbot-299615/rasa-run",
             "type": "node-terminal",
         }
     ]
