@@ -23,7 +23,7 @@
             "justMyCode": false,
             "env": {
                 "PYTHONPATH": "./",
-                "CHATBOT_ID": "visitor_center"
+                "CHATBOT_ID": "text_input"
             }
         },
         {

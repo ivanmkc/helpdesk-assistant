@@ -51,4 +51,5 @@ chatbot = Chatbot(
     stories=stories,
     objects=places.places,
     additional_intents=places.intents,
+    additional_slots=[],
 )

@@ -4,11 +4,12 @@ from data_generation.models.state_machine import StateMachine
 from data_generation.models.object_models import Object
 from data_generation.models.story_models import Story
 from data_generation.utils import story_generation
-from actions import question_answer_action, get_object_info
+from actions import get_object_info
 from typing import List
 import os
 import shutil
 import yaml
+from typing import Optional
 
 from rasa.shared.nlu.state_machine.state_machine_models import Intent
 
@@ -19,10 +20,11 @@ from rasa.shared.core.slots import FloatSlot, Slot, TextSlot, ListSlot
 class Chatbot:
     """Class representing everything in a chatbot"""
 
-    state_machine: StateMachine
+    state_machine: Optional[StateMachine]
     stories: List[Story]
     objects: List[Object]
     additional_intents: List[Intent]
+    additional_slots: List[Slot]
 
     @property
     def base_slots(self) -> List[Slot]:
@@ -38,9 +40,10 @@ class Chatbot:
         ]
 
     def persist(self, domain_folder: str, nlu_folder: str):
-        self.state_machine.persist(
-            domain_folder=domain_folder, nlu_folder=nlu_folder
-        )
+        if self.state_machine:
+            self.state_machine.persist(
+                domain_folder=domain_folder, nlu_folder=nlu_folder
+            )
 
         domain_filename = os.path.join(domain_folder, "stories.yaml")
         nlu_filename = os.path.join(nlu_folder, "stories.yaml")
@@ -56,7 +59,7 @@ class Chatbot:
                 for object in self.objects
                 for utterance in object.utterances
             ],
-            slots=self.base_slots,
+            slots=self.base_slots + self.additional_slots,
             use_rules=False,
         )
 

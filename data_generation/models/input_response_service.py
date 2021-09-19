@@ -30,7 +30,7 @@ def _pull_stories_from_worksheet(
     for filter in reversed(scenario_filter):
         responses = [
             new_response if len(new_response) > 0 else response
-            for response, new_response in zip(responses, df[filter])
+            for response, new_response in zip(responses, df.get(filter, []))
         ]
 
     # Strip all responses

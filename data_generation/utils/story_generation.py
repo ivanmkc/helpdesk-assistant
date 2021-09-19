@@ -14,6 +14,7 @@ from rasa.shared.nlu.training_data.formats import RasaYAMLReader
 from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 
 from data_generation.models.story_models import Story, SlotWasSet
+from pathlib import Path
 
 
 def persist(
@@ -60,7 +61,10 @@ def persist(
     )
 
     # Write domain
-    os.remove(domain_filename)
+    if os.path.exists(domain_filename):
+        os.remove(domain_filename)
+
+    Path(domain_filename).parent.mkdir(parents=True, exist_ok=True)
     all_domain.persist(domain_filename)
 
     # Write NLU
@@ -82,5 +86,9 @@ def persist(
 
     # TODO: Create folders if not existent
 
-    os.remove(nlu_filename)
+    if os.path.exists(nlu_filename):
+        os.remove(nlu_filename)
+
+    Path(nlu_filename).parent.mkdir(parents=True, exist_ok=True)
+
     write_text_file(nlu_data_yaml, nlu_filename)
