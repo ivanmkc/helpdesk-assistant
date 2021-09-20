@@ -49,6 +49,17 @@
             ]
         },
         {
+            "name": "Rasa: Train NLU",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "train",
+                "nlu",
+            ]
+        },
+        {
             "name": "Rasa: Action Server",
             "type": "python",
             "request": "launch",

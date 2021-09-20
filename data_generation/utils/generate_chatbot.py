@@ -2,7 +2,7 @@ import os
 from data_generation.chatbots.visitor_center.chatbot_visitor_center import (
     chatbot as visitor_center_chatbot,
 )
-from data_generation.chatbots.text_input.chatbot import (
+from data_generation.chatbots.input_response.chatbot import (
     chatbot as text_input_chatbot,
 )
 

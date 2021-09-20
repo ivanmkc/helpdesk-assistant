@@ -1,9 +1,0 @@
-version: '2.0'
-nlu:
-- intent: new_york_living
-  examples: "- New York\n- I live in New York\n- New York City\n- My house is in New York"
-stories:
-- story: 3db3233f-18ad-498c-a643-a2e647eeb9ad
-  steps:
-  - intent: new_york_living
-  - action: utter_correct
