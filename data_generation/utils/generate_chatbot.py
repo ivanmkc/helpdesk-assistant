@@ -9,8 +9,8 @@ from data_generation.chatbots.input_response.chatbot import (
 target_chatbot_id = os.getenv("CHATBOT_ID")
 
 CHATBOT_DICT = {
-    "visitor_center": visitor_center_chatbot,
-    "input_response": input_response_chatbot,
+    "visitor-center": visitor_center_chatbot,
+    "input-response": input_response_chatbot,
 }
 
 chatbot = CHATBOT_DICT.get(target_chatbot_id)
