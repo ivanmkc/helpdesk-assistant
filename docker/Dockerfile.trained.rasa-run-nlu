@@ -6,4 +6,4 @@ COPY ./supervisor /app/supervisor
 # Install supervisor
 RUN apt-get update && apt-get install -y supervisor
 
-CMD ["supervisord", "-c", "supervisor/rasa-run.conf"]
+CMD ["supervisord", "-c", "supervisor/rasa-run-nlu.conf"]

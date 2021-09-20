@@ -28,10 +28,10 @@ def get_text_input_recursive(object: Any) -> List[str]:
     return all_responses
 
 
-def flatten_text_input(text_input: Dict) -> List[Any]:
+def flatten_text_input(input_response: Dict) -> List[Any]:
     flattened = []
-    question = text_input.get("question")
-    for inputResponse in text_input.get("inputResponses", []):
+    question = input_response.get("question")
+    for inputResponse in input_response.get("inputResponses", []):
         inputs = inputResponse.get("inputs")
         key = inputResponse.get("_key")
         is_correct = inputResponse.get("isCorrect")
@@ -55,8 +55,8 @@ def get_input_responses() -> List[Any]:
 
     return [
         text_input_flattened
-        for text_input in text_inputs
-        for text_input_flattened in flatten_text_input(text_input)
+        for input_response in text_inputs
+        for text_input_flattened in flatten_text_input(input_response)
     ]
 
 

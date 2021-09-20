@@ -1,19 +1,22 @@
+ARG CHATBOT_ID_ARG
 FROM gcr.io/chatbot-299615/base
 
 ARG DUCKLING_HOST_ARG
 ENV DUCKLING_HOST=${DUCKLING_HOST_ARG}
 
+ENV CHATBOT_ID=${CHATBOT_ID_ARG}
+
 # Download spacy again because the next step doesn't work otherwise
 RUN pip install spacy
 # Download trained spacy pipeline
-RUN python -m spacy download en_core_web_md
+RUN python -m spacy download en_core_web_sm
 
 COPY data /app/data
 COPY domain /app/domain
 COPY context /app/context
 
-# # Generate NLU
-# RUN python -m data_generation.utils.generate_chatbot
+# Generate NLU
+RUN python -m data_generation.utils.generate_chatbot
 
 # Train
 RUN python -m rasa train --domain=domain

@@ -2,5 +2,5 @@ steps:
 # Build the alpine and debian versions.
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-f', 'docker/Dockerfile.trained.rasa-run', '--tag=gcr.io/$PROJECT_ID/rasa-run', '.']
-images: ['gcr.io/$PROJECT_ID/rasa-run']
+images: ['gcr.io/$PROJECT_ID/rasa-run:${_CHATBOT_ID}']
 timeout: 3600s
