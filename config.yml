@@ -34,6 +34,7 @@ pipeline:
   - name: DIETClassifier
     epochs: 20
     constrain_similarities: True
+    ranking_length: 0
     # model_confidence: linear_norm
   - name: FallbackClassifier
     threshold: 0.1

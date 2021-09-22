@@ -8,6 +8,9 @@ from data_generation.chatbots.input_response.chatbot import (
 
 target_chatbot_id = os.getenv("CHATBOT_ID")
 
+if not target_chatbot_id:
+    raise RuntimeError("CHATBOT_ID environment variable was not set.")
+
 CHATBOT_DICT = {
     "visitor-center": visitor_center_chatbot,
     "input-response": input_response_chatbot,
@@ -20,3 +23,5 @@ if chatbot:
         domain_folder=f"domain/{target_chatbot_id}",
         nlu_folder=f"data/{target_chatbot_id}",
     )
+else:
+    raise RuntimeError(f"No chatbot found for id = {target_chatbot_id}.")

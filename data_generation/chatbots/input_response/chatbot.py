@@ -25,12 +25,12 @@ def convert_to_story(
         [
             IntentWithExamples(
                 examples=responses,
-                name=text_stripped,
+                name=f"input_{question_id}",
             ),
-            Utterance(
-                text="Correct" if is_correct else "Incorrect",
-                name=f"utter_{question_id}",
-            ),
+            # Utterance(
+            #     text="Correct" if is_correct else "Incorrect",
+            #     name=f"utter_{question_id}",
+            # ),
         ]
     )
 
