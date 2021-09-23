@@ -12,3 +12,4 @@ gspread
 # input-response server
 fastapi
 gunicorn
+uvicorn
