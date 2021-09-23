@@ -8,3 +8,7 @@ pyyaml
 inflect
 pandas
 gspread
+
+# input-response server
+fastapi
+gunicorn

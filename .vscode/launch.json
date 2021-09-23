@@ -273,6 +273,24 @@
             "request": "launch",
             "command": "docker pull gcr.io/chatbot-299615/rasa-run && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --env DUCKLING_HOST=${config:DUCKLING_HOST} --env HAYSTACK_HOST=${config:HAYSTACK_HOST} --env QA_HOST=${config:QA_HOST} --env COREFERENCE_HOST=${config:COREFERENCE_HOST} --memory=2g --cpus=2 gcr.io/chatbot-299615/rasa-run",
             "type": "node-terminal",
-        }
+        },
+        {
+            "name": "Start local input-response server (uvicorn)",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "data_generation.chatbots.input_response.input_response_server:app",
+                "--reload",
+            ],
+            "justMyCode": false,
+        },
+        {
+            "name": "Start local input-response server (gunicorn)",
+            "request": "launch",
+            "command": "source env3/bin/activate && gunicorn --workers 1 --worker-class uvicorn.workers.UvicornWorker --threads 8 data_generation.chatbots.input_response.input_response_server:app",
+            "type": "node-terminal",
+            "justMyCode": false,
+        },
     ]
 }
