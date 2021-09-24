@@ -35,7 +35,7 @@ def predict(request: InputResponseRequest):
     intents = [
         input_response
         for input_response in input_responses["intent_ranking"]
-        if f"input_{input_response['name']}" in request.input_response_ids
+        if input_response["name"] in request.input_response_ids
         or not input_response["name"].startswith("input")
     ]
 
