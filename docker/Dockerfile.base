@@ -1,8 +1,5 @@
 FROM python:3.8.0
 
-WORKDIR /app
-COPY . /app
-
 # Downgrade pip
 RUN pip install --upgrade pip==20.2
 
@@ -11,4 +8,5 @@ RUN apt-get update && apt-get install -y git
 
 # Install production dependencies.
 COPY ./requirements.txt .
+COPY ./actions/requirements-actions.txt ./actions/
 RUN pip install -r requirements.txt

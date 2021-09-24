@@ -12,8 +12,6 @@ RASA_NLU_SERVER_URI = "http://localhost:4444/model/parse"
 
 # TODO: Download the input_response from Sanity
 
-CORRECT_THRESHOLD = 0.50
-
 
 class InputResponseRequest(BaseModel):
     input_response_ids: List[str]
@@ -22,7 +20,7 @@ class InputResponseRequest(BaseModel):
 
 class InputResponseResponse(BaseModel):
     intent_name: str
-    confidence: str
+    confidence: float
 
 
 @app.post("/predict/intent_response", response_model=InputResponseResponse)

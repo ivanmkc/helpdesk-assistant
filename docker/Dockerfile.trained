@@ -1,5 +1,5 @@
 ARG CHATBOT_ID_ARG
-FROM gcr.io/chatbot-299615/base:${CHATBOT_ID_ARG}
+FROM gcr.io/chatbot-299615/base
 
 ARG CHATBOT_ID_ARG
 ARG DUCKLING_HOST_ARG
@@ -12,6 +12,8 @@ RUN pip install spacy
 # Download trained spacy pipeline
 RUN python -m spacy download en_core_web_sm
 
+WORKDIR /app
+COPY . /app
 COPY data /app/data
 COPY domain /app/domain
 COPY context /app/context

@@ -6,4 +6,7 @@ COPY ./supervisor /app/supervisor
 # Install supervisor
 RUN apt-get update && apt-get install -y supervisor
 
+# Install netstat
+RUN apt-get install net-tools
+
 CMD ["supervisord", "-c", "supervisor/rasa-run-nlu.conf"]
