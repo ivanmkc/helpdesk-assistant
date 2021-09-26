@@ -6,6 +6,8 @@ from data_generation.chatbots.input_response.chatbot import (
     chatbot as input_response_chatbot,
 )
 
+from data_generation.chatbots.alice.chatbot import chatbot as alice_chatbot
+
 target_chatbot_id = os.getenv("CHATBOT_ID")
 
 if not target_chatbot_id:
@@ -14,6 +16,7 @@ if not target_chatbot_id:
 CHATBOT_DICT = {
     "visitor-center": visitor_center_chatbot,
     "input-response": input_response_chatbot,
+    "alice": alice_chatbot,
 }
 
 chatbot = CHATBOT_DICT.get(target_chatbot_id)

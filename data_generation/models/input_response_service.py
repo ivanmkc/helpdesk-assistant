@@ -30,7 +30,9 @@ def _pull_stories_from_worksheet(
     for filter in reversed(scenario_filter):
         responses = [
             new_response if len(new_response) > 0 else response
-            for response, new_response in zip(responses, df.get(filter, []))
+            for response, new_response in zip(
+                responses, df.get(filter, ["" for _ in range(df.shape[0])])
+            )
         ]
 
     # Strip all responses
@@ -53,7 +55,18 @@ def _pull_stories_from_worksheet(
 def _pull_stories_from_spreadsheet(
     spreadsheet_name: str, scenario_filter: List[str]
 ) -> List[Story]:
-    gc = gspread.service_account()
+    import google.auth
+    import gspread
+
+    credentials, project_id = google.auth.default(
+        scopes=[
+            "https://spreadsheets.google.com/feeds",
+            "https://www.googleapis.com/auth/drive",
+            "https://www.googleapis.com/auth/spreadsheets",
+        ]
+    )
+    gc = gspread.authorize(credentials)
+
     spreadsheet = gc.open(spreadsheet_name)
 
     stories = [

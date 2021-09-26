@@ -1,13 +1,11 @@
 from rasa.shared.nlu.state_machine.state_machine_models import (
     ActionName,
     Intent,
-    Utterance,
 )
 from data_generation.common_nlu import common_intent_creators
 from data_generation.models.story_models import (
     SlotWasSet,
     Story,
-    Checkpoint,
     Or,
 )
 

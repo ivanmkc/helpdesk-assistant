@@ -143,7 +143,7 @@ def expand_inline_synonyms(example: str) -> List[str]:
     matches = list(re.finditer(synonym_pattern, example))
 
     return [
-        example_resolved.strip()
+        " ".join(example_resolved.split()).strip()
         for example_resolved in resolve_parameterized_example_matches(
             example, matches
         )
