@@ -8,6 +8,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 from rasa.shared.core.slots import TextSlot
 from typing import Dict, List
 import data_generation.chatbots.input_response.util as util
+from data_generation.utils import story_generation
 import string
 
 
@@ -24,7 +25,15 @@ def convert_to_story(
     return Story(
         [
             IntentWithExamples(
-                examples=responses,
+                examples=list(
+                    {
+                        example_resolved
+                        for example in responses
+                        for example_resolved in story_generation.expand_inline_synonyms(
+                            example
+                        )
+                    }
+                ),
                 name=f"input_{question_id}",
             ),
             # Utterance(
