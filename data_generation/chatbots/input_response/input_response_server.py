@@ -23,6 +23,9 @@ class InputResponseResponse(BaseModel):
     confidence: float
 
 
+IS_DEBUG = os.getenv("IS_DEBUG")
+
+
 @app.post("/predict/intent_response", response_model=InputResponseResponse)
 def predict(request: InputResponseRequest):
     response = requests.post(
@@ -30,6 +33,9 @@ def predict(request: InputResponseRequest):
     )
 
     input_responses = response.json()
+
+    if IS_DEBUG:
+        print(input_responses)
 
     # Filter response IDs that matter
     intents = [

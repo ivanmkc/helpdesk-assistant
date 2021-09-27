@@ -1,6 +1,6 @@
 steps:
 # Build the alpine and debian versions.
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-f', 'docker/Dockerfile.trained', '--tag=gcr.io/$PROJECT_ID/trained:${_CHATBOT_ID}', '--build-arg', 'DUCKLING_HOST_ARG=${_DUCKLING_HOST}', '--build-arg', 'CHATBOT_ID_ARG=${_CHATBOT_ID}', '.']
-images: ['gcr.io/$PROJECT_ID/trained:${_CHATBOT_ID}']
+  args: ['build', '-f', 'docker/Dockerfile.trained', '--tag=gcr.io/$PROJECT_ID/trained-${_CHATBOT_ID}', '--build-arg', 'DUCKLING_HOST_ARG=${_DUCKLING_HOST}', '--build-arg', 'CHATBOT_ID_ARG=${_CHATBOT_ID}', '.']
+images: ['gcr.io/$PROJECT_ID/trained-${_CHATBOT_ID}']
 timeout: 3600s

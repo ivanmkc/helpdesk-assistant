@@ -4,13 +4,7 @@ import data_generation.chatbots.visitor_center.state_visitor_center as state_vis
 import data_generation.common_nlu.object_stories as object_stories
 import data_generation.common_nlu.common_stories as common_stories
 from data_generation.models import input_response_service
-from data_generation.models.state_machine import StateMachine
 from data_generation.models.chatbot import Chatbot
-from data_generation.models.story_models import Intent, Story
-from rasa.shared.nlu.state_machine.state_machine_models import (
-    ActionName,
-    Utterance,
-)
 
 # state_machine = StateMachine(
 #     initial_state=state_visitor_center.start_state,
@@ -34,15 +28,17 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 #         ]
 #     ),
 # ]
-input_response_stories = input_response_service.get_stories(
-    [
-        "alice",
-        "chitchat",
-        "personal",
-        "family",
-        "occupation",
-    ]
-)
+
+input_response_stories = []
+# input_response_service.get_stories(
+#     [
+#         "alice",
+#         "chitchat",
+#         "personal",
+#         "family",
+#         "occupation",
+#     ]
+# )
 
 stories = (
     object_stories.stories
