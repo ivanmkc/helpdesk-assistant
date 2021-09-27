@@ -242,7 +242,7 @@
         {
             "name": "Cloud Run: Deploy rasa-run-nlu",
             "request": "launch",
-            "command": "gcloud run deploy rasa-run-nlu-${config:CHATBOT_ID} --image=gcr.io/chatbot-299615/rasa-run-nlu-${config:CHATBOT_ID} --platform=managed --cpu=2 --memory=8G --port=8080 --region=us-central1 --update-env-vars IS_DEBUG=1",
+            "command": "gcloud run deploy rasa-run-nlu-${config:CHATBOT_ID} --image=gcr.io/chatbot-299615/rasa-run-nlu-${config:CHATBOT_ID} --platform=managed --cpu=2 --memory=8G --port=8080 --region=us-central1 --update-env-vars IS_DEBUG=0",
             "type": "node-terminal"
         },
         {
