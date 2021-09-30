@@ -8,7 +8,6 @@ pyyaml
 inflect
 pandas
 gspread
-google-cloud-storage
 
 # input-response server
 fastapi

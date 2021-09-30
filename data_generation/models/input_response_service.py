@@ -89,37 +89,8 @@ def extract_bucket_and_prefix_from_gcs_path(
 def _pull_stories_from_spreadsheet(
     spreadsheet_name: str, scenario_filter: List[str]
 ) -> List[Story]:
-    import google.auth
     import gspread
-    import google.cloud.storage as storage
     import os
-
-    # try:
-    #     credentials, project_id = google.auth.default(
-    #         scopes=[
-    #             "https://spreadsheets.google.com/feeds",
-    #             "https://www.googleapis.com/auth/drive",
-    #             "https://www.googleapis.com/auth/spreadsheets",
-    #         ]
-    #     )
-    #     gc = gspread.authorize(credentials)
-    #     spreadsheet = gc.open(spreadsheet_name)
-    # except Exception as exception:
-    # (
-    #     key_file_bucket_name,
-    #     key_file_blob,
-    # ) = extract_bucket_and_prefix_from_gcs_path(
-    #     os.getenv("SERVICE_ACCOUNT_KEY_FILE_URI")
-    # )
-
-    # # Download auth file
-    # storage_client = storage.Client()
-    # # Create a bucket object for our bucket
-    # bucket = storage_client.get_bucket(key_file_bucket_name)
-    # # Create a blob object from the filepath
-    # blob = bucket.blob(key_file_blob)
-    # # Download the file to a destination
-    # blob.download_to_filename(KEY_JSON_PATH)
 
     gc = gspread.service_account(KEY_JSON_PATH)
     spreadsheet = gc.open(spreadsheet_name)
