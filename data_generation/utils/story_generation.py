@@ -138,7 +138,7 @@ def expand_inline_synonyms(example: str) -> List[str]:
 
             return resolved_examples
 
-    synonym_pattern = r"\[(.+?)\]"
+    synonym_pattern = r"\[(.+?\|.+?)\]"
 
     matches = list(re.finditer(synonym_pattern, example))
 

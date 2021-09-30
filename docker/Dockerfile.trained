@@ -1,4 +1,3 @@
-ARG CHATBOT_ID_ARG
 FROM gcr.io/chatbot-299615/base
 
 ARG CHATBOT_ID_ARG

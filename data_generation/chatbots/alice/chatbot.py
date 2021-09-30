@@ -29,16 +29,15 @@ from data_generation.models.chatbot import Chatbot
 #     ),
 # ]
 
-input_response_stories = []
-# input_response_service.get_stories(
-#     [
-#         "alice",
-#         "chitchat",
-#         "personal",
-#         "family",
-#         "occupation",
-#     ]
-# )
+input_response_stories = input_response_service.get_stories(
+    [
+        "alice",
+        "chitchat",
+        "personal",
+        "family",
+        "occupation",
+    ]
+)
 
 stories = (
     object_stories.stories
