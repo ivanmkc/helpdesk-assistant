@@ -7,6 +7,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
 from typing import Optional, List, Tuple
 import gspread
 import pandas as pd
+import os
 
 
 def _pull_sheet_data(worksheet) -> pd.DataFrame:
@@ -23,7 +24,15 @@ def _pull_stories_from_worksheet(
     df = _pull_sheet_data(worksheet)
 
     # Use data to initialize Document objects
-    inputs = list(df["input"].values)
+    input_column_names = [
+        name
+        for name in ["input", "input_canonical", "input_other"]
+        if df.get(name) is not None
+    ]
+    inputs = df[input_column_names].apply(
+        lambda x: "\n".join(x.dropna()), axis=1
+    )
+
     responses = ["" for _ in range(df.shape[0])]
 
     # Apply filters in reverse order so earlier takes precedence
@@ -52,7 +61,7 @@ def _pull_stories_from_worksheet(
     return stories
 
 
-KEY_JSON_PATH = "./key.json"
+SERVICE_ACCOUNT_KEY_JSON_PATH = os.getenv("SERVICE_ACCOUNT_KEY_JSON_PATH")
 
 
 def extract_bucket_and_prefix_from_gcs_path(
@@ -92,11 +101,8 @@ def _pull_stories_from_spreadsheet(
     import gspread
     import os
 
-    gc = gspread.service_account(KEY_JSON_PATH)
+    gc = gspread.service_account(SERVICE_ACCOUNT_KEY_JSON_PATH)
     spreadsheet = gc.open(spreadsheet_name)
-
-    # Remove file when finished
-    os.remove(KEY_JSON_PATH)
 
     stories = [
         story
