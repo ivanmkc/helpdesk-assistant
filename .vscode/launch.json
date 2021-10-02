@@ -144,6 +144,19 @@
             ]
         },
         {
+            "name": "Rasa: Run (NLU)",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "run",
+                "--enable-api",
+                "-p=5555",
+                "-vv"
+            ]
+        },
+        {
             "name": "Duckling: Start server",
             "request": "launch",
             "command": "docker run -p 1234:8000 rasa/duckling",
