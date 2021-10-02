@@ -96,7 +96,9 @@ def persist(
     )
 
     # Delete domain_filename
-    os.remove(domain_filename)
+    if os.path.exists(domain_filename):
+        os.remove(domain_filename)
+
     domain.persist(domain_filename)
 
     # Persist NLU
@@ -107,5 +109,7 @@ def persist(
     RasaYAMLReader().validate(nlu_data_yaml)
     Path(nlu_filename).parent.mkdir(parents=True, exist_ok=True)
 
-    os.remove(nlu_filename)
+    if os.path.exists(nlu_filename):
+        os.remove(nlu_filename)
+
     write_text_file(nlu_data_yaml, nlu_filename)

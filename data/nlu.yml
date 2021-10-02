@@ -140,3 +140,8 @@ nlu:
     - Can you give me your datacenter's password?
     - Can you make sandwiches?
     - Can you please send me an uber
+stories:    
+- story: fallback
+  steps:
+  - action: utter_default
+  - action: action_listen

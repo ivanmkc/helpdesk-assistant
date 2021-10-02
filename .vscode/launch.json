@@ -23,7 +23,8 @@
             "justMyCode": false,
             "env": {
                 "PYTHONPATH": "./",
-                "CHATBOT_ID": "visitor_center"
+                // "CHATBOT_ID": "input-response"
+                "CHATBOT_ID": "alice"
             }
         },
         {
@@ -46,6 +47,17 @@
             "args": [
                 "train",
                 "--domain=domain",
+            ]
+        },
+        {
+            "name": "Rasa: Train NLU",
+            "type": "python",
+            "request": "launch",
+            "module": "rasa",
+            "justMyCode": false,
+            "args": [
+                "train",
+                "nlu",
             ]
         },
         {
@@ -152,7 +164,7 @@
             "args": [
                 "run",
                 "--enable-api",
-                "-p=5555",
+                "-p=4444",
                 "-vv"
             ]
         },
@@ -176,31 +188,61 @@
         {
             "name": "Cloud Build: Build base",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Build: Build trained",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST}",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST},_CHATBOT_ID=${config:CHATBOT_ID},_SERVICE_ACCOUNT_KEY_FILE_URI=${config:SERVICE_ACCOUNT_KEY_FILE_URI}",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Build: Build rasa-run",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Build: Build rasa-run-nlu",
+            "request": "launch",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.rasa-run-nlu.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Build: Build all",
             "request": "launch",
-            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml && gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST} && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml && gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST},_CHATBOT_ID=${config:CHATBOT_ID},_SERVICE_ACCOUNT_KEY_FILE_URI=${config:SERVICE_ACCOUNT_KEY_FILE_URI} && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Build: Build all (NLU)",
+            "request": "launch",
+            "command": "gcloud builds submit --config=docker/cloud-build.base.yaml && gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST},_CHATBOT_ID=${config:CHATBOT_ID},_SERVICE_ACCOUNT_KEY_FILE_URI=${config:SERVICE_ACCOUNT_KEY_FILE_URI} && gcloud builds submit --config=docker/cloud-build.trained.rasa-run-nlu.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Build: Build all (except base)",
+            "request": "launch",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST},_CHATBOT_ID=${config:CHATBOT_ID},_SERVICE_ACCOUNT_KEY_FILE_URI=${config:SERVICE_ACCOUNT_KEY_FILE_URI} && gcloud builds submit --config=docker/cloud-build.trained.rasa-run.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
+            "type": "node-terminal",
+        },
+        {
+            "name": "Cloud Build: Build all (NLU, except base)",
+            "request": "launch",
+            "command": "gcloud builds submit --config=docker/cloud-build.trained.yaml --substitutions _DUCKLING_HOST=${config:DUCKLING_HOST},_CHATBOT_ID=${config:CHATBOT_ID},_SERVICE_ACCOUNT_KEY_FILE_URI=${config:SERVICE_ACCOUNT_KEY_FILE_URI} && gcloud builds submit --config=docker/cloud-build.trained.rasa-run-nlu.yaml --substitutions _CHATBOT_ID=${config:CHATBOT_ID}",
             "type": "node-terminal",
         },
         {
             "name": "Cloud Run: Deploy rasa-run",
             "request": "launch",
-            "command": "gcloud run deploy rasa-run --image=gcr.io/chatbot-299615/rasa-run --platform=managed --cpu=2 --memory=4G --port=8080 --region=us-central1 --update-env-vars DUCKLING_HOST=${config:DUCKLING_HOST},HAYSTACK_HOST=${config:HAYSTACK_HOST},QA_HOST=${config:QA_HOST},COREFERENCE_HOST=${config:COREFERENCE_HOST} --vpc-connector=${config:VPC_CONNECTOR}",
+            "command": "gcloud run deploy rasa-run-${config:CHATBOT_ID} --image=gcr.io/chatbot-299615/rasa-run-${config:CHATBOT_ID} --platform=managed --cpu=2 --memory=4G --port=8080 --region=us-central1 --update-env-vars DUCKLING_HOST=${config:DUCKLING_HOST},HAYSTACK_HOST=${config:HAYSTACK_HOST},QA_HOST=${config:QA_HOST},COREFERENCE_HOST=${config:COREFERENCE_HOST} --vpc-connector=${config:VPC_CONNECTOR}",
+            "type": "node-terminal"
+        },
+        {
+            "name": "Cloud Run: Deploy rasa-run-nlu",
+            "request": "launch",
+            "command": "gcloud run deploy rasa-run-nlu-${config:CHATBOT_ID} --image=gcr.io/chatbot-299615/rasa-run-nlu-${config:CHATBOT_ID} --platform=managed --cpu=2 --memory=8G --port=8080 --region=us-central1 --update-env-vars DUCKLING_HOST=${config:DUCKLING_HOST},IS_DEBUG=0",
             "type": "node-terminal"
         },
         {
@@ -244,6 +286,25 @@
             "request": "launch",
             "command": "docker pull gcr.io/chatbot-299615/rasa-run && PORT=8080 && docker run -p 5005:${PORT} -e PORT=${PORT} --env DUCKLING_HOST=${config:DUCKLING_HOST} --env HAYSTACK_HOST=${config:HAYSTACK_HOST} --env QA_HOST=${config:QA_HOST} --env COREFERENCE_HOST=${config:COREFERENCE_HOST} --memory=2g --cpus=2 gcr.io/chatbot-299615/rasa-run",
             "type": "node-terminal",
-        }
+        },
+        {
+            "name": "Start local input-response server (uvicorn)",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "args": [
+                "data_generation.chatbots.input_response.input_response_server:app",
+                "--reload",
+                "--port=8000"
+            ],
+            "justMyCode": false,
+        },
+        {
+            "name": "Start local input-response server (gunicorn)",
+            "request": "launch",
+            "command": "source env3/bin/activate && gunicorn --workers 1 --worker-class uvicorn.workers.UvicornWorker --threads 8 data_generation.chatbots.input_response.input_response_server:app",
+            "type": "node-terminal",
+            "justMyCode": false,
+        },
     ]
 }

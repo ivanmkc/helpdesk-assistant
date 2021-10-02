@@ -14,7 +14,7 @@ class CoreferenceService:
 
         if host is None:
             raise ValueError(
-                "No coreference host provided as QA_HOST environment variable is not set"
+                "No coreference host provided as COREFERENCE_HOST environment variable is not set"
             )
 
         self.api_url = f"{host}/predict/coreference/single"

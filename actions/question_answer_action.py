@@ -16,6 +16,7 @@ from services.coreference.coreference_service import CoreferenceService
 from services.HaystackInferenceAPIModel import HaystackInferenceAPIModel
 from rasa.shared.core.constants import ACTION_LISTEN_NAME
 from rasa_sdk.events import FollowupAction
+import os
 import logging
 
 logger = logging.getLogger(__name__)
@@ -26,8 +27,7 @@ logger.debug(vers)
 ACTION_NAME = "question_answer_action"
 SHOULD_USE_COREFERENCE = False
 
-# tag = os.getenv("CHATBOT_ID")
-TAG = "visitor_center"
+TAG = os.getenv("CHATBOT_ID")
 
 
 class QuestionAnswerAction(Action):

@@ -1,8 +1,5 @@
 FROM python:3.8.0
 
-WORKDIR /app
-COPY . /app
-
 # Downgrade pip
 RUN pip install --upgrade pip==20.2
 

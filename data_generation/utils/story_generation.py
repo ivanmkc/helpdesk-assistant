@@ -1,5 +1,5 @@
 import os
-from typing import Any, Dict, List, Optional, Set, Tuple, Union
+from typing import List, Set
 
 import rasa.shared.constants
 import rasa.shared.utils.validation
@@ -14,6 +14,9 @@ from rasa.shared.nlu.training_data.formats import RasaYAMLReader
 from rasa.shared.utils.io import dump_obj_as_yaml_to_string, write_text_file
 
 from data_generation.models.story_models import Story, SlotWasSet
+from pathlib import Path
+import copy
+import re
 
 
 def persist(
@@ -60,7 +63,10 @@ def persist(
     )
 
     # Write domain
-    os.remove(domain_filename)
+    if os.path.exists(domain_filename):
+        os.remove(domain_filename)
+
+    Path(domain_filename).parent.mkdir(parents=True, exist_ok=True)
     all_domain.persist(domain_filename)
 
     # Write NLU
@@ -82,5 +88,63 @@ def persist(
 
     # TODO: Create folders if not existent
 
-    os.remove(nlu_filename)
+    if os.path.exists(nlu_filename):
+        os.remove(nlu_filename)
+
+    Path(nlu_filename).parent.mkdir(parents=True, exist_ok=True)
+
     write_text_file(nlu_data_yaml, nlu_filename)
+
+
+def expand_inline_synonyms(example: str) -> List[str]:
+    """
+    Creates multiple examples from examples with inline synonyms, e.g.:
+
+    'I'm from [NYC|New York City|New York]'
+    """
+
+    def resolve_parameterized_example_matches(
+        example: str, matches: List[re.Match], offset: int = 0
+    ) -> List[str]:
+        if len(matches) == 0:
+            return [example]
+        else:
+            # Assuming the matches go from left to right
+            resolved_examples = []
+            # while len(matches) > 0:
+            match = matches.pop(0)
+
+            # Replace match
+            start_index = match.span(1)[0] + offset
+            end_index = match.span(1)[1] + offset
+            match_length = end_index - start_index
+            synonyms = example[start_index:end_index].split("|")
+            for synonym in synonyms:
+                resolved_example = (
+                    example[: start_index - 1]
+                    + synonym
+                    + example[end_index + 1 :]
+                )
+                additional_offset = (
+                    len(synonym) - match_length - 2
+                )  # Minus 2 for brackets
+
+                new_resolved_examples = resolve_parameterized_example_matches(
+                    resolved_example,
+                    copy.deepcopy(matches),
+                    offset + additional_offset,
+                )
+                resolved_examples.extend(new_resolved_examples)
+
+            return resolved_examples
+
+    synonym_pattern = r"\[(.+?\|.+?)\]"
+
+    matches = list(re.finditer(synonym_pattern, example))
+
+    return [
+        " ".join(example_resolved.split()).strip()
+        for example_resolved in resolve_parameterized_example_matches(
+            example, matches
+        )
+    ]

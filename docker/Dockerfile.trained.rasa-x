@@ -1,4 +1,5 @@
-FROM gcr.io/chatbot-299615/trained
+ARG CHATBOT_ID_ARG
+FROM gcr.io/chatbot-299615/trained-${CHATBOT_ID_ARG}
 
 COPY ./supervisor /app/supervisor
 

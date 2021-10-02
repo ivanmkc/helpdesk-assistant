@@ -1,12 +1,16 @@
 FROM gcr.io/chatbot-299615/base
 
+ARG CHATBOT_ID_ARG
+ARG SERVICE_ACCOUNT_KEY_JSON_PATH
 ARG DUCKLING_HOST_ARG
 ENV DUCKLING_HOST=${DUCKLING_HOST_ARG}
+
+ENV CHATBOT_ID=${CHATBOT_ID_ARG}
 
 # Download spacy again because the next step doesn't work otherwise
 RUN pip install spacy
 # Download trained spacy pipeline
-RUN python -m spacy download en_core_web_md
+RUN python -m spacy download en_core_web_sm
 
 WORKDIR /app
 COPY key.json key.json

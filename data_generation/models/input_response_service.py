@@ -4,9 +4,10 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
 )
 
-from typing import List
+from typing import Optional, List, Tuple
 import gspread
 import pandas as pd
+import os
 
 
 def _pull_sheet_data(worksheet) -> pd.DataFrame:
@@ -23,14 +24,24 @@ def _pull_stories_from_worksheet(
     df = _pull_sheet_data(worksheet)
 
     # Use data to initialize Document objects
-    inputs = list(df["input"].values)
+    input_column_names = [
+        name
+        for name in ["input", "input_canonical", "input_other"]
+        if df.get(name) is not None
+    ]
+    inputs = df[input_column_names].apply(
+        lambda x: "\n".join(x.dropna()), axis=1
+    )
+
     responses = ["" for _ in range(df.shape[0])]
 
     # Apply filters in reverse order so earlier takes precedence
     for filter in reversed(scenario_filter):
         responses = [
             new_response if len(new_response) > 0 else response
-            for response, new_response in zip(responses, df[filter])
+            for response, new_response in zip(
+                responses, df.get(filter, ["" for _ in range(df.shape[0])])
+            )
         ]
 
     # Strip all responses
@@ -50,10 +61,47 @@ def _pull_stories_from_worksheet(
     return stories
 
 
+SERVICE_ACCOUNT_KEY_JSON_PATH = os.getenv("SERVICE_ACCOUNT_KEY_JSON_PATH")
+
+
+def extract_bucket_and_prefix_from_gcs_path(
+    gcs_path: str,
+) -> Tuple[str, Optional[str]]:
+    """Given a complete GCS path, return the bucket name and prefix as a tuple.
+    Example Usage:
+        bucket, prefix = extract_bucket_and_prefix_from_gcs_path(
+            "gs://example-bucket/path/to/folder"
+        )
+        # bucket = "example-bucket"
+        # prefix = "path/to/folder"
+    Args:
+        gcs_path (str):
+            Required. A full path to a Google Cloud Storage folder or resource.
+            Can optionally include "gs://" prefix or end in a trailing slash "/".
+    Returns:
+        Tuple[str, Optional[str]]
+            A (bucket, prefix) pair from provided GCS path. If a prefix is not
+            present, a None will be returned in its place.
+    """
+    if gcs_path.startswith("gs://"):
+        gcs_path = gcs_path[5:]
+    if gcs_path.endswith("/"):
+        gcs_path = gcs_path[:-1]
+
+    gcs_parts = gcs_path.split("/", 1)
+    gcs_bucket = gcs_parts[0]
+    gcs_blob_prefix = None if len(gcs_parts) == 1 else gcs_parts[1]
+
+    return (gcs_bucket, gcs_blob_prefix)
+
+
 def _pull_stories_from_spreadsheet(
     spreadsheet_name: str, scenario_filter: List[str]
 ) -> List[Story]:
-    gc = gspread.service_account()
+    import gspread
+    import os
+
+    gc = gspread.service_account(SERVICE_ACCOUNT_KEY_JSON_PATH)
     spreadsheet = gc.open(spreadsheet_name)
 
     stories = [

@@ -4,8 +4,7 @@ from rasa.shared.nlu.state_machine.state_machine_models import (
     IntentWithExamples,
 )
 from random import sample, randint
-import copy
-import re
+from data_generation.utils import story_generation
 import inflect
 
 inflect_engine = inflect.engine()
@@ -26,60 +25,12 @@ class ParameterizedIntentCreator:
         self.entity_name = entity_name
         self.object_attribute = object_attribute
 
-    @staticmethod
-    def resolve_parameterized_example_matches(
-        example: str, matches: List[re.Match], offset: int = 0
-    ) -> List[str]:
-        if len(matches) == 0:
-            return [example]
-        else:
-            # Assuming the matches go from left to right
-            resolved_examples = []
-            # while len(matches) > 0:
-            match = matches.pop(0)
-
-            # Replace match
-            start_index = match.span(1)[0] + offset
-            end_index = match.span(1)[1] + offset
-            match_length = end_index - start_index
-            synonyms = example[start_index:end_index].split("|")
-            for synonym in synonyms:
-                resolved_example = (
-                    example[: start_index - 1]
-                    + synonym
-                    + example[end_index + 1 :]
-                )
-                additional_offset = (
-                    len(synonym) - match_length - 2
-                )  # Minus 2 for brackets
-
-                new_resolved_examples = ParameterizedIntentCreator.resolve_parameterized_example_matches(
-                    resolved_example,
-                    copy.deepcopy(matches),
-                    offset + additional_offset,
-                )
-                resolved_examples.extend(new_resolved_examples)
-
-            return resolved_examples
-
-    @staticmethod
-    def resolve_parameterized_example(example: str) -> List[str]:
-        synonym_pattern = r"\[(.+?)\]"
-
-        matches = list(re.finditer(synonym_pattern, example))
-
-        return (
-            ParameterizedIntentCreator.resolve_parameterized_example_matches(
-                example, matches
-            )
-        )
-
     @property
     def parameterized_examples_resolved(self) -> List[str]:
         return [
             example
             for parameterized_example in self.parameterized_examples
-            for example in ParameterizedIntentCreator.resolve_parameterized_example(
+            for example in story_generation.expand_inline_synonyms(
                 parameterized_example
             )
         ]
