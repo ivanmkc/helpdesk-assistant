@@ -38,6 +38,7 @@ pipeline:
     # model_confidence: linear_norm
   - name: FallbackClassifier
     threshold: 0.1
+    ambiguity_threshold: 0.05
   - name: DucklingEntityExtractor
     url: ${DUCKLING_HOST}
     dimensions:
@@ -57,6 +58,6 @@ policies:
   #   max_history: 4
   #   epochs: 100
   - name: RulePolicy
-    core_fallback_threshold: 0.3
-    core_fallback_action_name: "utter_default" # question_answer_action
+    core_fallback_threshold: 0.1
+    core_fallback_action_name: question_answer_action
     enable_fallback_prediction: True

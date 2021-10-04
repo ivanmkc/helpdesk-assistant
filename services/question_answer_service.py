@@ -45,7 +45,6 @@ class QuestionAnswerService(QuestionAnswerServiceInterface):
         if confidence > CONFIDENCE_THRESHOLD:
             start_index = result.start
             end_index = result.end
-            # answer = result["answer"]
 
             # Get entire sentence from start of current sentence to next newline
             start_index_result = 0

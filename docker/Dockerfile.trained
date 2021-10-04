@@ -22,6 +22,7 @@ COPY channels channels
 COPY services services
 COPY config.yml config.yml
 COPY credentials.yml credentials.yml
+COPY endpoints.yml endpoints.yml
 
 # Generate NLU
 RUN python -m data_generation.utils.generate_chatbot

@@ -44,6 +44,10 @@ def _pull_stories_from_worksheet(
             )
         ]
 
+    utter_action_ids = df.get(
+        "utter_action_id", [None for _ in range(df.shape[0])]
+    )
+
     # Strip all responses
     responses = [response.strip() for response in responses]
 
@@ -51,10 +55,12 @@ def _pull_stories_from_worksheet(
         Story(
             [
                 IntentWithExamples(examples=input.split("\n")),
-                Utterance(response),
+                Utterance(response, name=utter_action_id),
             ]
         )
-        for input, response in zip(inputs, responses)
+        for input, response, utter_action_id in zip(
+            inputs, responses, utter_action_ids
+        )
         if len(input) > 0 and len(response) > 0
     ]
 

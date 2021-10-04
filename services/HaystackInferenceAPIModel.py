@@ -7,6 +7,8 @@ from services.QuestionAnswerContextlessModel import (
 from services.QuestionAnswerResult import QuestionAnswerResult
 import os
 
+DEFAULT_TAGS = ["common_knowledge"]
+
 
 class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
     PROBABILITY_THRESHOLD = 0.2
@@ -24,7 +26,7 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
     def predict(
         self, question: str, tag: Optional[str] = None
     ) -> Optional[QuestionAnswerResult]:
-        filters = {"tag": [tag]} if tag else {}
+        filters = {"tag": [tag] + DEFAULT_TAGS} if tag else {}
         result = self._query(
             {
                 "query": question,
@@ -54,9 +56,6 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
                     if character == ".":
                         period_locations.append(index)
 
-                # Add one for the end
-                # newline_locations.append(len(context))
-
                 # Get entire sentence from start of current sentence to last newline or period.
                 start_index_result = 0
                 end_index_result = 0
@@ -72,10 +71,9 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
                     for index in newline_locations
                     if index > start_index_result
                 ]
-                # Get first newline or last period.
+
                 end_index_result = min(
-                    min(newline_locations_after_start + [len(context)]),
-                    max(period_locations + [0]),
+                    newline_locations_after_start + [len(context)]
                 )
 
                 answer_substring = context[
@@ -87,9 +85,7 @@ class HaystackInferenceAPIModel(QuestionAnswerContextlessModel):
                     answer_complete = answer_substring
                 else:
                     # TODO: Tailor response based on if a user is trying to find something or an attribute of something.
-                    answer_complete = (
-                        f"About {answer_topic}. {answer_substring}"
-                    )
+                    answer_complete = answer_substring
 
                 # if not answer_complete.endswith("."):
                 #     answer_complete += "."
