@@ -24,7 +24,7 @@
             "env": {
                 "PYTHONPATH": "./",
                 // "CHATBOT_ID": "input-response"
-                "CHATBOT_ID": "alice"
+                "CHATBOT_ID": "alex"
             }
         },
         {
@@ -155,7 +155,7 @@
                 "-vv"
             ],
             "env": {
-                "CHATBOT_ID": "alice"
+                "CHATBOT_ID": "alex"
             }
         },
         {
