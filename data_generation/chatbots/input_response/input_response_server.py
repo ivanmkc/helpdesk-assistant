@@ -26,6 +26,11 @@ class InputResponseResponse(BaseModel):
 IS_DEBUG = os.getenv("IS_DEBUG")
 
 
+@app.post("/wakeup")
+def predict():
+    return True
+
+
 @app.post("/predict/intent_response", response_model=InputResponseResponse)
 def predict(request: InputResponseRequest):
     response = requests.post(
